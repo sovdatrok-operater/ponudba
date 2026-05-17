@@ -858,7 +858,7 @@ async function analyzeWithAI() {
         'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-6',
         max_tokens: 1500,
         system: systemPrompt,
         messages: [{ role: 'user', content: [
@@ -1120,7 +1120,7 @@ async function genPonudba() {
       method: 'POST',
       headers: { 'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514', max_tokens: 1000,
+        model: 'claude-sonnet-4-6', max_tokens: 1000,
         messages: [{ role: 'user', content:
           `Napiši profesionalno ponudbo v slovenščini za CNC struženje s podatki:\n` +
           `- Surovec: ${g('rSurovec').textContent}\n- Material: ${opt('material')}\n` +
