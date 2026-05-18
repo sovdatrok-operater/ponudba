@@ -4,347 +4,160 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Ponudba Struženje</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #0e0f11;
-  --bg2:      #16181c;
-  --bg3:      #1f2228;
-  --bg4:      #272b33;
-  --accent:   #f97316;
-  --accent2:  #fb923c;
-  --accent-dim: rgba(249,115,22,0.15);
-  --green:    #22c55e;
-  --red:      #ef4444;
-  --text:     #f1f0ee;
-  --text2:    #9ca3af;
-  --text3:    #6b7280;
-  --border:   rgba(255,255,255,0.07);
-  --border2:  rgba(255,255,255,0.13);
-  --r:        10px;
-  --r-sm:     6px;
-  --font-head: 'Barlow Condensed', sans-serif;
-  --font-body: 'Barlow', sans-serif;
+  --bg:#0e0f11; --bg2:#16181c; --bg3:#1f2228; --bg4:#272b33;
+  --accent:#f97316; --accent2:#fb923c; --accent-dim:rgba(249,115,22,0.15);
+  --green:#22c55e; --green-dim:rgba(34,197,94,0.12);
+  --red:#ef4444; --red-dim:rgba(239,68,68,0.15);
+  --text:#f1f0ee; --text2:#9ca3af; --text3:#6b7280;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --r:10px; --r-sm:6px;
+  --font-head:'Barlow Condensed',sans-serif;
+  --font-body:'Barlow',sans-serif;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { font-size: 16px; }
-body { font-family: var(--font-body); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
 /* TOPBAR */
-.topbar {
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border2);
-  padding: 14px 16px 12px;
-  position: sticky; top: 0; z-index: 200;
-  display: flex; align-items: center; gap: 12px;
-}
-.topbar-logo {
-  width: 36px; height: 36px;
-  background: var(--accent);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0;
-}
-.topbar-text h1 { font-family: var(--font-head); font-size: 20px; font-weight: 800; letter-spacing: 0.5px; line-height: 1; }
-.topbar-text p { font-size: 11px; color: var(--text3); margin-top: 2px; letter-spacing: 0.03em; }
-.topbar-badge {
-  margin-left: auto;
-  background: var(--accent-dim);
-  color: var(--accent);
-  font-family: var(--font-head);
-  font-size: 11px; font-weight: 700;
-  padding: 3px 8px; border-radius: 4px;
-  border: 1px solid rgba(249,115,22,0.3);
-  letter-spacing: 0.05em;
-}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border2);padding:13px 14px 11px;position:sticky;top:0;z-index:200;display:flex;align-items:center;gap:10px}
+.topbar-logo{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.topbar-text h1{font-family:var(--font-head);font-size:19px;font-weight:800;letter-spacing:0.5px;line-height:1}
+.topbar-text p{font-size:11px;color:var(--text3);margin-top:2px}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.topbar-badge{background:var(--accent-dim);color:var(--accent);font-family:var(--font-head);font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid rgba(249,115,22,0.3)}
+.sync-indicator{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);font-family:var(--font-head);font-weight:700}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background 0.3s}
+.sync-dot.ok{background:var(--green)}
+.sync-dot.err{background:var(--red)}
+.sync-dot.spin{background:var(--accent);animation:blink 0.8s infinite}
+@keyframes blink{0%,100%{opacity:0.3}50%{opacity:1}}
 
 /* TABS */
-.tabs {
-  display: flex;
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 62px; z-index: 199;
-  overflow-x: auto; scrollbar-width: none;
-}
-.tabs::-webkit-scrollbar { display: none; }
-.tab {
-  flex: 1; min-width: 56px;
-  padding: 10px 4px 9px;
-  font-family: var(--font-head);
-  font-size: 11px; font-weight: 700;
-  text-align: center; cursor: pointer;
-  color: var(--text3);
-  border-bottom: 2px solid transparent;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: color 0.15s, border-color 0.15s;
-  user-select: none;
-}
-.tab .tab-icon { font-size: 16px; display: block; margin-bottom: 2px; }
-.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:199;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:50px;padding:9px 3px 8px;font-family:var(--font-head);font-size:10px;font-weight:700;text-align:center;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.15s,border-color 0.15s;user-select:none}
+.tab .ti{font-size:15px;display:block;margin-bottom:2px}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 
 /* PAGES */
-.page { display: none; padding: 12px; max-width: 520px; margin: 0 auto; padding-bottom: 32px; }
-.page.active { display: block; }
+.page{display:none;padding:11px;max-width:520px;margin:0 auto;padding-bottom:40px}
+.page.active{display:block}
 
-/* SECTION */
-.sec-label {
-  font-family: var(--font-head);
-  font-size: 11px; font-weight: 700;
-  color: var(--text3);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin: 16px 0 6px;
-}
-.sec-label:first-child { margin-top: 0; }
+/* SECTION LABEL */
+.sec-label{font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 5px}
+.sec-label:first-child{margin-top:0}
 
 /* CARD */
-.card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 14px;
-  margin-bottom: 10px;
-}
-.card-header {
-  font-family: var(--font-head);
-  font-size: 13px; font-weight: 700;
-  color: var(--text2);
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 6px;
-}
-.card-header span { color: var(--accent); }
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:9px}
+.card-hdr{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:11px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.card-hdr span{color:var(--accent)}
 
 /* FIELDS */
-.field { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.field:last-child { margin-bottom: 0; }
-.field label { font-size: 13px; color: var(--text2); min-width: 116px; line-height: 1.3; }
-.field input, .field select, .field textarea {
-  flex: 1;
-  background: var(--bg3);
-  border: 1px solid var(--border2);
-  border-radius: var(--r-sm);
-  padding: 8px 10px;
-  font-size: 14px; font-family: var(--font-body);
-  color: var(--text);
-  -webkit-appearance: none;
-  transition: border-color 0.15s;
-}
-.field input:focus, .field select:focus, .field textarea:focus {
-  outline: none; border-color: var(--accent);
-}
-.field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
-.field .unit { font-size: 12px; color: var(--text3); min-width: 28px; font-family: var(--font-head); font-weight: 600; }
-.field-hint { font-size: 11px; color: var(--text3); margin: -4px 0 8px 124px; line-height: 1.4; }
+.field{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.field:last-child{margin-bottom:0}
+.field label{font-size:13px;color:var(--text2);min-width:114px;line-height:1.3}
+.field input,.field select,.field textarea{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 9px;font-size:14px;font-family:var(--font-body);color:var(--text);-webkit-appearance:none;transition:border-color 0.15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:75px;line-height:1.5}
+.field .unit{font-size:11px;color:var(--text3);min-width:26px;font-family:var(--font-head);font-weight:700}
+
+/* RED = UNRECOGNIZED */
+.field input.unrecognized,.field select.unrecognized{border-color:var(--red)!important;background:var(--red-dim)!important}
+.unrecognized-label{font-size:11px;color:var(--red);margin:-3px 0 7px 121px;font-family:var(--font-head);font-weight:600}
 
 /* UPLOAD */
-.upload-box {
-  border: 1.5px dashed rgba(249,115,22,0.35);
-  border-radius: var(--r);
-  padding: 22px 12px;
-  text-align: center;
-  cursor: pointer;
-  background: var(--accent-dim);
-  margin-bottom: 10px;
-  transition: background 0.15s, border-color 0.15s;
-}
-.upload-box:active { background: rgba(249,115,22,0.22); }
-.upload-box .ub-icon { font-size: 32px; margin-bottom: 6px; }
-.upload-box p { font-size: 13px; color: var(--text2); line-height: 1.5; }
-.upload-box strong { color: var(--accent); }
+.upload-box{border:1.5px dashed rgba(249,115,22,0.35);border-radius:var(--r);padding:20px 12px;text-align:center;cursor:pointer;background:var(--accent-dim);margin-bottom:9px;transition:all 0.15s}
+.upload-box:active{background:rgba(249,115,22,0.25)}
+.upload-box .ub-icon{font-size:30px;margin-bottom:5px}
+.upload-box p{font-size:13px;color:var(--text2);line-height:1.4}
+.upload-box strong{color:var(--accent)}
 
 /* BUTTONS */
-.btn-row { display: flex; gap: 8px; margin-bottom: 10px; }
-.btn {
-  flex: 1; padding: 11px 10px;
-  font-family: var(--font-head); font-size: 14px; font-weight: 700;
-  letter-spacing: 0.04em;
-  border-radius: var(--r-sm);
-  border: 1px solid var(--border2);
-  background: var(--bg3); color: var(--text);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  transition: all 0.12s;
-  -webkit-appearance: none;
-}
-.btn:active { transform: scale(0.97); opacity: 0.8; }
-.btn.primary {
-  background: var(--accent); color: #000;
-  border-color: var(--accent);
-  font-size: 15px;
-}
-.btn.success { background: var(--green); color: #000; border-color: var(--green); }
-.btn.outline { background: transparent; border-color: var(--accent); color: var(--accent); }
+.btn-row{display:flex;gap:7px;margin-bottom:9px}
+.btn{flex:1;padding:10px 8px;font-family:var(--font-head);font-size:13px;font-weight:700;letter-spacing:0.04em;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--bg3);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all 0.12s;-webkit-appearance:none}
+.btn:active{transform:scale(0.96);opacity:0.75}
+.btn.primary{background:var(--accent);color:#000;border-color:var(--accent);font-size:14px}
+.btn.success{background:var(--green);color:#000;border-color:var(--green)}
+.btn.outline{background:transparent;border-color:var(--accent);color:var(--accent)}
 
 /* PREVIEW */
-.preview { width: 100%; border-radius: var(--r-sm); max-height: 200px; object-fit: contain; border: 1px solid var(--border2); display: none; margin-bottom: 10px; background: var(--bg3); }
+.preview{width:100%;border-radius:var(--r-sm);max-height:190px;object-fit:contain;border:1px solid var(--border2);display:none;margin-bottom:9px;background:var(--bg3)}
 
-/* STATUS */
-.status-line { font-size: 12px; color: var(--text3); text-align: center; padding: 4px 0 8px; min-height: 22px; }
-
-/* INFO BOX */
-.info-box {
-  background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);
-  border-radius: var(--r-sm); padding: 10px 12px;
-  font-size: 13px; color: #86efac;
-  margin-bottom: 10px; display: none; line-height: 1.5;
-}
-.warn-box {
-  background: var(--accent-dim); border: 1px solid rgba(249,115,22,0.3);
-  border-radius: var(--r-sm); padding: 10px 12px;
-  font-size: 13px; color: var(--accent2);
-  margin-bottom: 10px; line-height: 1.5;
-}
+/* STATUS / INFO */
+.status-line{font-size:12px;color:var(--text3);text-align:center;padding:3px 0 7px;min-height:20px}
+.info-box{background:var(--green-dim);border:1px solid rgba(34,197,94,0.25);border-radius:var(--r-sm);padding:9px 12px;font-size:13px;color:#86efac;margin-bottom:9px;display:none;line-height:1.5}
+.warn-box{background:var(--accent-dim);border:1px solid rgba(249,115,22,0.3);border-radius:var(--r-sm);padding:9px 12px;font-size:13px;color:var(--accent2);margin-bottom:9px;line-height:1.5}
 
 /* THINKING */
-.thinking { display: none; align-items: center; justify-content: center; gap: 8px; padding: 16px; }
-.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 1.2s ease-in-out infinite; }
-.dot:nth-child(2){animation-delay:.2s} .dot:nth-child(3){animation-delay:.4s}
-@keyframes pulse{0%,80%,100%{opacity:.2;transform:scale(0.8)}40%{opacity:1;transform:scale(1)}}
+.thinking{display:none;align-items:center;justify-content:center;gap:7px;padding:14px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse3 1.2s ease-in-out infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes pulse3{0%,80%,100%{opacity:.2;transform:scale(0.7)}40%{opacity:1;transform:scale(1)}}
 
 /* AI RESULT */
-.ai-result {
-  display: none;
-  background: var(--bg3);
-  border: 1px solid var(--border2);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--r-sm);
-  padding: 12px 14px;
-  font-size: 13px; line-height: 1.7;
-  margin-top: 10px;
-}
-.ai-result .ai-title {
-  font-family: var(--font-head); font-size: 15px; font-weight: 800;
-  color: var(--accent); margin-bottom: 8px; letter-spacing: 0.03em;
-}
-.ai-tag {
-  display: inline-block; font-size: 11px; font-family: var(--font-head); font-weight: 700;
-  padding: 2px 7px; border-radius: 4px; margin-right: 4px; margin-bottom: 4px;
-  background: var(--bg4); color: var(--text2); border: 1px solid var(--border2);
-}
-.ai-tag.warn { background: var(--accent-dim); color: var(--accent); border-color: rgba(249,115,22,0.3); }
-.ai-tag.ok { background: rgba(34,197,94,0.1); color: #86efac; border-color: rgba(34,197,94,0.25); }
+.ai-result{display:none;background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:var(--r-sm);padding:12px 13px;font-size:13px;line-height:1.7;margin-top:9px}
+.ai-title{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--accent);margin-bottom:8px}
+.ai-tag{display:inline-block;font-size:11px;font-family:var(--font-head);font-weight:700;padding:2px 7px;border-radius:4px;margin:0 3px 4px 0;background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}
+.ai-tag.warn{background:var(--accent-dim);color:var(--accent);border-color:rgba(249,115,22,0.3)}
+.ai-tag.ok{background:var(--green-dim);color:#86efac;border-color:rgba(34,197,94,0.25)}
+.ai-tag.err{background:var(--red-dim);color:var(--red);border-color:rgba(239,68,68,0.3)}
 
 /* OPS */
-.ops-list { display: flex; flex-direction: column; gap: 5px; }
-.op-row {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--bg3); border-radius: var(--r-sm);
-  padding: 9px 10px; border: 1px solid var(--border);
-}
-.op-icon { font-size: 15px; width: 22px; text-align: center; flex-shrink: 0; }
-.op-name { flex: 1; font-size: 13px; color: var(--text); line-height: 1.3; }
-.op-row input {
-  width: 60px; background: var(--bg4); border: 1px solid var(--border2);
-  border-radius: var(--r-sm); padding: 5px 7px; font-size: 13px;
-  text-align: right; color: var(--text); font-family: var(--font-body);
-}
-.op-row input:focus { outline: none; border-color: var(--accent); }
-.op-unit { font-size: 11px; color: var(--text3); font-family: var(--font-head); font-weight: 700; min-width: 20px; }
-.ops-footer {
-  display: flex; justify-content: space-between;
-  font-size: 12px; color: var(--text3);
-  margin-top: 10px; padding-top: 10px;
-  border-top: 1px solid var(--border);
-}
-.ops-footer strong { color: var(--accent); }
+.ops-list{display:flex;flex-direction:column;gap:5px}
+.op-row{display:flex;align-items:center;gap:5px;background:var(--bg3);border-radius:var(--r-sm);padding:8px 9px;border:1px solid var(--border)}
+.op-icon{font-size:14px;width:20px;text-align:center;flex-shrink:0}
+.op-name{flex:1;font-size:13px;color:var(--text);line-height:1.3}
+.op-row input{width:58px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r-sm);padding:5px 6px;font-size:13px;text-align:right;color:var(--text);font-family:var(--font-body)}
+.op-row input:focus{outline:none;border-color:var(--accent)}
+.op-row input.unrecognized{border-color:var(--red)!important;background:var(--red-dim)!important}
+.op-unit{font-size:11px;color:var(--text3);font-family:var(--font-head);font-weight:700;min-width:18px}
+.ops-footer{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-top:9px;padding-top:9px;border-top:1px solid var(--border)}
+.ops-footer strong{color:var(--accent)}
 
-/* CUTTING PARAMS */
-.cut-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 8px; }
-.cut-field { background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 8px 10px; }
-.cut-field label { font-size: 10px; color: var(--text3); font-family: var(--font-head); font-weight: 700; letter-spacing: 0.06em; display: block; margin-bottom: 4px; text-transform: uppercase; }
-.cut-field input { width: 100%; background: transparent; border: none; font-size: 15px; font-weight: 600; color: var(--text); font-family: var(--font-head); padding: 0; }
-.cut-field input:focus { outline: none; }
-.cut-field .cu { font-size: 10px; color: var(--text3); }
-.cut-result { background: var(--accent-dim); border: 1px solid rgba(249,115,22,0.25); border-radius: var(--r-sm); padding: 10px 12px; font-size: 13px; color: var(--accent2); line-height: 1.7; }
-.cut-result strong { color: var(--accent); font-family: var(--font-head); font-size: 15px; }
+/* CUTTING */
+.cut-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px}
+.cut-field{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:8px 9px}
+.cut-field label{font-size:10px;color:var(--text3);font-family:var(--font-head);font-weight:700;letter-spacing:0.06em;display:block;margin-bottom:3px;text-transform:uppercase}
+.cut-field input{width:100%;background:transparent;border:none;font-size:15px;font-weight:600;color:var(--text);font-family:var(--font-head);padding:0}
+.cut-field input:focus{outline:none}
+.cut-field .cu{font-size:10px;color:var(--text3)}
+.cut-result{background:var(--accent-dim);border:1px solid rgba(249,115,22,0.25);border-radius:var(--r-sm);padding:9px 11px;font-size:13px;color:var(--accent2);line-height:1.7}
+.cut-result strong{color:var(--accent);font-family:var(--font-head);font-size:15px}
 
 /* RESULTS */
-.result-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r); overflow: hidden; margin-bottom: 10px;
-}
-.result-header {
-  background: var(--bg3); padding: 12px 14px;
-  font-family: var(--font-head); font-size: 12px; font-weight: 700;
-  color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em;
-  border-bottom: 1px solid var(--border);
-}
-.result-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
-.result-row:last-child { border-bottom: none; }
-.result-row .rl { color: var(--text3); }
-.result-row .rv { color: var(--text); font-weight: 500; }
-.result-total {
-  background: linear-gradient(135deg, var(--bg3), var(--bg4));
-  border: 1px solid rgba(249,115,22,0.3);
-  border-radius: var(--r); padding: 16px 18px; margin-bottom: 10px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.rt-left .rt-label { font-family: var(--font-head); font-size: 13px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
-.rt-left .rt-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
-.rt-right .rt-price {
-  font-family: var(--font-head); font-size: 36px; font-weight: 800;
-  color: var(--accent); line-height: 1;
-  text-shadow: 0 0 30px rgba(249,115,22,0.4);
-}
-.rt-right .rt-total { font-size: 13px; color: var(--text2); text-align: right; margin-top: 3px; }
+.result-total{background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid rgba(249,115,22,0.3);border-radius:var(--r);padding:15px 16px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center}
+.rt-label{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
+.rt-sub{font-size:12px;color:var(--text3);margin-top:3px}
+.rt-price{font-family:var(--font-head);font-size:34px;font-weight:800;color:var(--accent);line-height:1;text-shadow:0 0 24px rgba(249,115,22,0.35)}
+.rt-total{font-size:12px;color:var(--text2);text-align:right;margin-top:3px}
+.result-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:9px}
+.result-hdr{background:var(--bg3);padding:10px 13px;font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border)}
+.result-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 13px;border-bottom:1px solid var(--border);font-size:13px}
+.result-row:last-child{border-bottom:none}
+.result-row .rl{color:var(--text3)}
+.result-row .rv{color:var(--text);font-weight:500}
 
 /* MAT HINT */
-.mat-hint {
-  background: var(--bg3); border-radius: var(--r-sm); border: 1px solid var(--border);
-  padding: 8px 10px; font-size: 12px; color: var(--text2); margin-top: 6px;
-  font-family: var(--font-head); letter-spacing: 0.02em;
-}
-.mat-hint strong { color: var(--accent); }
+.mat-hint{background:var(--bg3);border-radius:var(--r-sm);border:1px solid var(--border);padding:7px 9px;font-size:12px;color:var(--text2);margin-top:5px;font-family:var(--font-head)}
+.mat-hint strong{color:var(--accent)}
 
-/* SETTINGS PROMPT */
-.prompt-area {
-  background: var(--bg3); border: 1px solid var(--border2);
-  border-radius: var(--r-sm); padding: 10px 12px;
-  font-size: 13px; color: var(--text); font-family: var(--font-body);
-  line-height: 1.6; resize: vertical; min-height: 180px; width: 100%;
-  margin-bottom: 6px;
-}
-.prompt-area:focus { outline: none; border-color: var(--accent); }
+/* SETTINGS */
+.prompt-area{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;font-size:13px;color:var(--text);font-family:var(--font-body);line-height:1.6;resize:vertical;min-height:200px;width:100%;margin-bottom:5px}
+.prompt-area:focus{outline:none;border-color:var(--accent)}
+.apikey-row{display:flex;gap:7px}
+.apikey-row input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:8px 11px;font-size:13px;color:var(--text);font-family:monospace}
+.apikey-row input:focus{outline:none;border-color:var(--accent)}
+.saved-badge{display:none;font-size:12px;color:var(--green);margin-top:5px;font-family:var(--font-head);font-weight:700}
+.custom-row{display:none}
 
 /* PONUDBA */
-.ponudba-box {
-  background: var(--bg2); border: 1px solid var(--border2);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--r); padding: 16px 18px;
-  font-size: 13px; line-height: 1.8;
-  white-space: pre-wrap; display: none; margin-bottom: 10px;
-  color: var(--text);
-}
+.ponudba-box{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:var(--r);padding:15px 16px;font-size:13px;line-height:1.8;white-space:pre-wrap;display:none;margin-bottom:9px;color:var(--text)}
 
-/* API KEY */
-.apikey-row { display: flex; gap: 8px; }
-.apikey-row input {
-  flex: 1; background: var(--bg3); border: 1px solid var(--border2);
-  border-radius: var(--r-sm); padding: 9px 12px; font-size: 13px;
-  color: var(--text); font-family: monospace;
-}
-.apikey-row input:focus { outline: none; border-color: var(--accent); }
-.saved-badge {
-  display: none; font-size: 12px; color: var(--green);
-  margin-top: 6px; font-family: var(--font-head); font-weight: 700;
-}
-
-/* CUSTOM ROW */
-.custom-row { display: none; }
-
-/* HIDDEN */
-#fileInput, #cameraInput { display: none; }
-
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+#fileInput,#cameraInput{display:none}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
 </style>
 </head>
 <body>
@@ -353,24 +166,30 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
   <div class="topbar-logo">⚙️</div>
   <div class="topbar-text">
     <h1>PONUDBA STRUŽENJE</h1>
-    <p>CNC KALKULACIJA · v4.0</p>
+    <p>CNC KALKULACIJA · v5.0</p>
   </div>
-  <div class="topbar-badge">PRO</div>
+  <div class="topbar-right">
+    <div class="sync-indicator">
+      <div class="sync-dot" id="syncDot"></div>
+      <span id="syncLabel">—</span>
+    </div>
+    <div class="topbar-badge">PRO</div>
+  </div>
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="showPage('nacrt')"><span class="tab-icon">📄</span>NAČRT</div>
-  <div class="tab" onclick="showPage('kos')"><span class="tab-icon">🔩</span>KOS</div>
-  <div class="tab" onclick="showPage('ops')"><span class="tab-icon">⏱</span>OPS</div>
-  <div class="tab" onclick="showPage('rez')"><span class="tab-icon">⚡</span>REZ</div>
-  <div class="tab" onclick="showPage('result')"><span class="tab-icon">💶</span>CENA</div>
-  <div class="tab" onclick="showPage('settings')"><span class="tab-icon">🔧</span>NAST.</div>
+  <div class="tab active" onclick="showPage('nacrt')"><span class="ti">📄</span>NAČRT</div>
+  <div class="tab" onclick="showPage('kos')"><span class="ti">🔩</span>KOS</div>
+  <div class="tab" onclick="showPage('ops')"><span class="ti">⏱</span>OPS</div>
+  <div class="tab" onclick="showPage('rez')"><span class="ti">⚡</span>REZ</div>
+  <div class="tab" onclick="showPage('result')"><span class="ti">💶</span>CENA</div>
+  <div class="tab" onclick="showPage('settings')"><span class="ti">🔧</span>NAST.</div>
 </div>
 
-<!-- ═══ PAGE 1: NAČRT ═══ -->
+<!-- ══ PAGE 1: NAČRT ══ -->
 <div id="page-nacrt" class="page active">
   <div class="card">
-    <div class="card-header"><span>①</span> NALOŽI TEHNIČNI NAČRT</div>
+    <div class="card-hdr"><span>①</span> NALOŽI TEHNIČNI NAČRT</div>
     <div class="upload-box" onclick="document.getElementById('fileInput').click()">
       <div class="ub-icon">📐</div>
       <p>Povleci <strong>PDF ali sliko</strong> sem<br>ali pritisni za izbiro datoteke</p>
@@ -381,23 +200,21 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
     </div>
     <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFile(this)">
     <input type="file" id="cameraInput" accept="image/*" capture="environment" onchange="handleFile(this)">
-    <img id="previewImg" class="preview" alt="Predogled načrta">
+    <img id="previewImg" class="preview" alt="Predogled">
     <div class="status-line" id="fileStatus">Ni naložene datoteke</div>
-    <div class="info-box" id="infoBox">
-      ✅ Datoteka naložena — Claude bo analiziral mere, tolerance, površinsko obdelavo in predlagal čase operacij.
-    </div>
+    <div class="info-box" id="infoBox">✅ Datoteka naložena — pritisnite "Analiziraj z AI" za samodejno zaznavanje. Neprepoznana polja bodo označena rdeče.</div>
     <div class="btn-row" id="aiBtnRow" style="display:none">
-      <button class="btn primary" style="font-size:16px" onclick="analyzeWithAI()">🤖 ANALIZIRAJ Z AI →</button>
+      <button class="btn primary" style="font-size:15px" onclick="analyzeWithAI()">🤖 ANALIZIRAJ Z AI →</button>
     </div>
     <div class="thinking" id="thinking">
       <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-      <span style="font-size:13px;color:var(--text2);font-family:var(--font-head);letter-spacing:0.05em">ANALIZIRAM NAČRT...</span>
+      <span style="font-size:12px;color:var(--text2);font-family:var(--font-head);letter-spacing:0.05em">ANALIZIRAM NAČRT...</span>
     </div>
     <div class="ai-result" id="aiResult"></div>
   </div>
 </div>
 
-<!-- ═══ PAGE 2: KOS ═══ -->
+<!-- ══ PAGE 2: KOS ══ -->
 <div id="page-kos" class="page">
   <div class="sec-label">Surovec</div>
   <div class="card">
@@ -446,10 +263,10 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
     <div class="field">
       <label>Površinska obdelava</label>
       <select id="povrsina" onchange="calculate()">
-        <option value="1.0">Ra 3.2 — grobo struženje</option>
-        <option value="1.2" selected>Ra 1.6 — fino struženje</option>
-        <option value="1.45">Ra 0.8 — brušena površina</option>
-        <option value="1.7">Ra 0.4 — polirana površina</option>
+        <option value="1.0">Ra 3.2 — grobo</option>
+        <option value="1.2" selected>Ra 1.6 — fino</option>
+        <option value="1.45">Ra 0.8 — brušeno</option>
+        <option value="1.7">Ra 0.4 — polirano</option>
       </select>
     </div>
     <div class="field">
@@ -467,7 +284,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
       <span class="unit">kos</span>
     </div>
     <div class="field">
-      <label>Premer / glob. luknje</label>
+      <label>Premer luknje</label>
       <input type="number" id="luknjaDiam" value="8" min="1" step="0.5" onchange="calculate()">
       <span class="unit">mm</span>
     </div>
@@ -492,7 +309,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
         <option value="85" selected>Srednja stružnica — 85 €/h</option>
         <option value="120">Velika stružnica — 120 €/h</option>
         <option value="150">Multitasking — 150 €/h</option>
-        <option value="0">⚙️ Po meri (vpišem sam)</option>
+        <option value="0">⚙️ Po meri</option>
       </select>
     </div>
     <div class="field custom-row" id="customRow">
@@ -518,156 +335,79 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
   </div>
 </div>
 
-<!-- ═══ PAGE 3: OPERACIJE ═══ -->
+<!-- ══ PAGE 3: OPERACIJE ══ -->
 <div id="page-ops" class="page">
   <div class="card">
-    <div class="card-header"><span>⏱</span> ČASI OPERACIJ</div>
+    <div class="card-hdr"><span>⏱</span> ČASI OPERACIJ (sekunde / kos)</div>
     <div class="ops-list" id="opsList">
-      <div class="op-row">
-        <span class="op-icon">🔧</span>
-        <span class="op-name">Vpenjanje / izpenjanje</span>
-        <input type="number" value="90" min="0" step="5" onchange="calculate()">
-        <span class="op-unit">sek</span>
-      </div>
-      <div class="op-row">
-        <span class="op-icon">⚙️</span>
-        <span class="op-name">Grobo struženje</span>
-        <input type="number" value="300" min="0" step="10" onchange="calculate()">
-        <span class="op-unit">sek</span>
-      </div>
-      <div class="op-row">
-        <span class="op-icon">🎯</span>
-        <span class="op-name">Fino struženje</span>
-        <input type="number" value="240" min="0" step="10" onchange="calculate()">
-        <span class="op-unit">sek</span>
-      </div>
-      <div class="op-row">
-        <span class="op-icon">🔄</span>
-        <span class="op-name">Preklop / 2. vpetje</span>
-        <input type="number" value="0" min="0" step="5" onchange="calculate()">
-        <span class="op-unit">sek</span>
-      </div>
-      <div class="op-row">
-        <span class="op-icon">🔩</span>
-        <span class="op-name">Navoji / graviranje</span>
-        <input type="number" value="0" min="0" step="5" onchange="calculate()">
-        <span class="op-unit">sek</span>
-      </div>
-      <div class="op-row">
-        <span class="op-icon">📏</span>
-        <span class="op-name">Merjenje / kontrola</span>
-        <input type="number" value="90" min="0" step="5" onchange="calculate()">
-        <span class="op-unit">sek</span>
-      </div>
-      <div class="op-row">
-        <span class="op-icon">🧹</span>
-        <span class="op-name">Razgratenje / čiščenje</span>
-        <input type="number" value="60" min="0" step="5" onchange="calculate()">
-        <span class="op-unit">sek</span>
-      </div>
+      <div class="op-row"><span class="op-icon">🔧</span><span class="op-name">Vpenjanje / izpenjanje</span><input type="number" value="90" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
+      <div class="op-row"><span class="op-icon">⚙️</span><span class="op-name">Grobo struženje</span><input type="number" value="300" min="0" step="10" onchange="calculate()"><span class="op-unit">sek</span></div>
+      <div class="op-row"><span class="op-icon">🎯</span><span class="op-name">Fino struženje</span><input type="number" value="240" min="0" step="10" onchange="calculate()"><span class="op-unit">sek</span></div>
+      <div class="op-row"><span class="op-icon">🔄</span><span class="op-name">Preklop / 2. vpetje</span><input type="number" value="0" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
+      <div class="op-row"><span class="op-icon">🔩</span><span class="op-name">Navoji / graviranje</span><input type="number" value="0" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
+      <div class="op-row"><span class="op-icon">📏</span><span class="op-name">Merjenje / kontrola</span><input type="number" value="90" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
+      <div class="op-row"><span class="op-icon">🧹</span><span class="op-name">Razgratenje / čiščenje</span><input type="number" value="60" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
     </div>
     <div class="ops-footer">
-      <span id="opsTotal1">Skupaj operacije: —</span>
-      <span id="opsTotal2" style="color:var(--accent); font-weight:600">—</span>
+      <span id="opsTotal1">Operacije: —</span>
+      <strong id="opsTotal2">S faktorjem: —</strong>
     </div>
   </div>
-
   <div class="warn-box" id="drillingWarn" style="display:none">
-    ⚡ <strong>Vrtanje vključeno:</strong> <span id="drillingInfo">—</span> — čas bo dodan samodejno.
+    ⚡ <strong>Vrtanje:</strong> <span id="drillingInfo">—</span> — dodano samodejno.
   </div>
 </div>
 
-<!-- ═══ PAGE 4: REZ. PARAMETRI ═══ -->
+<!-- ══ PAGE 4: REZALNI PARAMETRI ══ -->
 <div id="page-rez" class="page">
   <div class="sec-label">Grobo struženje — izračun časa</div>
   <div class="card">
-    <div class="card-header"><span>⚡</span> REZALNI PARAMETRI</div>
-    <div class="cut-row">
-      <div class="cut-field">
-        <label>ap — globina</label>
-        <input type="number" id="ap" value="2" min="0.1" step="0.1" onchange="calcCutting()">
-        <span class="cu">mm</span>
-      </div>
-      <div class="cut-field">
-        <label>S — vreteno</label>
-        <input type="number" id="spindle" value="1200" min="10" step="50" onchange="calcCutting()">
-        <span class="cu">o/min</span>
-      </div>
-      <div class="cut-field">
-        <label>f — podajanje</label>
-        <input type="number" id="feed" value="0.25" min="0.01" step="0.01" onchange="calcCutting()">
-        <span class="cu">mm/vrt</span>
-      </div>
+    <div class="card-hdr"><span>⚡</span> REZALNI PARAMETRI</div>
+    <div class="cut-grid">
+      <div class="cut-field"><label>ap — globina</label><input type="number" id="ap" value="2" min="0.1" step="0.1" onchange="calcCutting()"><span class="cu">mm</span></div>
+      <div class="cut-field"><label>S — vreteno</label><input type="number" id="spindle" value="1200" min="10" step="50" onchange="calcCutting()"><span class="cu">o/min</span></div>
+      <div class="cut-field"><label>f — podajanje</label><input type="number" id="feed" value="0.25" min="0.01" step="0.01" onchange="calcCutting()"><span class="cu">mm/vrt</span></div>
     </div>
-    <div class="field">
-      <label>Premer obdelanca</label>
-      <input type="number" id="rezD" value="35" min="1" step="0.5" onchange="calcCutting()">
-      <span class="unit">mm</span>
-    </div>
-    <div class="field">
-      <label>Dolžina reza</label>
-      <input type="number" id="rezL" value="40" min="1" step="0.5" onchange="calcCutting()">
-      <span class="unit">mm</span>
-    </div>
-    <div class="field">
-      <label>Število prehodov</label>
-      <input type="number" id="rezN" value="1" min="1" onchange="calcCutting()">
-      <span class="unit">×</span>
-    </div>
-    <div class="cut-result" id="cutResult">
-      Vnesite parametre za izračun časa...
-    </div>
-    <div class="btn-row" style="margin-top:10px;margin-bottom:0">
+    <div class="field"><label>Premer obdelanca</label><input type="number" id="rezD" value="35" min="1" step="0.5" onchange="calcCutting()"><span class="unit">mm</span></div>
+    <div class="field"><label>Dolžina reza</label><input type="number" id="rezL" value="40" min="1" step="0.5" onchange="calcCutting()"><span class="unit">mm</span></div>
+    <div class="field"><label>Število prehodov</label><input type="number" id="rezN" value="1" min="1" onchange="calcCutting()"><span class="unit">×</span></div>
+    <div class="cut-result" id="cutResult">Vnesite parametre za izračun...</div>
+    <div class="btn-row" style="margin-top:9px;margin-bottom:0">
       <button class="btn primary" onclick="applyToOps()">→ PRENESI V OPERACIJE</button>
     </div>
   </div>
 
   <div class="sec-label">Vrtanje — izračun časa</div>
   <div class="card">
-    <div class="card-header"><span>🔩</span> PARAMETRI VRTANJA</div>
-    <div class="cut-row">
-      <div class="cut-field">
-        <label>S — vreteno</label>
-        <input type="number" id="drillS" value="800" min="10" step="50" onchange="calcDrilling()">
-        <span class="cu">o/min</span>
-      </div>
-      <div class="cut-field">
-        <label>f — podajanje</label>
-        <input type="number" id="drillF" value="0.15" min="0.01" step="0.01" onchange="calcDrilling()">
-        <span class="cu">mm/vrt</span>
-      </div>
-      <div class="cut-field">
-        <label>Umik</label>
-        <input type="number" id="drillRetract" value="5" min="0" step="1" onchange="calcDrilling()">
-        <span class="cu">sek/l</span>
-      </div>
+    <div class="card-hdr"><span>🔩</span> PARAMETRI VRTANJA</div>
+    <div class="cut-grid">
+      <div class="cut-field"><label>S — vreteno</label><input type="number" id="drillS" value="800" min="10" step="50" onchange="calcDrilling()"><span class="cu">o/min</span></div>
+      <div class="cut-field"><label>f — podajanje</label><input type="number" id="drillF" value="0.15" min="0.01" step="0.01" onchange="calcDrilling()"><span class="cu">mm/vrt</span></div>
+      <div class="cut-field"><label>Umik/l</label><input type="number" id="drillRetract" value="5" min="0" step="1" onchange="calcDrilling()"><span class="cu">sek</span></div>
     </div>
-    <div class="cut-result" id="drillResult">
-      Vnesite parametri in nastavite luknje v zavihku KOS...
-    </div>
-    <div class="btn-row" style="margin-top:10px;margin-bottom:0">
+    <div class="cut-result" id="drillResult">Nastavite luknje v zavihku KOS...</div>
+    <div class="btn-row" style="margin-top:9px;margin-bottom:0">
       <button class="btn primary" onclick="applyDrilling()">→ PRENESI V OPERACIJE</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ PAGE 5: CENA ═══ -->
+<!-- ══ PAGE 5: CENA ══ -->
 <div id="page-result" class="page">
   <div class="result-total">
-    <div class="rt-left">
+    <div>
       <div class="rt-label">Cena / kos</div>
-      <div class="rt-sub" id="rtSub">za 1 kos · skupaj —</div>
+      <div class="rt-sub" id="rtSub">za 1 kos</div>
     </div>
-    <div class="rt-right">
+    <div style="text-align:right">
       <div class="rt-price" id="rCenaKos">—</div>
       <div class="rt-total" id="rSkupajCena">skupaj —</div>
     </div>
   </div>
-
   <div class="result-card">
-    <div class="result-header">RAZČLENITEV STROŠKOV</div>
+    <div class="result-hdr">RAZČLENITEV</div>
     <div class="result-row"><span class="rl">Surovec</span><span class="rv" id="rSurovec">—</span></div>
-    <div class="result-row"><span class="rl">Masa surovca</span><span class="rv" id="rMasa">—</span></div>
+    <div class="result-row"><span class="rl">Masa</span><span class="rv" id="rMasa">—</span></div>
     <div class="result-row"><span class="rl">Cena materiala/kos</span><span class="rv" id="rMaterial">—</span></div>
     <div class="result-row"><span class="rl">Čas operacij/kos</span><span class="rv" id="rOpTime">—</span></div>
     <div class="result-row"><span class="rl">Čas vrtanja/kos</span><span class="rv" id="rDrillTime">—</span></div>
@@ -679,16 +419,11 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
     <div class="result-row"><span class="rl">Kooperacija</span><span class="rv" id="rKoop">—</span></div>
     <div class="result-row"><span class="rl">Marža</span><span class="rv" id="rMarza">—</span></div>
   </div>
-
   <div class="btn-row">
     <button class="btn outline" onclick="calculate()">🔄 PRERAČUNAJ</button>
     <button class="btn primary" onclick="genPonudba()">📝 GENERIRAJ PONUDBO</button>
   </div>
-
-  <div class="thinking" id="thinkingPon">
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    <span style="font-size:13px;color:var(--text2);font-family:var(--font-head);letter-spacing:0.05em">PRIPRAVLJAM PONUDBO...</span>
-  </div>
+  <div class="thinking" id="thinkingPon"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span style="font-size:12px;color:var(--text2);font-family:var(--font-head)">PRIPRAVLJAM PONUDBO...</span></div>
   <div class="ponudba-box" id="ponudbaBox"></div>
   <div class="btn-row" id="ponudbaActions" style="display:none">
     <button class="btn outline" onclick="copyPonudba()">📋 KOPIRAJ</button>
@@ -696,101 +431,150 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
   </div>
 </div>
 
-<!-- ═══ PAGE 6: NASTAVITVE ═══ -->
+<!-- ══ PAGE 6: NASTAVITVE ══ -->
 <div id="page-settings" class="page">
   <div class="sec-label">Anthropic API ključ</div>
   <div class="card">
-    <div style="font-size:13px;color:var(--text2);margin-bottom:10px;line-height:1.6">
+    <div style="font-size:13px;color:var(--text2);margin-bottom:9px;line-height:1.6">
       Pridobite na <strong style="color:var(--accent)">console.anthropic.com</strong><br>
-      Nova registracija · ~5 $ začetnih kreditov · ni mesečnih obveznosti
+      Predplačniški krediti · ni mesečnih obveznosti
     </div>
     <div class="apikey-row">
-      <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." oninput="saveApiKey()">
-      <button class="btn primary" onclick="saveApiKey()" style="flex:0;padding:9px 14px">SHRANI</button>
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-...">
+      <button class="btn primary" style="flex:0;padding:8px 13px" onclick="saveSettings()">SHRANI</button>
     </div>
-    <div class="saved-badge" id="apiKeySaved">✅ API KLJUČ SHRANJEN</div>
+    <div class="saved-badge" id="savedBadge">✅ SHRANJENO V OBLAK — dostopno na vseh napravah</div>
   </div>
 
   <div class="sec-label">AI navodila za analizo — sistemski prompt</div>
   <div class="card">
     <div style="font-size:12px;color:var(--text3);margin-bottom:8px;line-height:1.5">
-      Ta navodila dobi Claude pred vsako analizo načrta. Prilagodite po vaši izkušnji in strojih. Navodila se samodejno shranijo.
+      Ta navodila dobi Claude pred vsako analizo. Shranjena so v oblaku — enaka na vseh napravah.
     </div>
-    <textarea class="prompt-area" id="systemPrompt" oninput="savePrompt()" placeholder="Vpišite navodila za AI analizo..."></textarea>
-    <div style="font-size:11px;color:var(--text3);margin-bottom:10px">💾 Navodila se samodejno shranijo v napravo</div>
+    <textarea class="prompt-area" id="systemPrompt" placeholder="Nalagam navodila..."></textarea>
     <div class="btn-row" style="margin-bottom:0">
-      <button class="btn outline" onclick="resetPrompt()">↺ PONASTAVI NA PRIVZETO</button>
-      <button class="btn primary" onclick="savePromptBtn()">💾 SHRANI</button>
-    </div>
-  </div>
-
-  <div class="sec-label">Navodila za GitHub postavitev</div>
-  <div class="card">
-    <div style="font-size:13px;color:var(--text2);line-height:1.8">
-      <strong style="color:var(--accent)">1.</strong> Registracija → <strong style="color:var(--text)">github.com</strong> → Sign up<br>
-      <strong style="color:var(--accent)">2.</strong> New repository → <em>ponudba-struzenje</em> → Public<br>
-      <strong style="color:var(--accent)">3.</strong> Upload → <strong style="color:var(--text)">ponudba-struzenje.html</strong> → preimenuj v <strong style="color:var(--text)">index.html</strong><br>
-      <strong style="color:var(--accent)">4.</strong> Settings → Pages → Source: main → Save<br>
-      <strong style="color:var(--accent)">5.</strong> Aplikacija živi na: <em style="color:var(--accent)">vaseime.github.io/ponudba-struzenje</em><br>
-      <strong style="color:var(--accent)">6.</strong> Posodobitev: zamenjaj <strong style="color:var(--text)">index.html</strong> → Commit
+      <button class="btn outline" onclick="resetPrompt()">↺ PONASTAVI</button>
+      <button class="btn primary" onclick="saveSettings()">☁️ SHRANI V OBLAK</button>
     </div>
   </div>
 
   <div class="sec-label">O aplikaciji</div>
   <div class="card">
     <div style="font-size:13px;color:var(--text2);line-height:1.7">
-      <strong style="color:var(--text)">Ponudba struženje v4.0</strong><br>
-      Razvito s Claude AI · Maj 2026<br>
-      <span style="color:var(--accent)">claude.ai</span> — pošljite zahtevo za nadgradnje
+      <strong style="color:var(--text)">Ponudba struženje v5.0</strong><br>
+      Nastavitve sinhronizirane v oblaku · Supabase<br>
+      <span style="color:var(--accent)">claude.ai</span> — za nadgradnje
     </div>
   </div>
 </div>
 
 <script>
-// ═══ DEFAULT SYSTEM PROMPT ═══
+// ══ SUPABASE CONFIG ══
+const SB_URL = 'https://ndbjggzjrjyekxpnterk.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYmpnZ3pqcmp5ZWt4cG50ZXJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMzc2MDYsImV4cCI6MjA5NDYxMzYwNn0.eldO4s6R5dBy17cVhFXZed-7-c_rHxoqX_rjWatUvBc';
+
 const DEFAULT_PROMPT = `Si izkušen CNC strojar s 15+ leti izkušenj na različnih stružnicah.
 
 Pri analizi tehničnega načrta bodi pozoren na:
+
 GEOMETRIJA:
-- Razmerje L/D (dolžina/premer surovca) — če je > 4, opozori na nevarnost vibracij in priporoči konico
-- Podrezanja, utori, posnetja — vsak zahteva dodaten čas in orodje
+- Razmerje L/D — če je > 4, opozori na vibracije, priporoči konico
+- Podrezanja, utori, posnetja — vsak zahteva dodaten čas
 - Stopnice in prehodi — oceni število vpetij
 
 NAVOJI IN LUKNJE:
-- Vrsta navoja (metrični M, BSP, UNF/UNC) in korak
-- Število lukenj, premer, globina — izračunaj čas vrtanja
-- Slepe ali skoznje luknje
+- Vrsta navoja (M metrični, BSP, UNF/UNC) in korak
+- Število lukenj, premer, globina — slepe ali skoznje
 
 TOLERANCE IN POVRŠINA:
-- Tolerance pod 0.02 mm zahtevajo fino struženje + merjenje med obdelavo
-- Ra 0.8 zahteva dodaten prehod ali brušenje
-- H7/h6 ujemi — preveri ali je dosegljivo na stružnici
+- Tolerance pod 0.02 mm — fino struženje + vmesno merjenje
+- Ra 0.8 — dodaten prehod ali brušenje
+- H7/h6 ujemi — preveri dosegljivost na stružnici
 
 MATERIAL:
-- Inox 1.4301 zahteva ~35% več časa kot jeklo (manjše rezalne hitrosti)
-- Titan zahteva ~60% več časa, posebna hladilna sredstva
-- Medenina — hiter material, krajši časi
-- Aluminij — visoke rezalne hitrosti, kratki časi
+- Inox 1.4301 → ~35% več časa (manjše Vc)
+- Titan → ~60% več časa, posebna hladila
+- Medenina → hiter material
+- Aluminij → visoke Vc, kratki časi
 
 ČASI (v sekundah):
-- Vpenjanje: 60-180 sek glede na težo in kompleksnost
-- Grobo struženje: glede na odvzem, dolžino, material
-- Fino struženje: 50-70% časa grobega
-- Merjenje: 30-90 sek/operacija
-- Razgratenje: 30-120 sek
+- Vpenjanje: 60–180 sek glede na težo
+- Grobo struženje: glede na ap, L, material
+- Fino struženje: 50–70% časa grobega
+- Merjenje: 30–90 sek/operacija
+- Razgratenje: 30–120 sek
 
-Vrni realne, izkustvene ocene — ne preveč optimistične.`;
+Vrni realne, izkustvene ocene. Kar ne moreš prepoznati, nastavi na -1.`;
 
-// ═══ INIT ═══
-window.addEventListener('load', () => {
-  const key = localStorage.getItem('cnc_api_key');
-  if (key) document.getElementById('apiKeyInput').value = key;
-  const savedPrompt = localStorage.getItem('cnc_system_prompt');
-  document.getElementById('systemPrompt').value = savedPrompt || DEFAULT_PROMPT;
-  calcMaterial(); calculate(); calcCutting(); calcDrilling();
-});
+// ══ SYNC STATUS ══
+function syncStatus(state, label) {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  dot.className = 'sync-dot ' + state;
+  lbl.textContent = label;
+}
 
-// ═══ NAV ═══
+// ══ SUPABASE GET/SET ══
+async function sbGet(key) {
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/settings?key=eq.${key}&select=value`, {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+    });
+    const d = await r.json();
+    return d && d.length > 0 ? d[0].value : null;
+  } catch(e) { return null; }
+}
+
+async function sbSet(key, value) {
+  try {
+    await fetch(`${SB_URL}/rest/v1/settings`, {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
+        'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify({ key, value })
+    });
+    return true;
+  } catch(e) { return false; }
+}
+
+// ══ LOAD SETTINGS ══
+async function loadSettings() {
+  syncStatus('spin', 'NALAGAM...');
+  try {
+    const [apiKey, prompt] = await Promise.all([sbGet('anthropic_key'), sbGet('system_prompt')]);
+    if (apiKey) document.getElementById('apiKeyInput').value = apiKey;
+    document.getElementById('systemPrompt').value = prompt || DEFAULT_PROMPT;
+    syncStatus('ok', 'SYNC ✓');
+  } catch(e) {
+    syncStatus('err', 'OFFLINE');
+    document.getElementById('systemPrompt').value = DEFAULT_PROMPT;
+  }
+}
+
+// ══ SAVE SETTINGS ══
+async function saveSettings() {
+  syncStatus('spin', 'SHRANJUJEM...');
+  const key = document.getElementById('apiKeyInput').value.trim();
+  const prompt = document.getElementById('systemPrompt').value;
+  const ok1 = key ? await sbSet('anthropic_key', key) : true;
+  const ok2 = await sbSet('system_prompt', prompt);
+  if (ok1 && ok2) {
+    syncStatus('ok', 'SYNC ✓');
+    const badge = document.getElementById('savedBadge');
+    badge.style.display = 'block';
+    setTimeout(() => badge.style.display = 'none', 2500);
+  } else {
+    syncStatus('err', 'NAPAKA');
+  }
+}
+
+function resetPrompt() {
+  document.getElementById('systemPrompt').value = DEFAULT_PROMPT;
+}
+
+// ══ NAVIGATION ══
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -802,24 +586,7 @@ function showPage(name) {
   if (name === 'rez') { calcCutting(); calcDrilling(); }
 }
 
-// ═══ SETTINGS ═══
-function saveApiKey() {
-  const k = document.getElementById('apiKeyInput').value.trim();
-  if (k) { localStorage.setItem('cnc_api_key', k); flashSaved(); }
-}
-function flashSaved() {
-  const el = document.getElementById('apiKeySaved');
-  el.style.display = 'block';
-  setTimeout(() => el.style.display = 'none', 2000);
-}
-function savePrompt() { localStorage.setItem('cnc_system_prompt', document.getElementById('systemPrompt').value); }
-function savePromptBtn() { savePrompt(); flashSaved(); }
-function resetPrompt() {
-  document.getElementById('systemPrompt').value = DEFAULT_PROMPT;
-  savePrompt();
-}
-
-// ═══ FILE HANDLING ═══
+// ══ FILE HANDLING ══
 let imageBase64 = null, imageType = null;
 function handleFile(input) {
   const file = input.files[0]; if (!file) return;
@@ -838,15 +605,49 @@ function handleFile(input) {
   reader.readAsDataURL(file);
 }
 
-// ═══ AI ANALIZA ═══
+// ══ MARK UNRECOGNIZED (red) ══
+function markField(id, unrecognized) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (unrecognized) {
+    el.classList.add('unrecognized');
+    // add label if not exists
+    const lblId = 'ulbl_' + id;
+    if (!document.getElementById(lblId)) {
+      const lbl = document.createElement('div');
+      lbl.className = 'unrecognized-label';
+      lbl.id = lblId;
+      lbl.textContent = '⚠ AI ni prepoznal — preverite ročno';
+      el.parentNode.parentNode.insertBefore(lbl, el.parentNode.nextSibling);
+    }
+  } else {
+    el.classList.remove('unrecognized');
+    const lbl = document.getElementById('ulbl_' + id);
+    if (lbl) lbl.remove();
+  }
+}
+
+function markOpInput(index, unrecognized) {
+  const inputs = document.querySelectorAll('#opsList .op-row input');
+  if (!inputs[index]) return;
+  if (unrecognized) inputs[index].classList.add('unrecognized');
+  else inputs[index].classList.remove('unrecognized');
+}
+
+// ══ AI ANALIZA ══
 async function analyzeWithAI() {
-  const apiKey = localStorage.getItem('cnc_api_key');
+  const apiKey = document.getElementById('apiKeyInput').value.trim() || await sbGet('anthropic_key');
   if (!apiKey) { alert('Najprej vnesite Anthropic API ključ v zavihku NAST.'); showPage('settings'); return; }
   if (!imageBase64) { alert('Najprej naložite sliko ali PDF načrta.'); return; }
   const thinking = document.getElementById('thinking');
   const aiResult = document.getElementById('aiResult');
   const systemPrompt = document.getElementById('systemPrompt').value || DEFAULT_PROMPT;
   thinking.style.display = 'flex'; aiResult.style.display = 'none';
+
+  // clear all red markings
+  ['surovecD','surovecL','koncniD','koncniL','material','povrsina','tolerance','stLukenj','luknjaDiam','luknjaGlob'].forEach(id => markField(id, false));
+  [0,1,2,3,4,5,6].forEach(i => markOpInput(i, false));
+
   try {
     const isImg = imageType && imageType.startsWith('image/');
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
@@ -864,22 +665,22 @@ async function analyzeWithAI() {
         messages: [{ role: 'user', content: [
           { type: isImg ? 'image' : 'document',
             source: { type: 'base64', media_type: isImg ? imageType : 'application/pdf', data: imageBase64 }},
-          { type: 'text', text: `Analiziraj ta CNC načrt. Vrni SAMO JSON brez markdown ali razlage:
+          { type: 'text', text: `Analiziraj ta CNC načrt. Vrni SAMO JSON brez markdown:
 {
   "opis": "kratki opis kosa",
-  "material": "jeklo/inox/aluminij/medenina/titan/drugo",
+  "material": "jeklo/inox/aluminij/medenina/titan/bron/neznano",
   "surovecD": 0,
   "surovecL": 0,
   "koncniD": 0,
   "koncniL": 0,
   "kompleksnost": "preprosto/srednje/zahtevno",
-  "tolerance": "splosne/H7/H6/posebne",
-  "povrsina": "Ra3.2/Ra1.6/Ra0.8/Ra0.4",
+  "tolerance": "splosne/H7/H6/posebne/neznano",
+  "povrsina": "Ra3.2/Ra1.6/Ra0.8/Ra0.4/neznano",
   "stLukenj": 0,
   "luknjaDiam": 0,
   "luknjaGlob": 0,
-  "opozorila": ["opozorilo1", "opozorilo2"],
-  "posebnosti": "opis posebnih zahtev",
+  "opozorila": ["opozorilo1"],
+  "posebnosti": "opis ali prazno",
   "operacije": [
     {"ime": "Vpenjanje / izpenjanje", "sek": 0},
     {"ime": "Grobo struženje", "sek": 0},
@@ -889,7 +690,8 @@ async function analyzeWithAI() {
     {"ime": "Merjenje / kontrola", "sek": 0},
     {"ime": "Razgratenje / čiščenje", "sek": 0}
   ]
-}` }
+}
+POMEMBNO: Za vse vrednosti ki jih NE MOREŠ zanesljivo prepoznati iz načrta, nastavi vrednost -1. Ne ugibaj.` }
         ]}]
       })
     });
@@ -898,55 +700,106 @@ async function analyzeWithAI() {
     const raw = data.content.map(i => i.text||'').join('').replace(/```json|```/g,'').trim();
     const p = JSON.parse(raw);
 
-    // Zapolni polja
-    if (p.surovecD > 0) document.getElementById('surovecD').value = p.surovecD;
-    if (p.surovecL > 0) document.getElementById('surovecL').value = p.surovecL;
-    if (p.koncniD > 0) document.getElementById('koncniD').value = p.koncniD;
-    if (p.koncniL > 0) document.getElementById('koncniL').value = p.koncniL;
-    if (p.stLukenj > 0) document.getElementById('stLukenj').value = p.stLukenj;
-    if (p.luknjaDiam > 0) document.getElementById('luknjaDiam').value = p.luknjaDiam;
-    if (p.luknjaGlob > 0) document.getElementById('luknjaGlob').value = p.luknjaGlob;
+    // Apply values & mark unrecognized
+    function applyNum(id, val) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (val === -1 || val === null || val === undefined || val === 0) {
+        markField(id, true);
+      } else {
+        el.value = val;
+        markField(id, false);
+      }
+    }
 
+    applyNum('surovecD', p.surovecD);
+    applyNum('surovecL', p.surovecL);
+    applyNum('koncniD', p.koncniD);
+    applyNum('koncniL', p.koncniL);
+    applyNum('stLukenj', p.stLukenj);
+    if (p.stLukenj > 0) {
+      applyNum('luknjaDiam', p.luknjaDiam);
+      applyNum('luknjaGlob', p.luknjaGlob);
+    }
+
+    // Material
     const matMap = {'jeklo':'jeklo:7.85:1.0','inox':'inox:7.93:1.35','aluminij':'aluminij:2.70:0.7','medenina':'medenina:8.50:0.9','titan':'titan:4.50:1.6','bron':'bron:8.80:0.85'};
     const mk = Object.keys(matMap).find(k => (p.material||'').toLowerCase().includes(k));
-    if (mk) document.getElementById('material').value = matMap[mk];
-    if (p.tolerance==='H7') document.getElementById('tolerance').value='1.2';
-    else if (p.tolerance==='H6') document.getElementById('tolerance').value='1.4';
-    else if (p.tolerance==='posebne') document.getElementById('tolerance').value='1.65';
-    if (p.povrsina==='Ra3.2') document.getElementById('povrsina').value='1.0';
-    else if (p.povrsina==='Ra0.8') document.getElementById('povrsina').value='1.45';
-    else if (p.povrsina==='Ra0.4') document.getElementById('povrsina').value='1.7';
+    if (mk) { document.getElementById('material').value = matMap[mk]; markField('material', false); }
+    else markField('material', true);
 
+    // Tolerance
+    if (p.tolerance === 'neznano' || !p.tolerance) markField('tolerance', true);
+    else {
+      if (p.tolerance==='H7') document.getElementById('tolerance').value='1.2';
+      else if (p.tolerance==='H6') document.getElementById('tolerance').value='1.4';
+      else if (p.tolerance==='posebne') document.getElementById('tolerance').value='1.65';
+      else document.getElementById('tolerance').value='1.0';
+      markField('tolerance', false);
+    }
+
+    // Površina
+    if (p.povrsina === 'neznano' || !p.povrsina) markField('povrsina', true);
+    else {
+      if (p.povrsina==='Ra3.2') document.getElementById('povrsina').value='1.0';
+      else if (p.povrsina==='Ra0.8') document.getElementById('povrsina').value='1.45';
+      else if (p.povrsina==='Ra0.4') document.getElementById('povrsina').value='1.7';
+      else document.getElementById('povrsina').value='1.2';
+      markField('povrsina', false);
+    }
+
+    // Operacije
     const inputs = document.querySelectorAll('#opsList .op-row input');
-    if (p.operacije) p.operacije.forEach((op,i) => { if (inputs[i]) inputs[i].value = op.sek || 0; });
+    if (p.operacije) {
+      p.operacije.forEach((op, i) => {
+        if (!inputs[i]) return;
+        if (op.sek === -1 || op.sek === null) {
+          markOpInput(i, true);
+        } else {
+          inputs[i].value = op.sek || 0;
+          markOpInput(i, false);
+        }
+      });
+    }
 
     calcMaterial(); calculate();
 
-    // Prikaži rezultat
-    const komplBadge = p.kompleksnost === 'zahtevno' ? 'warn' : (p.kompleksnost === 'preprosto' ? 'ok' : '');
-    let html = `<div class="ai-title">📐 ${p.opis||'CNC kos'}</div>`;
-    html += `<div style="margin-bottom:8px">`;
-    html += `<span class="ai-tag">${p.material||'—'}</span>`;
+    // AI result display
+    const komplBadge = p.kompleksnost==='zahtevno'?'warn':(p.kompleksnost==='preprosto'?'ok':'');
+    const matBadge = mk ? 'ok' : 'err';
+    const tolBadge = (p.tolerance==='neznano'||!p.tolerance) ? 'err' : '';
+    const povBadge = (p.povrsina==='neznano'||!p.povrsina) ? 'err' : '';
+
+    let html = `<div class="ai-title">📐 ${p.opis||'CNC kos'}</div><div style="margin-bottom:8px">`;
+    html += `<span class="ai-tag ${matBadge}">${mk||'MATERIAL?'}</span>`;
     html += `<span class="ai-tag ${komplBadge}">${p.kompleksnost||'—'}</span>`;
-    html += `<span class="ai-tag">${p.tolerance||'—'}</span>`;
-    html += `<span class="ai-tag">${p.povrsina||'—'}</span>`;
-    if (p.stLukenj > 0) html += `<span class="ai-tag warn">🔩 ${p.stLukenj} luknj Ø${p.luknjaDiam}×${p.luknjaGlob}mm</span>`;
+    html += `<span class="ai-tag ${tolBadge}">${p.tolerance||'TOLERANCE?'}</span>`;
+    html += `<span class="ai-tag ${povBadge}">${p.povrsina||'POVRŠINA?'}</span>`;
+    if (p.stLukenj > 0) html += `<span class="ai-tag warn">🔩 ${p.stLukenj}× Ø${p.luknjaDiam}×${p.luknjaGlob}mm</span>`;
     html += `</div>`;
-    if (p.posebnosti) html += `<div style="margin-bottom:6px;color:var(--text2)">📋 ${p.posebnosti}</div>`;
+    if (p.posebnosti) html += `<div style="color:var(--text2);margin-bottom:6px">📋 ${p.posebnosti}</div>`;
     if (p.opozorila && p.opozorila.length > 0) {
       html += `<div style="color:var(--accent2)">`;
       p.opozorila.forEach(o => html += `⚠️ ${o}<br>`);
       html += `</div>`;
     }
-    html += `<div style="color:var(--green);margin-top:8px;font-family:var(--font-head);font-size:12px;letter-spacing:0.05em">✅ POLJA SAMODEJNO ZAPOLNJENA</div>`;
+
+    // Count unrecognized
+    const redCount = document.querySelectorAll('.unrecognized').length;
+    if (redCount > 0) {
+      html += `<div style="color:var(--red);margin-top:8px;font-family:var(--font-head);font-size:12px">⚠ ${redCount} POLJ NI PREPOZNANIH — označena rdeče, preverite ročno</div>`;
+    } else {
+      html += `<div style="color:var(--green);margin-top:8px;font-family:var(--font-head);font-size:12px">✅ VSA POLJA USPEŠNO PREPOZNANA</div>`;
+    }
+
     aiResult.innerHTML = html; aiResult.style.display = 'block';
   } catch(err) {
-    aiResult.innerHTML = `<div style="color:var(--red)">⚠️ Napaka pri analizi:<br>${err.message}</div>`;
+    aiResult.innerHTML = `<div style="color:var(--red)">⚠️ Napaka pri analizi:<br><span style="font-size:12px">${err.message}</span></div>`;
     aiResult.style.display = 'block';
   } finally { thinking.style.display = 'none'; }
 }
 
-// ═══ MATERIAL ═══
+// ══ MATERIAL CALC ══
 function calcMaterial() {
   const d = parseFloat(document.getElementById('surovecD').value)||0;
   const l = parseFloat(document.getElementById('surovecL').value)||0;
@@ -955,202 +808,177 @@ function calcMaterial() {
   const cenaKg = parseFloat(document.getElementById('cenaMat').value)||0;
   const vol = Math.PI * Math.pow(d/2/10,2) * (l/10);
   const masa = vol * gostota / 1000;
-  const cena = masa * cenaKg;
   document.getElementById('matHint').innerHTML =
-    `<strong>Ø${d}×${l}mm</strong> · Vol: ${vol.toFixed(2)} cm³ · Masa: <strong>${(masa*1000).toFixed(1)} g</strong> · Cena: <strong>${cena.toFixed(3)} €</strong>`;
+    `<strong>Ø${d}×${l}mm</strong> · Vol: ${vol.toFixed(2)} cm³ · Masa: <strong>${(masa*1000).toFixed(1)} g</strong> · Cena: <strong>${(masa*cenaKg).toFixed(3)} €</strong>`;
   document.getElementById('rezD').value = d;
-  document.getElementById('surovecD').value && (document.getElementById('rezL').value = l);
+  document.getElementById('rezL').value = l;
   calculate();
 }
 
-// ═══ CUTTING CALC ═══
+// ══ CUTTING CALC ══
 function calcCutting() {
-  const ap = parseFloat(document.getElementById('ap').value)||2;
-  const S  = parseFloat(document.getElementById('spindle').value)||1200;
-  const f  = parseFloat(document.getElementById('feed').value)||0.25;
-  const D  = parseFloat(document.getElementById('rezD').value)||35;
-  const L  = parseFloat(document.getElementById('rezL').value)||40;
-  const N  = parseInt(document.getElementById('rezN').value)||1;
-  const Vc = (Math.PI * D * S) / 1000;
-  const Vf = f * S;
-  const tMach = (L / Vf) * N;
-  const tSek = Math.round(tMach * 60);
-  const MRR = ap * f * Vc;
+  const ap=parseFloat(document.getElementById('ap').value)||2;
+  const S=parseFloat(document.getElementById('spindle').value)||1200;
+  const f=parseFloat(document.getElementById('feed').value)||0.25;
+  const D=parseFloat(document.getElementById('rezD').value)||35;
+  const L=parseFloat(document.getElementById('rezL').value)||40;
+  const N=parseInt(document.getElementById('rezN').value)||1;
+  const Vc=(Math.PI*D*S)/1000;
+  const Vf=f*S;
+  const tMin=(L/Vf)*N;
+  const tSek=Math.round(tMin*60);
+  const MRR=ap*f*Vc;
   document.getElementById('cutResult').innerHTML =
-    `<strong>Čas struženja: ${tSek} sek (${tMach.toFixed(2)} min)</strong><br>
-    Vc = ${Vc.toFixed(0)} m/min · Vf = ${Vf.toFixed(0)} mm/min<br>
-    MRR (odvzem materiala) = ${MRR.toFixed(1)} cm³/min<br>
-    ${N > 1 ? `<span style="color:var(--accent)">${N} prehodi × ${Math.round(tMach/N*60)} sek = ${tSek} sek skupaj</span>` : ''}`;
+    `<strong>Čas: ${tSek} sek (${tMin.toFixed(2)} min)</strong><br>Vc = ${Vc.toFixed(0)} m/min · Vf = ${Vf.toFixed(0)} mm/min · MRR = ${MRR.toFixed(1)} cm³/min${N>1?`<br><span style="color:var(--accent)">${N} prehodi × ${Math.round(tSek/N)} sek</span>`:''}`;
   window._cutTimeSek = tSek;
-  calcDrilling();
 }
 
 function calcDrilling() {
-  const S = parseFloat(document.getElementById('drillS').value)||800;
-  const f = parseFloat(document.getElementById('drillF').value)||0.15;
-  const retract = parseFloat(document.getElementById('drillRetract').value)||5;
-  const stL = parseInt(document.getElementById('stLukenj').value)||0;
-  const diam = parseFloat(document.getElementById('luknjaDiam').value)||8;
-  const glob = parseFloat(document.getElementById('luknjaGlob').value)||20;
-  const Vf = f * S;
-  const tPerHole = (glob / Vf) * 60 + retract;
-  const tTotal = stL > 0 ? Math.round(tPerHole * stL) : Math.round(tPerHole);
-  const Vc = (Math.PI * diam * S) / 1000;
+  const S=parseFloat(document.getElementById('drillS').value)||800;
+  const f=parseFloat(document.getElementById('drillF').value)||0.15;
+  const ret=parseFloat(document.getElementById('drillRetract').value)||5;
+  const stL=parseInt(document.getElementById('stLukenj').value)||0;
+  const diam=parseFloat(document.getElementById('luknjaDiam').value)||8;
+  const glob=parseFloat(document.getElementById('luknjaGlob').value)||20;
+  const Vf=f*S;
+  const tHole=(glob/Vf)*60+ret;
+  const tTotal=Math.round(tHole*(stL||1));
+  const Vc=(Math.PI*diam*S)/1000;
   document.getElementById('drillResult').innerHTML =
-    `<strong>Čas/luknjo: ${Math.round(tPerHole)} sek · Skupaj ${stL} luknj: ${tTotal} sek</strong><br>
-    Vc = ${Vc.toFixed(0)} m/min · Vf = ${Vf.toFixed(0)} mm/min<br>
-    Ø${diam}mm × ${glob}mm globina${stL > 0 ? ` · ${stL} luknj` : ''}`;
+    `<strong>Čas/luknjo: ${Math.round(tHole)} sek · Skupaj: ${tTotal} sek</strong><br>Vc=${Vc.toFixed(0)} m/min · Vf=${Vf.toFixed(0)} mm/min · Ø${diam}×${glob}mm`;
   window._drillTimeSek = tTotal;
-  if (stL > 0) {
-    document.getElementById('drillingWarn').style.display = 'block';
-    document.getElementById('drillingInfo').textContent = `${stL} luknj Ø${diam}×${glob}mm = ${tTotal} sek`;
-  } else {
-    document.getElementById('drillingWarn').style.display = 'none';
-  }
+  if (stL>0) {
+    document.getElementById('drillingWarn').style.display='block';
+    document.getElementById('drillingInfo').textContent=`${stL} luknj Ø${diam}×${glob}mm = ${tTotal} sek`;
+  } else { document.getElementById('drillingWarn').style.display='none'; }
 }
 
 function applyToOps() {
-  const t = window._cutTimeSek || 0;
-  const inputs = document.querySelectorAll('#opsList .op-row input');
-  if (inputs[1]) inputs[1].value = t; // grobo struženje
-  calculate();
-  showPage('ops');
+  const t=window._cutTimeSek||0;
+  const inputs=document.querySelectorAll('#opsList .op-row input');
+  if(inputs[1]) inputs[1].value=t;
+  calculate(); showPage('ops');
 }
-
 function applyDrilling() {
-  const t = window._drillTimeSek || 0;
-  const inputs = document.querySelectorAll('#opsList .op-row input');
-  // Seštej z obstoječimi navoji
-  const curr = parseFloat(inputs[4].value)||0;
-  inputs[4].value = curr + t;
-  calculate();
-  showPage('ops');
+  const t=window._drillTimeSek||0;
+  const inputs=document.querySelectorAll('#opsList .op-row input');
+  if(inputs[4]) inputs[4].value=(parseFloat(inputs[4].value)||0)+t;
+  calculate(); showPage('ops');
 }
 
-// ═══ HELPER ═══
+// ══ HELPERS ══
 function getUrna() {
-  const s = document.getElementById('stroj').value;
-  return s==='0' ? (parseFloat(document.getElementById('customUra').value)||90) : parseFloat(s);
+  const s=document.getElementById('stroj').value;
+  return s==='0'?(parseFloat(document.getElementById('customUra').value)||90):parseFloat(s);
 }
 function toggleCustom() {
-  document.getElementById('customRow').style.display = document.getElementById('stroj').value==='0' ? 'flex' : 'none';
+  document.getElementById('customRow').style.display=document.getElementById('stroj').value==='0'?'flex':'none';
   calculate();
 }
-function fmtTime(sek) {
-  if (sek < 60) return sek + ' sek';
-  const m = Math.floor(sek/60), s = sek%60;
-  return m + ' min ' + (s > 0 ? s + ' sek' : '');
+function fmtT(sek) {
+  if(sek<60) return sek+' sek';
+  const m=Math.floor(sek/60),s=sek%60;
+  return m+' min'+(s>0?' '+s+' sek':'');
 }
 
-// ═══ CALCULATE ═══
+// ══ MAIN CALCULATE ══
 function calculate() {
-  const d = parseFloat(document.getElementById('surovecD').value)||0;
-  const l = parseFloat(document.getElementById('surovecL').value)||0;
-  const parts = document.getElementById('material').value.split(':');
-  const gostota = parseFloat(parts[1])||7.85;
-  const matFaktor = parseFloat(parts[2])||1.0;
-  const cenaKg = parseFloat(document.getElementById('cenaMat').value)||0;
-  const kolicina = parseInt(document.getElementById('kolicina').value)||1;
-  const pripravaMin = parseFloat(document.getElementById('priprava').value)||0;
-  const koop = parseFloat(document.getElementById('koop').value)||0;
-  const marza = parseFloat(document.getElementById('marza').value)||0;
-  const fp = parseFloat(document.getElementById('povrsina').value)||1;
-  const ft = parseFloat(document.getElementById('tolerance').value)||1;
-  const faktor = (1 + (fp-1) + (ft-1)) * matFaktor;
-  const urna = getUrna();
-  const stL = parseInt(document.getElementById('stLukenj').value)||0;
+  const d=parseFloat(document.getElementById('surovecD').value)||0;
+  const l=parseFloat(document.getElementById('surovecL').value)||0;
+  const parts=document.getElementById('material').value.split(':');
+  const gostota=parseFloat(parts[1])||7.85;
+  const matF=parseFloat(parts[2])||1.0;
+  const cenaKg=parseFloat(document.getElementById('cenaMat').value)||0;
+  const kolicina=parseInt(document.getElementById('kolicina').value)||1;
+  const pripravaMin=parseFloat(document.getElementById('priprava').value)||0;
+  const koop=parseFloat(document.getElementById('koop').value)||0;
+  const marza=parseFloat(document.getElementById('marza').value)||0;
+  const fp=parseFloat(document.getElementById('povrsina').value)||1;
+  const ft=parseFloat(document.getElementById('tolerance').value)||1;
+  const faktor=(1+(fp-1)+(ft-1))*matF;
+  const urna=getUrna();
+  const stL=parseInt(document.getElementById('stLukenj').value)||0;
+  const vol=Math.PI*Math.pow(d/2/10,2)*(l/10);
+  const masa=vol*gostota/1000;
+  const cenaMatKos=masa*cenaKg;
 
-  const vol = Math.PI * Math.pow(d/2/10,2) * (l/10);
-  const masa = vol * gostota / 1000;
-  const cenaMatKos = masa * cenaKg;
+  let opSek=0;
+  document.querySelectorAll('#opsList .op-row input').forEach(i=>opSek+=parseFloat(i.value)||0);
+  const drillSek=stL>0?(window._drillTimeSek||0):0;
+  const totalOpSek=opSek+drillSek;
+  const adjSek=Math.round(totalOpSek*faktor);
+  const adjMin=adjSek/60;
+  const skupajMin=pripravaMin+adjMin*kolicina;
+  const strojni=(skupajMin/60)*urna;
+  const matSkupaj=cenaMatKos*kolicina;
+  const osnova=strojni+matSkupaj+koop;
+  const marzaZn=osnova*marza/100;
+  const skupaj=osnova+marzaZn;
+  const cenaKos=skupaj/kolicina;
 
-  // Sekundes iz operacij
-  let opSek = 0;
-  document.querySelectorAll('#opsList .op-row input').forEach(i => opSek += parseFloat(i.value)||0);
-
-  // Vrtanje
-  const drillSek = stL > 0 ? (window._drillTimeSek || 0) : 0;
-  const totalOpSek = opSek + drillSek;
-  const adjSek = Math.round(totalOpSek * faktor);
-  const adjMin = adjSek / 60;
-
-  // Skupaj
-  const skupajMin = pripravaMin + adjMin * kolicina;
-  const strojni = (skupajMin / 60) * urna;
-  const matSkupaj = cenaMatKos * kolicina;
-  const osnova = strojni + matSkupaj + koop;
-  const marzaZn = osnova * marza / 100;
-  const skupaj = osnova + marzaZn;
-  const cenaKos = skupaj / kolicina;
-
-  // OPS footer
-  document.getElementById('opsTotal1').textContent = 'Operacije: ' + fmtTime(opSek) + (drillSek > 0 ? ' + vrtanje: ' + fmtTime(drillSek) : '');
-  document.getElementById('opsTotal2').textContent = 'S faktorjem: ' + fmtTime(adjSek);
-
-  // Results
-  document.getElementById('rSurovec').textContent = 'Ø' + d + ' × ' + l + ' mm';
-  document.getElementById('rMasa').textContent = (masa*1000).toFixed(1) + ' g · ' + vol.toFixed(2) + ' cm³';
-  document.getElementById('rMaterial').textContent = cenaMatKos.toFixed(3) + ' € × ' + kolicina + ' = ' + matSkupaj.toFixed(2) + ' €';
-  document.getElementById('rOpTime').textContent = fmtTime(opSek) + '/kos';
-  document.getElementById('rDrillTime').textContent = drillSek > 0 ? fmtTime(drillSek) + ' (' + stL + ' luknj)' : '—';
-  document.getElementById('rFaktor').textContent = 'x' + faktor.toFixed(2) + ' (mat. · površina · tol.)';
-  document.getElementById('rAdjTime').textContent = fmtTime(adjSek) + '/kos';
-  document.getElementById('rPriprava').textContent = pripravaMin + ' min';
-  document.getElementById('rSkupajMin').textContent = skupajMin.toFixed(1) + ' min @ ' + urna + ' €/h';
-  document.getElementById('rStrojni').textContent = strojni.toFixed(2) + ' €';
-  document.getElementById('rKoop').textContent = koop.toFixed(2) + ' €';
-  document.getElementById('rMarza').textContent = marza + '% → ' + marzaZn.toFixed(2) + ' €';
-  document.getElementById('rCenaKos').textContent = cenaKos.toFixed(2) + ' €';
-  document.getElementById('rSkupajCena').textContent = 'skupaj ' + skupaj.toFixed(2) + ' €';
-  document.getElementById('rtSub').textContent = 'za ' + kolicina + ' kos · skupaj ' + skupaj.toFixed(2) + ' €';
+  document.getElementById('opsTotal1').textContent='Operacije: '+fmtT(opSek)+(drillSek>0?' + vrtanje: '+fmtT(drillSek):'');
+  document.getElementById('opsTotal2').textContent='S faktorjem: '+fmtT(adjSek);
+  document.getElementById('rSurovec').textContent='Ø'+d+' × '+l+' mm';
+  document.getElementById('rMasa').textContent=(masa*1000).toFixed(1)+' g · '+vol.toFixed(2)+' cm³';
+  document.getElementById('rMaterial').textContent=cenaMatKos.toFixed(3)+' €/kos × '+kolicina;
+  document.getElementById('rOpTime').textContent=fmtT(opSek)+'/kos';
+  document.getElementById('rDrillTime').textContent=drillSek>0?fmtT(drillSek)+' ('+stL+' luknj)':'—';
+  document.getElementById('rFaktor').textContent='x'+faktor.toFixed(2)+' (mat·površina·tol)';
+  document.getElementById('rAdjTime').textContent=fmtT(adjSek)+'/kos';
+  document.getElementById('rPriprava').textContent=pripravaMin+' min';
+  document.getElementById('rSkupajMin').textContent=skupajMin.toFixed(1)+' min @ '+urna+' €/h';
+  document.getElementById('rStrojni').textContent=strojni.toFixed(2)+' €';
+  document.getElementById('rKoop').textContent=koop.toFixed(2)+' €';
+  document.getElementById('rMarza').textContent=marza+'% → '+marzaZn.toFixed(2)+' €';
+  document.getElementById('rCenaKos').textContent=cenaKos.toFixed(2)+' €';
+  document.getElementById('rSkupajCena').textContent='skupaj '+skupaj.toFixed(2)+' €';
+  document.getElementById('rtSub').textContent='za '+kolicina+' kos · skupaj '+skupaj.toFixed(2)+' €';
 }
 
-// ═══ PONUDBA ═══
+// ══ PONUDBA ══
 async function genPonudba() {
-  const apiKey = localStorage.getItem('cnc_api_key');
-  if (!apiKey) { alert('Vnesite API ključ v NAST.'); showPage('settings'); return; }
-  const thinkPon = document.getElementById('thinkingPon');
-  const box = document.getElementById('ponudbaBox');
-  const actions = document.getElementById('ponudbaActions');
-  thinkPon.style.display = 'flex'; box.style.display = 'none'; actions.style.display = 'none';
-  const g = id => document.getElementById(id);
-  const opt = id => { const e=g(id); return e.options[e.selectedIndex].text; };
+  const apiKey=document.getElementById('apiKeyInput').value.trim()||await sbGet('anthropic_key');
+  if(!apiKey){alert('Vnesite API ključ v NAST.');showPage('settings');return;}
+  const tp=document.getElementById('thinkingPon');
+  const box=document.getElementById('ponudbaBox');
+  const act=document.getElementById('ponudbaActions');
+  tp.style.display='flex';box.style.display='none';act.style.display='none';
+  const g=id=>document.getElementById(id);
+  const opt=id=>{const e=g(id);return e.options[e.selectedIndex].text;};
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6', max_tokens: 1000,
-        messages: [{ role: 'user', content:
-          `Napiši profesionalno ponudbo v slovenščini za CNC struženje s podatki:\n` +
-          `- Surovec: ${g('rSurovec').textContent}\n- Material: ${opt('material')}\n` +
-          `- Površinska obdelava: ${opt('povrsina')}\n- Tolerance: ${opt('tolerance')}\n` +
-          `- Stroj: ${opt('stroj')}\n- Čas obdelave: ${g('rAdjTime').textContent}\n` +
-          `- Količina: ${g('kolicina').value} kos\n- Cena/kos: ${g('rCenaKos').textContent}\n` +
-          `- Skupaj: ${g('rSkupajCena').textContent}\n\n` +
-          `Ponudba naj bo formalna in profesionalna, max 18 vrstic, samo besedilo brez markdown. ` +
-          `Vključi datum ${new Date().toLocaleDateString('sl-SI')}, veljavnost 30 dni, in prostor za podpis.`
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',max_tokens:1000,
+        messages:[{role:'user',content:
+          `Napiši profesionalno ponudbo v slovenščini za CNC struženje:\n`+
+          `- Surovec: ${g('rSurovec').textContent}\n- Material: ${opt('material')}\n`+
+          `- Površinska obdelava: ${opt('povrsina')}\n- Tolerance: ${opt('tolerance')}\n`+
+          `- Stroj: ${opt('stroj')}\n- Čas obdelave: ${g('rAdjTime').textContent}\n`+
+          `- Količina: ${g('kolicina').value} kos\n- Cena/kos: ${g('rCenaKos').textContent}\n`+
+          `- Skupaj: ${g('rSkupajCena').textContent}\n\n`+
+          `Ponudba: formalna, max 18 vrstic, samo besedilo. Datum ${new Date().toLocaleDateString('sl-SI')}, veljavnost 30 dni, prostor za podpis.`
         }]
       })
     });
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message);
-    box.textContent = data.content.map(i=>i.text||'').join('');
-    box.style.display = 'block'; actions.style.display = 'flex';
-  } catch(err) {
-    box.textContent = '⚠️ Napaka: ' + err.message; box.style.display = 'block';
-  } finally { thinkPon.style.display = 'none'; }
+    const data=await resp.json();
+    if(data.error) throw new Error(data.error.message);
+    box.textContent=data.content.map(i=>i.text||'').join('');
+    box.style.display='block';act.style.display='flex';
+  } catch(err){
+    box.textContent='⚠️ Napaka: '+err.message;box.style.display='block';
+  } finally{tp.style.display='none';}
 }
 
-function copyPonudba() {
-  navigator.clipboard.writeText(document.getElementById('ponudbaBox').textContent)
-    .then(() => alert('✅ Kopirano!'));
-}
-function sharePonudba() {
-  const t = document.getElementById('ponudbaBox').textContent;
-  if (navigator.share) navigator.share({ title:'Ponudba struženje', text:t });
-  else copyPonudba();
-}
+function copyPonudba(){navigator.clipboard.writeText(document.getElementById('ponudbaBox').textContent).then(()=>alert('✅ Kopirano!'));}
+function sharePonudba(){const t=document.getElementById('ponudbaBox').textContent;if(navigator.share)navigator.share({title:'Ponudba struženje',text:t});else copyPonudba();}
+
+// ══ INIT ══
+window.addEventListener('load', async () => {
+  await loadSettings();
+  calcMaterial(); calculate(); calcCutting(); calcDrilling();
+});
 </script>
 </body>
 </html>
