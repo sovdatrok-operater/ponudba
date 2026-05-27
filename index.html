@@ -3,981 +3,1148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Ponudba Struženje</title>
+<title>Ponudba Struženje v6</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0e0f11; --bg2:#16181c; --bg3:#1f2228; --bg4:#272b33;
-  --accent:#f97316; --accent2:#fb923c; --accent-dim:rgba(249,115,22,0.15);
-  --green:#22c55e; --green-dim:rgba(34,197,94,0.12);
-  --red:#ef4444; --red-dim:rgba(239,68,68,0.15);
-  --text:#f1f0ee; --text2:#9ca3af; --text3:#6b7280;
-  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
-  --r:10px; --r-sm:6px;
-  --font-head:'Barlow Condensed',sans-serif;
-  --font-body:'Barlow',sans-serif;
+:root{
+  --bg:#0e0f11;--bg2:#16181c;--bg3:#1f2228;--bg4:#272b33;
+  --accent:#f97316;--accent2:#fb923c;--adim:rgba(249,115,22,0.15);
+  --green:#22c55e;--gdim:rgba(34,197,94,0.12);
+  --red:#ef4444;--rdim:rgba(239,68,68,0.15);
+  --blue:#3b82f6;--bdim:rgba(59,130,246,0.12);
+  --text:#f1f0ee;--text2:#9ca3af;--text3:#6b7280;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);
+  --r:10px;--rs:6px;
+  --fh:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
+body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 /* TOPBAR */
-.topbar{background:var(--bg2);border-bottom:1px solid var(--border2);padding:13px 14px 11px;position:sticky;top:0;z-index:200;display:flex;align-items:center;gap:10px}
-.topbar-logo{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
-.topbar-text h1{font-family:var(--font-head);font-size:19px;font-weight:800;letter-spacing:0.5px;line-height:1}
-.topbar-text p{font-size:11px;color:var(--text3);margin-top:2px}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-.topbar-badge{background:var(--accent-dim);color:var(--accent);font-family:var(--font-head);font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid rgba(249,115,22,0.3)}
-.sync-indicator{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);font-family:var(--font-head);font-weight:700}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background 0.3s}
-.sync-dot.ok{background:var(--green)}
-.sync-dot.err{background:var(--red)}
-.sync-dot.spin{background:var(--accent);animation:blink 0.8s infinite}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border2);padding:12px 14px 10px;position:sticky;top:0;z-index:200;display:flex;align-items:center;gap:9px}
+.tlogo{width:33px;height:33px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ttxt h1{font-family:var(--fh);font-size:18px;font-weight:800;letter-spacing:0.5px;line-height:1}
+.ttxt p{font-size:10px;color:var(--text3);margin-top:2px}
+.tright{margin-left:auto;display:flex;align-items:center;gap:7px}
+.tbadge{background:var(--adim);color:var(--accent);font-family:var(--fh);font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid rgba(249,115,22,0.3)}
+.sync-ind{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3);font-family:var(--fh);font-weight:700}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background 0.3s}
+.sdot.ok{background:var(--green)}.sdot.err{background:var(--red)}.sdot.spin{background:var(--accent);animation:blink 0.7s infinite}
 @keyframes blink{0%,100%{opacity:0.3}50%{opacity:1}}
-
 /* TABS */
-.tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:199;overflow-x:auto;scrollbar-width:none}
+.tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:55px;z-index:199;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:1;min-width:50px;padding:9px 3px 8px;font-family:var(--font-head);font-size:10px;font-weight:700;text-align:center;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.15s,border-color 0.15s;user-select:none}
-.tab .ti{font-size:15px;display:block;margin-bottom:2px}
+.tab{flex:1;min-width:46px;padding:8px 3px 7px;font-family:var(--fh);font-size:10px;font-weight:700;text-align:center;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;letter-spacing:0.05em;text-transform:uppercase;user-select:none;transition:color .15s,border-color .15s}
+.tab .ti{font-size:14px;display:block;margin-bottom:2px}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-
 /* PAGES */
-.page{display:none;padding:11px;max-width:520px;margin:0 auto;padding-bottom:40px}
+.page{display:none;padding:10px;max-width:540px;margin:0 auto;padding-bottom:44px}
 .page.active{display:block}
-
-/* SECTION LABEL */
-.sec-label{font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 5px}
-.sec-label:first-child{margin-top:0}
-
+/* SECTION */
+.slabel{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.09em;margin:13px 0 5px}
+.slabel:first-child{margin-top:0}
 /* CARD */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:9px}
-.card-hdr{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:11px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
-.card-hdr span{color:var(--accent)}
-
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px}
+.chdr{font-family:var(--fh);font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px}
+.chdr span{color:var(--accent)}
 /* FIELDS */
-.field{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.field{display:flex;align-items:center;gap:6px;margin-bottom:7px}
 .field:last-child{margin-bottom:0}
-.field label{font-size:13px;color:var(--text2);min-width:114px;line-height:1.3}
-.field input,.field select,.field textarea{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 9px;font-size:14px;font-family:var(--font-body);color:var(--text);-webkit-appearance:none;transition:border-color 0.15s}
-.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
-.field textarea{resize:vertical;min-height:75px;line-height:1.5}
-.field .unit{font-size:11px;color:var(--text3);min-width:26px;font-family:var(--font-head);font-weight:700}
-
-/* RED = UNRECOGNIZED */
-.field input.unrecognized,.field select.unrecognized{border-color:var(--red)!important;background:var(--red-dim)!important}
-.unrecognized-label{font-size:11px;color:var(--red);margin:-3px 0 7px 121px;font-family:var(--font-head);font-weight:600}
-
+.field label{font-size:13px;color:var(--text2);min-width:112px;line-height:1.3}
+.field input,.field select{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);padding:7px 9px;font-size:14px;font-family:var(--fb);color:var(--text);-webkit-appearance:none;transition:border-color .15s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--accent)}
+.field .unit{font-size:11px;color:var(--text3);min-width:25px;font-family:var(--fh);font-weight:700}
+.field input.unrecognized{border-color:var(--red)!important;background:var(--rdim)!important}
+.field select.unrecognized{border-color:var(--red)!important;background:var(--rdim)!important}
+.ulbl{font-size:11px;color:var(--red);margin:-3px 0 6px 118px;font-family:var(--fh);font-weight:600}
 /* UPLOAD */
-.upload-box{border:1.5px dashed rgba(249,115,22,0.35);border-radius:var(--r);padding:20px 12px;text-align:center;cursor:pointer;background:var(--accent-dim);margin-bottom:9px;transition:all 0.15s}
-.upload-box:active{background:rgba(249,115,22,0.25)}
-.upload-box .ub-icon{font-size:30px;margin-bottom:5px}
-.upload-box p{font-size:13px;color:var(--text2);line-height:1.4}
-.upload-box strong{color:var(--accent)}
-
+.upbox{border:1.5px dashed rgba(249,115,22,0.35);border-radius:var(--r);padding:18px 12px;text-align:center;cursor:pointer;background:var(--adim);margin-bottom:8px;transition:all .15s}
+.upbox:active{background:rgba(249,115,22,0.25)}
+.upbox .ubi{font-size:28px;margin-bottom:4px}
+.upbox p{font-size:13px;color:var(--text2);line-height:1.4}
+.upbox strong{color:var(--accent)}
 /* BUTTONS */
-.btn-row{display:flex;gap:7px;margin-bottom:9px}
-.btn{flex:1;padding:10px 8px;font-family:var(--font-head);font-size:13px;font-weight:700;letter-spacing:0.04em;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--bg3);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all 0.12s;-webkit-appearance:none}
+.brow{display:flex;gap:6px;margin-bottom:8px}
+.btn{flex:1;padding:9px 8px;font-family:var(--fh);font-size:13px;font-weight:700;letter-spacing:0.04em;border-radius:var(--rs);border:1px solid var(--border2);background:var(--bg3);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .12s;-webkit-appearance:none}
 .btn:active{transform:scale(0.96);opacity:0.75}
 .btn.primary{background:var(--accent);color:#000;border-color:var(--accent);font-size:14px}
 .btn.success{background:var(--green);color:#000;border-color:var(--green)}
 .btn.outline{background:transparent;border-color:var(--accent);color:var(--accent)}
-
+.btn.blue{background:var(--blue);color:#fff;border-color:var(--blue)}
 /* PREVIEW */
-.preview{width:100%;border-radius:var(--r-sm);max-height:190px;object-fit:contain;border:1px solid var(--border2);display:none;margin-bottom:9px;background:var(--bg3)}
-
-/* STATUS / INFO */
-.status-line{font-size:12px;color:var(--text3);text-align:center;padding:3px 0 7px;min-height:20px}
-.info-box{background:var(--green-dim);border:1px solid rgba(34,197,94,0.25);border-radius:var(--r-sm);padding:9px 12px;font-size:13px;color:#86efac;margin-bottom:9px;display:none;line-height:1.5}
-.warn-box{background:var(--accent-dim);border:1px solid rgba(249,115,22,0.3);border-radius:var(--r-sm);padding:9px 12px;font-size:13px;color:var(--accent2);margin-bottom:9px;line-height:1.5}
-
+.preview{width:100%;border-radius:var(--rs);max-height:180px;object-fit:contain;border:1px solid var(--border2);display:none;margin-bottom:8px;background:var(--bg3)}
+/* STATUS */
+.sline{font-size:12px;color:var(--text3);text-align:center;padding:3px 0 6px;min-height:19px}
+.ibox{background:var(--gdim);border:1px solid rgba(34,197,94,0.25);border-radius:var(--rs);padding:8px 11px;font-size:13px;color:#86efac;margin-bottom:8px;display:none;line-height:1.5}
+.wbox{background:var(--adim);border:1px solid rgba(249,115,22,0.3);border-radius:var(--rs);padding:8px 11px;font-size:13px;color:var(--accent2);margin-bottom:8px;line-height:1.5}
 /* THINKING */
-.thinking{display:none;align-items:center;justify-content:center;gap:7px;padding:14px}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse3 1.2s ease-in-out infinite}
+.thinking{display:none;align-items:center;justify-content:center;gap:6px;padding:12px}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:p3 1.2s ease-in-out infinite}
 .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-@keyframes pulse3{0%,80%,100%{opacity:.2;transform:scale(0.7)}40%{opacity:1;transform:scale(1)}}
-
+@keyframes p3{0%,80%,100%{opacity:.2;transform:scale(.7)}40%{opacity:1;transform:scale(1)}}
 /* AI RESULT */
-.ai-result{display:none;background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:var(--r-sm);padding:12px 13px;font-size:13px;line-height:1.7;margin-top:9px}
-.ai-title{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--accent);margin-bottom:8px}
-.ai-tag{display:inline-block;font-size:11px;font-family:var(--font-head);font-weight:700;padding:2px 7px;border-radius:4px;margin:0 3px 4px 0;background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}
-.ai-tag.warn{background:var(--accent-dim);color:var(--accent);border-color:rgba(249,115,22,0.3)}
-.ai-tag.ok{background:var(--green-dim);color:#86efac;border-color:rgba(34,197,94,0.25)}
-.ai-tag.err{background:var(--red-dim);color:var(--red);border-color:rgba(239,68,68,0.3)}
-
-/* OPS */
-.ops-list{display:flex;flex-direction:column;gap:5px}
-.op-row{display:flex;align-items:center;gap:5px;background:var(--bg3);border-radius:var(--r-sm);padding:8px 9px;border:1px solid var(--border)}
-.op-icon{font-size:14px;width:20px;text-align:center;flex-shrink:0}
-.op-name{flex:1;font-size:13px;color:var(--text);line-height:1.3}
-.op-row input{width:58px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r-sm);padding:5px 6px;font-size:13px;text-align:right;color:var(--text);font-family:var(--font-body)}
-.op-row input:focus{outline:none;border-color:var(--accent)}
-.op-row input.unrecognized{border-color:var(--red)!important;background:var(--red-dim)!important}
-.op-unit{font-size:11px;color:var(--text3);font-family:var(--font-head);font-weight:700;min-width:18px}
-.ops-footer{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-top:9px;padding-top:9px;border-top:1px solid var(--border)}
-.ops-footer strong{color:var(--accent)}
-
-/* CUTTING */
-.cut-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px}
-.cut-field{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:8px 9px}
-.cut-field label{font-size:10px;color:var(--text3);font-family:var(--font-head);font-weight:700;letter-spacing:0.06em;display:block;margin-bottom:3px;text-transform:uppercase}
-.cut-field input{width:100%;background:transparent;border:none;font-size:15px;font-weight:600;color:var(--text);font-family:var(--font-head);padding:0}
-.cut-field input:focus{outline:none}
-.cut-field .cu{font-size:10px;color:var(--text3)}
-.cut-result{background:var(--accent-dim);border:1px solid rgba(249,115,22,0.25);border-radius:var(--r-sm);padding:9px 11px;font-size:13px;color:var(--accent2);line-height:1.7}
-.cut-result strong{color:var(--accent);font-family:var(--font-head);font-size:15px}
-
+.aibox{display:none;background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:var(--rs);padding:11px 13px;font-size:13px;line-height:1.7;margin-top:8px}
+.aititle{font-family:var(--fh);font-size:15px;font-weight:800;color:var(--accent);margin-bottom:7px}
+.tag{display:inline-block;font-size:11px;font-family:var(--fh);font-weight:700;padding:2px 7px;border-radius:4px;margin:0 3px 4px 0;background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}
+.tag.w{background:var(--adim);color:var(--accent);border-color:rgba(249,115,22,0.3)}
+.tag.ok{background:var(--gdim);color:#86efac;border-color:rgba(34,197,94,0.25)}
+.tag.err{background:var(--rdim);color:var(--red);border-color:rgba(239,68,68,0.3)}
+.tag.blue{background:var(--bdim);color:#93c5fd;border-color:rgba(59,130,246,0.3)}
+/* FEATURE TABLE */
+.ftable{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.ftable th{background:var(--bg4);color:var(--text3);font-family:var(--fh);font-size:10px;letter-spacing:0.07em;text-transform:uppercase;padding:6px 8px;text-align:left;border-bottom:1px solid var(--border2)}
+.ftable td{padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text2)}
+.ftable td:first-child{color:var(--text);font-weight:500}
+.ftable td.vc{color:var(--accent);font-family:var(--fh);font-weight:700}
+.ftable tr:last-child td{border-bottom:none}
+.ftable tr.highlight td{background:var(--adim)}
+/* OPS LIST */
+.oplist{display:flex;flex-direction:column;gap:4px}
+.oprow{display:flex;align-items:center;gap:5px;background:var(--bg3);border-radius:var(--rs);padding:8px 9px;border:1px solid var(--border)}
+.oprow.auto{border-color:rgba(249,115,22,0.3)}
+.opicon{font-size:14px;width:20px;text-align:center;flex-shrink:0}
+.opname{flex:1;font-size:12px;color:var(--text);line-height:1.3}
+.optime{font-size:13px;font-family:var(--fh);font-weight:700;color:var(--accent);min-width:52px;text-align:right}
+.opunit{font-size:10px;color:var(--text3);font-family:var(--fh)}
+.oprow input{width:58px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--rs);padding:4px 6px;font-size:13px;text-align:right;color:var(--text);font-family:var(--fb)}
+.oprow input:focus{outline:none;border-color:var(--accent)}
+.oprow input.unrecognized{border-color:var(--red)!important;background:var(--rdim)!important}
+.opfooter{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+/* ROUGHING BREAKDOWN */
+.rbox{background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--blue);border-radius:var(--rs);padding:10px 12px;font-size:13px;line-height:1.7;margin-top:8px}
+.rbox strong{color:var(--blue);font-family:var(--fh);font-size:14px}
 /* RESULTS */
-.result-total{background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid rgba(249,115,22,0.3);border-radius:var(--r);padding:15px 16px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center}
-.rt-label{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
-.rt-sub{font-size:12px;color:var(--text3);margin-top:3px}
-.rt-price{font-family:var(--font-head);font-size:34px;font-weight:800;color:var(--accent);line-height:1;text-shadow:0 0 24px rgba(249,115,22,0.35)}
+.rtotal{background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid rgba(249,115,22,0.3);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.rt-label{font-family:var(--fh);font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
+.rt-sub{font-size:11px;color:var(--text3);margin-top:3px}
+.rt-price{font-family:var(--fh);font-size:32px;font-weight:800;color:var(--accent);line-height:1;text-shadow:0 0 20px rgba(249,115,22,0.3)}
 .rt-total{font-size:12px;color:var(--text2);text-align:right;margin-top:3px}
-.result-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:9px}
-.result-hdr{background:var(--bg3);padding:10px 13px;font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border)}
-.result-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 13px;border-bottom:1px solid var(--border);font-size:13px}
-.result-row:last-child{border-bottom:none}
-.result-row .rl{color:var(--text3)}
-.result-row .rv{color:var(--text);font-weight:500}
-
+.rcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:8px}
+.rhdr{background:var(--bg3);padding:9px 12px;font-family:var(--fh);font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border)}
+.rrow{display:flex;justify-content:space-between;align-items:baseline;padding:6px 12px;border-bottom:1px solid var(--border);font-size:13px}
+.rrow:last-child{border-bottom:none}
+.rrow .rl{color:var(--text3)}.rrow .rv{color:var(--text);font-weight:500}
 /* MAT HINT */
-.mat-hint{background:var(--bg3);border-radius:var(--r-sm);border:1px solid var(--border);padding:7px 9px;font-size:12px;color:var(--text2);margin-top:5px;font-family:var(--font-head)}
-.mat-hint strong{color:var(--accent)}
-
+.mhint{background:var(--bg3);border-radius:var(--rs);border:1px solid var(--border);padding:6px 9px;font-size:12px;color:var(--text2);margin-top:5px;font-family:var(--fh)}
+.mhint strong{color:var(--accent)}
 /* SETTINGS */
-.prompt-area{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;font-size:13px;color:var(--text);font-family:var(--font-body);line-height:1.6;resize:vertical;min-height:200px;width:100%;margin-bottom:5px}
-.prompt-area:focus{outline:none;border-color:var(--accent)}
-.apikey-row{display:flex;gap:7px}
-.apikey-row input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:8px 11px;font-size:13px;color:var(--text);font-family:monospace}
-.apikey-row input:focus{outline:none;border-color:var(--accent)}
-.saved-badge{display:none;font-size:12px;color:var(--green);margin-top:5px;font-family:var(--font-head);font-weight:700}
+.akey-row{display:flex;gap:6px}
+.akey-row input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);padding:7px 10px;font-size:13px;color:var(--text);font-family:monospace}
+.akey-row input:focus{outline:none;border-color:var(--accent)}
+.sbadge{display:none;font-size:12px;color:var(--green);margin-top:5px;font-family:var(--fh);font-weight:700}
+.parea{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);padding:10px 12px;font-size:13px;color:var(--text);font-family:var(--fb);line-height:1.6;resize:vertical;min-height:180px;width:100%;margin-bottom:5px}
+.parea:focus{outline:none;border-color:var(--accent)}
 .custom-row{display:none}
-
 /* PONUDBA */
-.ponudba-box{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:var(--r);padding:15px 16px;font-size:13px;line-height:1.8;white-space:pre-wrap;display:none;margin-bottom:9px;color:var(--text)}
-
+.ponbox{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:var(--r);padding:14px 16px;font-size:13px;line-height:1.8;white-space:pre-wrap;display:none;margin-bottom:8px;color:var(--text)}
 #fileInput,#cameraInput{display:none}
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="topbar-logo">⚙️</div>
-  <div class="topbar-text">
-    <h1>PONUDBA STRUŽENJE</h1>
-    <p>CNC KALKULACIJA · v5.0</p>
-  </div>
-  <div class="topbar-right">
-    <div class="sync-indicator">
-      <div class="sync-dot" id="syncDot"></div>
-      <span id="syncLabel">—</span>
-    </div>
-    <div class="topbar-badge">PRO</div>
+  <div class="tlogo">⚙️</div>
+  <div class="ttxt"><h1>PONUDBA STRUŽENJE</h1><p>FORMULA ENGINE · v6.0</p></div>
+  <div class="tright">
+    <div class="sync-ind"><div class="sdot" id="sdot"></div><span id="slbl">—</span></div>
+    <div class="tbadge">v6</div>
   </div>
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="showPage('nacrt')"><span class="ti">📄</span>NAČRT</div>
-  <div class="tab" onclick="showPage('kos')"><span class="ti">🔩</span>KOS</div>
-  <div class="tab" onclick="showPage('ops')"><span class="ti">⏱</span>OPS</div>
-  <div class="tab" onclick="showPage('rez')"><span class="ti">⚡</span>REZ</div>
-  <div class="tab" onclick="showPage('result')"><span class="ti">💶</span>CENA</div>
-  <div class="tab" onclick="showPage('settings')"><span class="ti">🔧</span>NAST.</div>
+  <div class="tab active" onclick="P('nacrt')"><span class="ti">📄</span>NAČRT</div>
+  <div class="tab" onclick="P('kos')"><span class="ti">🔩</span>KOS</div>
+  <div class="tab" onclick="P('engine')"><span class="ti">⚡</span>ENGINE</div>
+  <div class="tab" onclick="P('ops')"><span class="ti">⏱</span>OPS</div>
+  <div class="tab" onclick="P('result')"><span class="ti">💶</span>CENA</div>
+  <div class="tab" onclick="P('settings')"><span class="ti">🔧</span>NAST.</div>
 </div>
 
-<!-- ══ PAGE 1: NAČRT ══ -->
+<!-- ══ NAČRT ══ -->
 <div id="page-nacrt" class="page active">
   <div class="card">
-    <div class="card-hdr"><span>①</span> NALOŽI TEHNIČNI NAČRT</div>
-    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-      <div class="ub-icon">📐</div>
-      <p>Povleci <strong>PDF ali sliko</strong> sem<br>ali pritisni za izbiro datoteke</p>
+    <div class="chdr"><span>①</span> NALOŽI TEHNIČNI NAČRT</div>
+    <div class="upbox" onclick="document.getElementById('fileInput').click()">
+      <div class="ubi">📐</div>
+      <p>Povleci <strong>PDF ali sliko</strong> sem<br>ali pritisni za izbiro</p>
     </div>
-    <div class="btn-row">
+    <div class="brow">
       <button class="btn outline" onclick="document.getElementById('fileInput').click()">📂 NALOŽI</button>
       <button class="btn primary" onclick="document.getElementById('cameraInput').click()">📷 FOTOGRAFIRAJ</button>
     </div>
     <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFile(this)">
     <input type="file" id="cameraInput" accept="image/*" capture="environment" onchange="handleFile(this)">
-    <img id="previewImg" class="preview" alt="Predogled">
-    <div class="status-line" id="fileStatus">Ni naložene datoteke</div>
-    <div class="info-box" id="infoBox">✅ Datoteka naložena — pritisnite "Analiziraj z AI" za samodejno zaznavanje. Neprepoznana polja bodo označena rdeče.</div>
-    <div class="btn-row" id="aiBtnRow" style="display:none">
-      <button class="btn primary" style="font-size:15px" onclick="analyzeWithAI()">🤖 ANALIZIRAJ Z AI →</button>
+    <img id="previewImg" class="preview" alt="">
+    <div class="sline" id="fileStatus">Ni naložene datoteke</div>
+    <div class="ibox" id="infoBox">✅ Naloženo — AI bo klasificiral geometrijo in features. Formula engine izračuna čase.</div>
+    <div class="brow" id="aiBtnRow" style="display:none">
+      <button class="btn primary" style="font-size:15px" onclick="analyzeWithAI()">🤖 KLASIFICIRAJ Z AI →</button>
     </div>
     <div class="thinking" id="thinking">
       <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-      <span style="font-size:12px;color:var(--text2);font-family:var(--font-head);letter-spacing:0.05em">ANALIZIRAM NAČRT...</span>
+      <span style="font-size:12px;color:var(--text2);font-family:var(--fh)">KLASIFICIRAM FEATURES...</span>
     </div>
-    <div class="ai-result" id="aiResult"></div>
+    <div class="aibox" id="aiResult"></div>
   </div>
 </div>
 
-<!-- ══ PAGE 2: KOS ══ -->
+<!-- ══ KOS ══ -->
 <div id="page-kos" class="page">
-  <div class="sec-label">Surovec</div>
+  <div class="slabel">Surovec</div>
   <div class="card">
-    <div class="field">
-      <label>Premer surovca</label>
-      <input type="number" id="surovecD" value="35" min="1" step="0.5" onchange="calcMaterial()">
-      <span class="unit">mm</span>
-    </div>
-    <div class="field">
-      <label>Dolžina surovca</label>
-      <input type="number" id="surovecL" value="45" min="1" step="0.5" onchange="calcMaterial()">
-      <span class="unit">mm</span>
-    </div>
+    <div class="field"><label>Premer surovca (D0)</label><input type="number" id="D0" value="80" min="1" step="0.5" onchange="calcAll()"><span class="unit">mm</span></div>
+    <div class="field"><label>Premer kosa (D1)</label><input type="number" id="D1" value="42" min="1" step="0.5" onchange="calcAll()"><span class="unit">mm</span></div>
+    <div class="field"><label>Dolžina kosa</label><input type="number" id="L1" value="80" min="1" step="0.5" onchange="calcAll()"><span class="unit">mm</span></div>
+    <div class="field"><label>Dolžina surovca</label><input type="number" id="L0" value="90" min="1" step="0.5" onchange="calcAll()"><span class="unit">mm</span></div>
     <div class="field">
       <label>Material</label>
-      <select id="material" onchange="calcMaterial()">
-        <option value="jeklo:7.85:1.0">Jeklo S235 / S355</option>
-        <option value="inox:7.93:1.35">Inox 1.4301 / 1.4305</option>
-        <option value="aluminij:2.70:0.7">Aluminij EN AW-6082</option>
-        <option value="medenina:8.50:0.9">Medenina CuZn</option>
-        <option value="titan:4.50:1.6">Titan Grade 2/5</option>
-        <option value="bron:8.80:0.85">Bron</option>
-        <option value="drugo:7.85:1.0">Drugo</option>
+      <select id="material" onchange="calcAll()">
+        <option value="C45">Jeklo C45</option>
+        <option value="S235">Jeklo S235/S355</option>
+        <option value="42CrMo4">Jeklo 42CrMo4</option>
+        <option value="inox304">Inox 304 (1.4301)</option>
+        <option value="inox316">Inox 316 (1.4401)</option>
+        <option value="Al6082">Aluminij 6082</option>
+        <option value="Al7075">Aluminij 7075</option>
+        <option value="CuZn">Medenina CuZn</option>
+        <option value="titan">Titan Grade 5</option>
+        <option value="cast_iron">Siva litina</option>
       </select>
     </div>
-    <div class="field">
-      <label>Cena materiala</label>
-      <input type="number" id="cenaMat" value="2.50" min="0" step="0.1" onchange="calcMaterial()">
-      <span class="unit">€/kg</span>
-    </div>
-    <div class="mat-hint" id="matHint">—</div>
+    <div class="field"><label>Cena materiala</label><input type="number" id="cenaMat" value="2.50" min="0" step="0.1" onchange="calcAll()"><span class="unit">€/kg</span></div>
+    <div class="mhint" id="matHint">—</div>
   </div>
 
-  <div class="sec-label">Parametri obdelave</div>
+  <div class="slabel">Geometrija kosa</div>
   <div class="card">
-    <div class="field">
-      <label>Končni max. premer</label>
-      <input type="number" id="koncniD" value="33" min="1" step="0.1" onchange="calculate()">
-      <span class="unit">mm</span>
-    </div>
-    <div class="field">
-      <label>Končna dolžina</label>
-      <input type="number" id="koncniL" value="37" min="1" step="0.1" onchange="calculate()">
-      <span class="unit">mm</span>
-    </div>
-    <div class="field">
-      <label>Površinska obdelava</label>
-      <select id="povrsina" onchange="calculate()">
-        <option value="1.0">Ra 3.2 — grobo</option>
-        <option value="1.2" selected>Ra 1.6 — fino</option>
-        <option value="1.45">Ra 0.8 — brušeno</option>
-        <option value="1.7">Ra 0.4 — polirano</option>
+    <div class="field"><label>Končni premer (min)</label><input type="number" id="Dmin" value="42" min="1" step="0.1" onchange="calcAll()"><span class="unit">mm</span></div>
+    <div class="field"><label>Površinska obdelava</label>
+      <select id="povrsina" onchange="calcAll()">
+        <option value="Ra3.2">Ra 3.2 — grobo</option>
+        <option value="Ra1.6" selected>Ra 1.6 — fino</option>
+        <option value="Ra0.8">Ra 0.8 — brušeno</option>
+        <option value="Ra0.4">Ra 0.4 — polirano</option>
       </select>
     </div>
-    <div class="field">
-      <label>Tolerance</label>
-      <select id="tolerance" onchange="calculate()">
-        <option value="1.0">Splošne ISO 2768-m</option>
-        <option value="1.2">H7/g6 — ujem</option>
-        <option value="1.4">H6/f6 — natančni ujem</option>
-        <option value="1.65">Posebne (&lt;0.01 mm)</option>
+    <div class="field"><label>Tolerance</label>
+      <select id="tolerance" onchange="calcAll()">
+        <option value="general">Splošne ISO 2768-m</option>
+        <option value="H7">H7/g6 — ujem</option>
+        <option value="H6">H6/f6 — natančni ujem</option>
+        <option value="special">Posebne (&lt;0.01 mm)</option>
       </select>
     </div>
-    <div class="field">
-      <label>Število lukenj</label>
-      <input type="number" id="stLukenj" value="0" min="0" onchange="calculate()">
-      <span class="unit">kos</span>
+    <div class="field"><label>St. lukenj / vrtanj</label><input type="number" id="nDrill" value="0" min="0" onchange="calcAll()"><span class="unit">kos</span></div>
+    <div class="field"><label>Premer luknje</label><input type="number" id="dDrill" value="10" min="1" step="0.5" onchange="calcAll()"><span class="unit">mm</span></div>
+    <div class="field"><label>Globina luknje</label><input type="number" id="lDrill" value="25" min="1" step="0.5" onchange="calcAll()"><span class="unit">mm</span></div>
+    <div class="field"><label>Navoji (število)</label><input type="number" id="nThread" value="0" min="0" onchange="calcAll()"><span class="unit">kos</span></div>
+    <div class="field"><label>Utori (število)</label><input type="number" id="nGroove" value="0" min="0" onchange="calcAll()"><span class="unit">kos</span></div>
+    <div class="field"><label>Notranje struženje</label>
+      <select id="hasBoring" onchange="calcAll()">
+        <option value="0">Ne</option>
+        <option value="1">Da — skoznja luknja</option>
+        <option value="2">Da — slepa luknja</option>
+      </select>
     </div>
-    <div class="field">
-      <label>Premer luknje</label>
-      <input type="number" id="luknjaDiam" value="8" min="1" step="0.5" onchange="calculate()">
-      <span class="unit">mm</span>
+    <div class="field"><label>Odrezovanje (parting)</label>
+      <select id="hasParting" onchange="calcAll()">
+        <option value="0">Ne</option>
+        <option value="1">Da</option>
+      </select>
     </div>
-    <div class="field">
-      <label>Globina luknje</label>
-      <input type="number" id="luknjaGlob" value="20" min="1" step="0.5" onchange="calculate()">
-      <span class="unit">mm</span>
-    </div>
-    <div class="field">
-      <label>Količina</label>
-      <input type="number" id="kolicina" value="1" min="1" onchange="calculate()">
-      <span class="unit">kos</span>
-    </div>
+    <div class="field"><label>Količina</label><input type="number" id="kolicina" value="1" min="1" onchange="calcAll()"><span class="unit">kos</span></div>
   </div>
 
-  <div class="sec-label">Stroj in stroški</div>
+  <div class="slabel">Stroj</div>
   <div class="card">
-    <div class="field">
-      <label>Tip stroja</label>
-      <select id="stroj" onchange="toggleCustom()">
-        <option value="65">Mala stružnica — 65 €/h</option>
-        <option value="85" selected>Srednja stružnica — 85 €/h</option>
-        <option value="120">Velika stružnica — 120 €/h</option>
-        <option value="150">Multitasking — 150 €/h</option>
-        <option value="0">⚙️ Po meri</option>
+    <div class="field"><label>Profil stroja</label>
+      <select id="machineProfile" onchange="toggleCustomMachine()">
+        <option value="small">Mala stružnica (Ø200, 65 €/h)</option>
+        <option value="medium" selected>Srednja stružnica (Ø400, 85 €/h)</option>
+        <option value="large">Velika stružnica (Ø600, 120 €/h)</option>
+        <option value="multi">Multitasking (Ø400, 150 €/h)</option>
+        <option value="custom">Po meri</option>
       </select>
     </div>
-    <div class="field custom-row" id="customRow">
-      <label>Urna stopnja</label>
-      <input type="number" id="customUra" value="90" min="1" onchange="calculate()">
-      <span class="unit">€/h</span>
+    <div id="customMachineRows" style="display:none">
+      <div class="field"><label>Urna stopnja</label><input type="number" id="customUra" value="90" min="1" onchange="calcAll()"><span class="unit">€/h</span></div>
+      <div class="field"><label>Max. premer stroja</label><input type="number" id="customMaxD" value="400" min="1" onchange="calcAll()"><span class="unit">mm</span></div>
+      <div class="field"><label>Max. vrtljaji</label><input type="number" id="customMaxS" value="3000" min="1" onchange="calcAll()"><span class="unit">rpm</span></div>
+      <div class="field"><label>Čas menjave orodja</label><input type="number" id="customTcTime" value="8" min="1" onchange="calcAll()"><span class="unit">sek</span></div>
     </div>
-    <div class="field">
-      <label>Priprava stroja</label>
-      <input type="number" id="priprava" value="30" min="0" onchange="calculate()">
-      <span class="unit">min</span>
-    </div>
-    <div class="field">
-      <label>Kooperacija</label>
-      <input type="number" id="koop" value="0" min="0" step="1" onchange="calculate()">
-      <span class="unit">€</span>
-    </div>
-    <div class="field">
-      <label>Marža</label>
-      <input type="number" id="marza" value="15" min="0" max="200" onchange="calculate()">
-      <span class="unit">%</span>
-    </div>
+    <div class="field"><label>Priprava stroja</label><input type="number" id="priprava" value="30" min="0" onchange="calcAll()"><span class="unit">min</span></div>
+    <div class="field"><label>Kooperacija</label><input type="number" id="koop" value="0" min="0" onchange="calcAll()"><span class="unit">€</span></div>
+    <div class="field"><label>Marža</label><input type="number" id="marza" value="15" min="0" max="200" onchange="calcAll()"><span class="unit">%</span></div>
   </div>
 </div>
 
-<!-- ══ PAGE 3: OPERACIJE ══ -->
+<!-- ══ ENGINE ══ -->
+<div id="page-engine" class="page">
+  <div class="slabel">Roughing pass breakdown</div>
+  <div class="card">
+    <div class="chdr"><span>⚡</span> IZRAČUN PREHODOV</div>
+    <div id="roughBreakdown" class="rbox">Vnesite mere v zavihku KOS...</div>
+  </div>
+
+  <div class="slabel">Klasificirane operacije</div>
+  <div class="card">
+    <div class="chdr"><span>🔬</span> GEOMETRY CLASSIFIER</div>
+    <div id="featureTable">
+      <table class="ftable" id="fTableEl">
+        <thead><tr><th>Operacija</th><th>Vc m/min</th><th>f mm/vrt</th><th>ap mm</th><th>Čas sek</th></tr></thead>
+        <tbody id="fTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="slabel">Material · Feeds & Speeds baza</div>
+  <div class="card" style="overflow-x:auto">
+    <div class="chdr"><span>📊</span> BAZA PARAMETROV</div>
+    <table class="ftable">
+      <thead><tr><th>Material</th><th>Operacija</th><th>Vc</th><th>f</th><th>ap</th></tr></thead>
+      <tbody id="fsTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ OPS ══ -->
 <div id="page-ops" class="page">
   <div class="card">
-    <div class="card-hdr"><span>⏱</span> ČASI OPERACIJ (sekunde / kos)</div>
-    <div class="ops-list" id="opsList">
-      <div class="op-row"><span class="op-icon">🔧</span><span class="op-name">Vpenjanje / izpenjanje</span><input type="number" value="90" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
-      <div class="op-row"><span class="op-icon">⚙️</span><span class="op-name">Grobo struženje</span><input type="number" value="300" min="0" step="10" onchange="calculate()"><span class="op-unit">sek</span></div>
-      <div class="op-row"><span class="op-icon">🎯</span><span class="op-name">Fino struženje</span><input type="number" value="240" min="0" step="10" onchange="calculate()"><span class="op-unit">sek</span></div>
-      <div class="op-row"><span class="op-icon">🔄</span><span class="op-name">Preklop / 2. vpetje</span><input type="number" value="0" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
-      <div class="op-row"><span class="op-icon">🔩</span><span class="op-name">Navoji / graviranje</span><input type="number" value="0" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
-      <div class="op-row"><span class="op-icon">📏</span><span class="op-name">Merjenje / kontrola</span><input type="number" value="90" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
-      <div class="op-row"><span class="op-icon">🧹</span><span class="op-name">Razgratenje / čiščenje</span><input type="number" value="60" min="0" step="5" onchange="calculate()"><span class="op-unit">sek</span></div>
-    </div>
-    <div class="ops-footer">
-      <span id="opsTotal1">Operacije: —</span>
-      <strong id="opsTotal2">S faktorjem: —</strong>
+    <div class="chdr"><span>⏱</span> IZRAČUNANE OPERACIJE</div>
+    <div class="oplist" id="opsList"></div>
+    <div class="opfooter">
+      <span id="opsTotal1">Skupaj: —</span>
+      <strong id="opsTotal2" style="color:var(--accent)">S pripravami: —</strong>
     </div>
   </div>
-  <div class="warn-box" id="drillingWarn" style="display:none">
-    ⚡ <strong>Vrtanje:</strong> <span id="drillingInfo">—</span> — dodano samodejno.
-  </div>
+  <div class="wbox" id="tcBox" style="display:none">🔧 <strong>Menjave orodij:</strong> <span id="tcInfo">—</span></div>
 </div>
 
-<!-- ══ PAGE 4: REZALNI PARAMETRI ══ -->
-<div id="page-rez" class="page">
-  <div class="sec-label">Grobo struženje — izračun časa</div>
-  <div class="card">
-    <div class="card-hdr"><span>⚡</span> REZALNI PARAMETRI</div>
-    <div class="cut-grid">
-      <div class="cut-field"><label>ap — globina</label><input type="number" id="ap" value="2" min="0.1" step="0.1" onchange="calcCutting()"><span class="cu">mm</span></div>
-      <div class="cut-field"><label>S — vreteno</label><input type="number" id="spindle" value="1200" min="10" step="50" onchange="calcCutting()"><span class="cu">o/min</span></div>
-      <div class="cut-field"><label>f — podajanje</label><input type="number" id="feed" value="0.25" min="0.01" step="0.01" onchange="calcCutting()"><span class="cu">mm/vrt</span></div>
-    </div>
-    <div class="field"><label>Premer obdelanca</label><input type="number" id="rezD" value="35" min="1" step="0.5" onchange="calcCutting()"><span class="unit">mm</span></div>
-    <div class="field"><label>Dolžina reza</label><input type="number" id="rezL" value="40" min="1" step="0.5" onchange="calcCutting()"><span class="unit">mm</span></div>
-    <div class="field"><label>Število prehodov</label><input type="number" id="rezN" value="1" min="1" onchange="calcCutting()"><span class="unit">×</span></div>
-    <div class="cut-result" id="cutResult">Vnesite parametre za izračun...</div>
-    <div class="btn-row" style="margin-top:9px;margin-bottom:0">
-      <button class="btn primary" onclick="applyToOps()">→ PRENESI V OPERACIJE</button>
-    </div>
-  </div>
-
-  <div class="sec-label">Vrtanje — izračun časa</div>
-  <div class="card">
-    <div class="card-hdr"><span>🔩</span> PARAMETRI VRTANJA</div>
-    <div class="cut-grid">
-      <div class="cut-field"><label>S — vreteno</label><input type="number" id="drillS" value="800" min="10" step="50" onchange="calcDrilling()"><span class="cu">o/min</span></div>
-      <div class="cut-field"><label>f — podajanje</label><input type="number" id="drillF" value="0.15" min="0.01" step="0.01" onchange="calcDrilling()"><span class="cu">mm/vrt</span></div>
-      <div class="cut-field"><label>Umik/l</label><input type="number" id="drillRetract" value="5" min="0" step="1" onchange="calcDrilling()"><span class="cu">sek</span></div>
-    </div>
-    <div class="cut-result" id="drillResult">Nastavite luknje v zavihku KOS...</div>
-    <div class="btn-row" style="margin-top:9px;margin-bottom:0">
-      <button class="btn primary" onclick="applyDrilling()">→ PRENESI V OPERACIJE</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ PAGE 5: CENA ══ -->
+<!-- ══ CENA ══ -->
 <div id="page-result" class="page">
-  <div class="result-total">
-    <div>
-      <div class="rt-label">Cena / kos</div>
-      <div class="rt-sub" id="rtSub">za 1 kos</div>
-    </div>
-    <div style="text-align:right">
-      <div class="rt-price" id="rCenaKos">—</div>
-      <div class="rt-total" id="rSkupajCena">skupaj —</div>
-    </div>
+  <div class="rtotal">
+    <div><div class="rt-label">Cena / kos</div><div class="rt-sub" id="rtSub">—</div></div>
+    <div style="text-align:right"><div class="rt-price" id="rCenaKos">—</div><div class="rt-total" id="rSkupajCena">—</div></div>
   </div>
-  <div class="result-card">
-    <div class="result-hdr">RAZČLENITEV</div>
-    <div class="result-row"><span class="rl">Surovec</span><span class="rv" id="rSurovec">—</span></div>
-    <div class="result-row"><span class="rl">Masa</span><span class="rv" id="rMasa">—</span></div>
-    <div class="result-row"><span class="rl">Cena materiala/kos</span><span class="rv" id="rMaterial">—</span></div>
-    <div class="result-row"><span class="rl">Čas operacij/kos</span><span class="rv" id="rOpTime">—</span></div>
-    <div class="result-row"><span class="rl">Čas vrtanja/kos</span><span class="rv" id="rDrillTime">—</span></div>
-    <div class="result-row"><span class="rl">Faktor kakovosti</span><span class="rv" id="rFaktor">—</span></div>
-    <div class="result-row"><span class="rl">Čas s faktorjem/kos</span><span class="rv" id="rAdjTime">—</span></div>
-    <div class="result-row"><span class="rl">Priprava stroja</span><span class="rv" id="rPriprava">—</span></div>
-    <div class="result-row"><span class="rl">Skupni strojni čas</span><span class="rv" id="rSkupajMin">—</span></div>
-    <div class="result-row"><span class="rl">Strojni strošek</span><span class="rv" id="rStrojni">—</span></div>
-    <div class="result-row"><span class="rl">Kooperacija</span><span class="rv" id="rKoop">—</span></div>
-    <div class="result-row"><span class="rl">Marža</span><span class="rv" id="rMarza">—</span></div>
+  <div class="rcard">
+    <div class="rhdr">RAZČLENITEV</div>
+    <div class="rrow"><span class="rl">Surovec</span><span class="rv" id="rSurovec">—</span></div>
+    <div class="rrow"><span class="rl">Masa · Cena mat.</span><span class="rv" id="rMaterial">—</span></div>
+    <div class="rrow"><span class="rl">Roughing prehodi</span><span class="rv" id="rRough">—</span></div>
+    <div class="rrow"><span class="rl">Čas operacij/kos</span><span class="rv" id="rOpTime">—</span></div>
+    <div class="rrow"><span class="rl">Menjave orodij</span><span class="rv" id="rTC">—</span></div>
+    <div class="rrow"><span class="rl">Tolerance/površina</span><span class="rv" id="rFaktor">—</span></div>
+    <div class="rrow"><span class="rl">Skupni čas / kos</span><span class="rv" id="rAdjTime">—</span></div>
+    <div class="rrow"><span class="rl">Priprava stroja</span><span class="rv" id="rPriprava">—</span></div>
+    <div class="rrow"><span class="rl">Skupni strojni čas</span><span class="rv" id="rSkupajMin">—</span></div>
+    <div class="rrow"><span class="rl">Strojni strošek</span><span class="rv" id="rStrojni">—</span></div>
+    <div class="rrow"><span class="rl">Kooperacija</span><span class="rv" id="rKoop">—</span></div>
+    <div class="rrow"><span class="rl">Marža</span><span class="rv" id="rMarza">—</span></div>
   </div>
-  <div class="btn-row">
-    <button class="btn outline" onclick="calculate()">🔄 PRERAČUNAJ</button>
+  <div class="brow">
+    <button class="btn outline" onclick="calcAll()">🔄 PRERAČUNAJ</button>
     <button class="btn primary" onclick="genPonudba()">📝 GENERIRAJ PONUDBO</button>
   </div>
-  <div class="thinking" id="thinkingPon"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span style="font-size:12px;color:var(--text2);font-family:var(--font-head)">PRIPRAVLJAM PONUDBO...</span></div>
-  <div class="ponudba-box" id="ponudbaBox"></div>
-  <div class="btn-row" id="ponudbaActions" style="display:none">
-    <button class="btn outline" onclick="copyPonudba()">📋 KOPIRAJ</button>
-    <button class="btn success" onclick="sharePonudba()">📤 DELI</button>
+  <div class="thinking" id="thinkingPon"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span style="font-size:12px;color:var(--text2);font-family:var(--fh)">GENERIRAM PONUDBO...</span></div>
+  <div class="ponbox" id="ponBox"></div>
+  <div class="brow" id="ponAct" style="display:none">
+    <button class="btn outline" onclick="copyPon()">📋 KOPIRAJ</button>
+    <button class="btn success" onclick="sharePon()">📤 DELI</button>
   </div>
 </div>
 
-<!-- ══ PAGE 6: NASTAVITVE ══ -->
+<!-- ══ NASTAVITVE ══ -->
 <div id="page-settings" class="page">
-  <div class="sec-label">Anthropic API ključ</div>
+  <div class="slabel">Anthropic API ključ</div>
   <div class="card">
     <div style="font-size:13px;color:var(--text2);margin-bottom:9px;line-height:1.6">
-      Pridobite na <strong style="color:var(--accent)">console.anthropic.com</strong><br>
-      Predplačniški krediti · ni mesečnih obveznosti
+      <strong style="color:var(--accent)">console.anthropic.com</strong> → API Keys → Create<br>
+      Predplačniški · ni mesečnih obveznosti · ~5 $ ob registraciji
     </div>
-    <div class="apikey-row">
+    <div class="akey-row">
       <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-...">
-      <button class="btn primary" style="flex:0;padding:8px 13px" onclick="saveSettings()">SHRANI</button>
+      <button class="btn primary" style="flex:0;padding:8px 12px" onclick="saveSettings()">☁️ SHRANI</button>
     </div>
-    <div class="saved-badge" id="savedBadge">✅ SHRANJENO V OBLAK — dostopno na vseh napravah</div>
+    <div class="sbadge" id="savedBadge">✅ SHRANJENO V OBLAK — dostopno na vseh napravah</div>
   </div>
 
-  <div class="sec-label">AI navodila za analizo — sistemski prompt</div>
+  <div class="slabel">AI sistemski prompt</div>
   <div class="card">
-    <div style="font-size:12px;color:var(--text3);margin-bottom:8px;line-height:1.5">
-      Ta navodila dobi Claude pred vsako analizo. Shranjena so v oblaku — enaka na vseh napravah.
-    </div>
-    <textarea class="prompt-area" id="systemPrompt" placeholder="Nalagam navodila..."></textarea>
-    <div class="btn-row" style="margin-bottom:0">
+    <div style="font-size:12px;color:var(--text3);margin-bottom:7px;line-height:1.5">Navodila za AI klasifikator. Shranjeno v oblaku za vse naprave.</div>
+    <textarea class="parea" id="systemPrompt" placeholder="Nalagam..."></textarea>
+    <div class="brow" style="margin-bottom:0">
       <button class="btn outline" onclick="resetPrompt()">↺ PONASTAVI</button>
       <button class="btn primary" onclick="saveSettings()">☁️ SHRANI V OBLAK</button>
     </div>
   </div>
 
-  <div class="sec-label">O aplikaciji</div>
+  <div class="slabel">O aplikaciji</div>
   <div class="card">
     <div style="font-size:13px;color:var(--text2);line-height:1.7">
-      <strong style="color:var(--text)">Ponudba struženje v5.0</strong><br>
-      Nastavitve sinhronizirane v oblaku · Supabase<br>
+      <strong style="color:var(--text)">Ponudba struženje v6.0</strong><br>
+      Formula engine · AI classifier · Supabase sync<br>
       <span style="color:var(--accent)">claude.ai</span> — za nadgradnje
     </div>
   </div>
 </div>
 
 <script>
-// ══ SUPABASE CONFIG ══
-const SB_URL = 'https://ndbjggzjrjyekxpnterk.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYmpnZ3pqcmp5ZWt4cG50ZXJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMzc2MDYsImV4cCI6MjA5NDYxMzYwNn0.eldO4s6R5dBy17cVhFXZed-7-c_rHxoqX_rjWatUvBc';
+// ════════════════════════════════════════
+// SUPABASE
+// ════════════════════════════════════════
+const SB_URL='https://ndbjggzjrjyekxpnterk.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYmpnZ3pqcmp5ZWt4cG50ZXJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMzc2MDYsImV4cCI6MjA5NDYxMzYwNn0.eldO4s6R5dBy17cVhFXZed-7-c_rHxoqX_rjWatUvBc';
 
-const DEFAULT_PROMPT = `Si izkušen CNC strojar s 15+ leti izkušenj na različnih stružnicah.
-
-Pri analizi tehničnega načrta bodi pozoren na:
-
-GEOMETRIJA:
-- Razmerje L/D — če je > 4, opozori na vibracije, priporoči konico
-- Podrezanja, utori, posnetja — vsak zahteva dodaten čas
-- Stopnice in prehodi — oceni število vpetij
-
-NAVOJI IN LUKNJE:
-- Vrsta navoja (M metrični, BSP, UNF/UNC) in korak
-- Število lukenj, premer, globina — slepe ali skoznje
-
-TOLERANCE IN POVRŠINA:
-- Tolerance pod 0.02 mm — fino struženje + vmesno merjenje
-- Ra 0.8 — dodaten prehod ali brušenje
-- H7/h6 ujemi — preveri dosegljivost na stružnici
-
-MATERIAL:
-- Inox 1.4301 → ~35% več časa (manjše Vc)
-- Titan → ~60% več časa, posebna hladila
-- Medenina → hiter material
-- Aluminij → visoke Vc, kratki časi
-
-ČASI (v sekundah):
-- Vpenjanje: 60–180 sek glede na težo
-- Grobo struženje: glede na ap, L, material
-- Fino struženje: 50–70% časa grobega
-- Merjenje: 30–90 sek/operacija
-- Razgratenje: 30–120 sek
-
-Vrni realne, izkustvene ocene. Kar ne moreš prepoznati, nastavi na -1.`;
-
-// ══ SYNC STATUS ══
-function syncStatus(state, label) {
-  const dot = document.getElementById('syncDot');
-  const lbl = document.getElementById('syncLabel');
-  dot.className = 'sync-dot ' + state;
-  lbl.textContent = label;
+function syncSt(state,label){
+  document.getElementById('sdot').className='sdot '+state;
+  document.getElementById('slbl').textContent=label;
 }
-
-// ══ SUPABASE GET/SET ══
-async function sbGet(key) {
-  try {
-    const r = await fetch(`${SB_URL}/rest/v1/settings?key=eq.${key}&select=value`, {
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+async function sbGet(key){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/settings?key=eq.${encodeURIComponent(key)}&select=value`,
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Cache-Control':'no-cache'}});
+    if(!r.ok)return null;
+    const d=await r.json();
+    return d&&d.length>0?d[0].value:null;
+  }catch(e){return null;}
+}
+async function sbSet(key,value){
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/settings`,{
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,
+        'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},
+      body:JSON.stringify({key,value})
     });
-    const d = await r.json();
-    return d && d.length > 0 ? d[0].value : null;
-  } catch(e) { return null; }
+    return r.ok;
+  }catch(e){return false;}
 }
-
-async function sbSet(key, value) {
-  try {
-    await fetch(`${SB_URL}/rest/v1/settings`, {
-      method: 'POST',
-      headers: {
-        'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
-        'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates'
-      },
-      body: JSON.stringify({ key, value })
-    });
-    return true;
-  } catch(e) { return false; }
-}
-
-// ══ LOAD SETTINGS ══
-async function loadSettings() {
-  syncStatus('spin', 'NALAGAM...');
-  try {
-    const [apiKey, prompt] = await Promise.all([sbGet('anthropic_key'), sbGet('system_prompt')]);
-    if (apiKey) document.getElementById('apiKeyInput').value = apiKey;
-    document.getElementById('systemPrompt').value = prompt || DEFAULT_PROMPT;
-    syncStatus('ok', 'SYNC ✓');
-  } catch(e) {
-    syncStatus('err', 'OFFLINE');
-    document.getElementById('systemPrompt').value = DEFAULT_PROMPT;
+async function loadSettings(){
+  syncSt('spin','SYNC...');
+  try{
+    const [k,p]=await Promise.all([sbGet('anthropic_key'),sbGet('system_prompt')]);
+    if(k){document.getElementById('apiKeyInput').value=k;}
+    document.getElementById('systemPrompt').value=p||DEFAULT_PROMPT;
+    syncSt('ok','SYNC ✓');
+  }catch(e){
+    syncSt('err','OFFLINE');
+    document.getElementById('systemPrompt').value=DEFAULT_PROMPT;
   }
 }
+async function saveSettings(){
+  syncSt('spin','SHRANJUJEM...');
+  const k=document.getElementById('apiKeyInput').value.trim();
+  const p=document.getElementById('systemPrompt').value;
+  const r1=k?await sbSet('anthropic_key',k):true;
+  const r2=await sbSet('system_prompt',p);
+  if(r1&&r2){
+    syncSt('ok','SYNC ✓');
+    const b=document.getElementById('savedBadge');
+    b.style.display='block';
+    setTimeout(()=>b.style.display='none',3000);
+  }else{syncSt('err','NAPAKA');}
+}
+function resetPrompt(){document.getElementById('systemPrompt').value=DEFAULT_PROMPT;}
 
-// ══ SAVE SETTINGS ══
-async function saveSettings() {
-  syncStatus('spin', 'SHRANJUJEM...');
-  const key = document.getElementById('apiKeyInput').value.trim();
-  const prompt = document.getElementById('systemPrompt').value;
-  const ok1 = key ? await sbSet('anthropic_key', key) : true;
-  const ok2 = await sbSet('system_prompt', prompt);
-  if (ok1 && ok2) {
-    syncStatus('ok', 'SYNC ✓');
-    const badge = document.getElementById('savedBadge');
-    badge.style.display = 'block';
-    setTimeout(() => badge.style.display = 'none', 2500);
-  } else {
-    syncStatus('err', 'NAPAKA');
+// ════════════════════════════════════════
+// MATERIAL DATABASE + FEEDS & SPEEDS
+// ════════════════════════════════════════
+const MATDB={
+  C45:      {name:'Jeklo C45',     density:7.85, ops:{
+    rough_turning: {Vc:200,f:0.35,ap:3.0},
+    finish_turning:{Vc:260,f:0.12,ap:0.5},
+    boring:        {Vc:180,f:0.15,ap:1.5},
+    drilling:      {Vc:30, f:0.20,ap:0},
+    grooving:      {Vc:120,f:0.08,ap:3.0},
+    threading:     {Vc:80, f:null, ap:0},
+    parting:       {Vc:80, f:0.05,ap:3.0},
+  }},
+  S235:     {name:'Jeklo S235/S355',density:7.85, ops:{
+    rough_turning: {Vc:220,f:0.35,ap:3.0},
+    finish_turning:{Vc:280,f:0.12,ap:0.5},
+    boring:        {Vc:200,f:0.15,ap:1.5},
+    drilling:      {Vc:32, f:0.22,ap:0},
+    grooving:      {Vc:130,f:0.08,ap:3.0},
+    threading:     {Vc:90, f:null, ap:0},
+    parting:       {Vc:90, f:0.05,ap:3.0},
+  }},
+  '42CrMo4':{name:'42CrMo4',       density:7.85, ops:{
+    rough_turning: {Vc:160,f:0.30,ap:2.5},
+    finish_turning:{Vc:210,f:0.10,ap:0.4},
+    boring:        {Vc:140,f:0.12,ap:1.2},
+    drilling:      {Vc:22, f:0.18,ap:0},
+    grooving:      {Vc:100,f:0.07,ap:2.5},
+    threading:     {Vc:65, f:null, ap:0},
+    parting:       {Vc:65, f:0.04,ap:2.5},
+  }},
+  inox304:  {name:'Inox 304',       density:7.93, ops:{
+    rough_turning: {Vc:130,f:0.25,ap:2.0},
+    finish_turning:{Vc:180,f:0.10,ap:0.4},
+    boring:        {Vc:110,f:0.12,ap:1.0},
+    drilling:      {Vc:18, f:0.15,ap:0},
+    grooving:      {Vc:80, f:0.06,ap:2.0},
+    threading:     {Vc:55, f:null, ap:0},
+    parting:       {Vc:55, f:0.04,ap:2.0},
+  }},
+  inox316:  {name:'Inox 316',       density:7.93, ops:{
+    rough_turning: {Vc:110,f:0.22,ap:1.8},
+    finish_turning:{Vc:160,f:0.09,ap:0.35},
+    boring:        {Vc:95, f:0.11,ap:0.9},
+    drilling:      {Vc:15, f:0.13,ap:0},
+    grooving:      {Vc:70, f:0.05,ap:1.8},
+    threading:     {Vc:48, f:null, ap:0},
+    parting:       {Vc:48, f:0.04,ap:1.8},
+  }},
+  Al6082:   {name:'Aluminij 6082',  density:2.70, ops:{
+    rough_turning: {Vc:600,f:0.40,ap:4.0},
+    finish_turning:{Vc:800,f:0.15,ap:0.5},
+    boring:        {Vc:500,f:0.20,ap:2.0},
+    drilling:      {Vc:80, f:0.30,ap:0},
+    grooving:      {Vc:350,f:0.10,ap:3.0},
+    threading:     {Vc:200,f:null, ap:0},
+    parting:       {Vc:250,f:0.08,ap:3.0},
+  }},
+  Al7075:   {name:'Aluminij 7075',  density:2.80, ops:{
+    rough_turning: {Vc:500,f:0.35,ap:3.5},
+    finish_turning:{Vc:700,f:0.12,ap:0.4},
+    boring:        {Vc:420,f:0.18,ap:1.8},
+    drilling:      {Vc:70, f:0.28,ap:0},
+    grooving:      {Vc:300,f:0.09,ap:2.8},
+    threading:     {Vc:180,f:null, ap:0},
+    parting:       {Vc:220,f:0.07,ap:2.8},
+  }},
+  CuZn:     {name:'Medenina CuZn',  density:8.50, ops:{
+    rough_turning: {Vc:280,f:0.40,ap:3.5},
+    finish_turning:{Vc:380,f:0.15,ap:0.5},
+    boring:        {Vc:240,f:0.18,ap:1.8},
+    drilling:      {Vc:50, f:0.28,ap:0},
+    grooving:      {Vc:180,f:0.10,ap:3.0},
+    threading:     {Vc:120,f:null, ap:0},
+    parting:       {Vc:130,f:0.08,ap:3.0},
+  }},
+  titan:    {name:'Titan Grade 5',  density:4.43, ops:{
+    rough_turning: {Vc:60, f:0.20,ap:1.5},
+    finish_turning:{Vc:90, f:0.08,ap:0.3},
+    boring:        {Vc:50, f:0.10,ap:0.8},
+    drilling:      {Vc:10, f:0.10,ap:0},
+    grooving:      {Vc:40, f:0.05,ap:1.5},
+    threading:     {Vc:30, f:null, ap:0},
+    parting:       {Vc:30, f:0.03,ap:1.5},
+  }},
+  cast_iron:{name:'Siva litina',    density:7.20, ops:{
+    rough_turning: {Vc:150,f:0.35,ap:3.0},
+    finish_turning:{Vc:200,f:0.10,ap:0.5},
+    boring:        {Vc:130,f:0.15,ap:1.5},
+    drilling:      {Vc:25, f:0.20,ap:0},
+    grooving:      {Vc:100,f:0.07,ap:2.5},
+    threading:     {Vc:70, f:null, ap:0},
+    parting:       {Vc:70, f:0.05,ap:2.5},
+  }},
+};
+
+// ════════════════════════════════════════
+// MACHINE PROFILES
+// ════════════════════════════════════════
+const MACHINES={
+  small: {name:'Mala stružnica',  rate:65,  maxD:200,maxS:4000,tcTime:6, rapid:10000},
+  medium:{name:'Srednja stružnica',rate:85, maxD:400,maxS:3500,tcTime:8, rapid:12000},
+  large: {name:'Velika stružnica',rate:120, maxD:600,maxS:2500,tcTime:10,rapid:10000},
+  multi: {name:'Multitasking',    rate:150, maxD:400,maxS:5000,tcTime:4, rapid:15000},
+  custom:{name:'Po meri',         rate:90,  maxD:400,maxS:3000,tcTime:8, rapid:10000},
+};
+
+function getMachine(){
+  const p=document.getElementById('machineProfile').value;
+  if(p==='custom'){
+    return {
+      name:'Po meri',
+      rate:parseFloat(document.getElementById('customUra').value)||90,
+      maxD:parseFloat(document.getElementById('customMaxD').value)||400,
+      maxS:parseFloat(document.getElementById('customMaxS').value)||3000,
+      tcTime:parseFloat(document.getElementById('customTcTime').value)||8,
+      rapid:10000
+    };
   }
+  return MACHINES[p]||MACHINES.medium;
 }
 
-function resetPrompt() {
-  document.getElementById('systemPrompt').value = DEFAULT_PROMPT;
+function toggleCustomMachine(){
+  const v=document.getElementById('machineProfile').value;
+  document.getElementById('customMachineRows').style.display=v==='custom'?'block':'none';
+  calcAll();
 }
 
-// ══ NAVIGATION ══
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  ['nacrt','kos','ops','rez','result','settings'].forEach((n,i) => {
-    if (n === name) document.querySelectorAll('.tab')[i].classList.add('active');
-  });
-  if (name === 'result') calculate();
-  if (name === 'rez') { calcCutting(); calcDrilling(); }
+// ════════════════════════════════════════
+// ROUGHING PASS ENGINE
+// ════════════════════════════════════════
+const FINISH_ALLOWANCE=0.5; // mm radijsko
+
+function calcRoughingPasses(D0,D1,matKey){
+  const mat=MATDB[matKey]||MATDB.C45;
+  const ap_max=mat.ops.rough_turning.ap;
+  const radialRemoval=(D0-D1)/2; // skupaj mm na polmer
+  const roughRemoval=radialRemoval-FINISH_ALLOWANCE;
+  if(roughRemoval<=0) return {passes:0,apList:[],finishAp:radialRemoval};
+  const passes=Math.ceil(roughRemoval/ap_max);
+  const apEach=roughRemoval/passes;
+  const apList=Array(passes).fill(parseFloat(apEach.toFixed(3)));
+  return {passes,apList,finishAp:FINISH_ALLOWANCE,roughRemoval,radialRemoval};
 }
 
-// ══ FILE HANDLING ══
-let imageBase64 = null, imageType = null;
-function handleFile(input) {
-  const file = input.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const data = e.target.result;
-    imageBase64 = data.split(',')[1]; imageType = file.type;
-    const preview = document.getElementById('previewImg');
-    if (file.type.startsWith('image/')) { preview.src = data; preview.style.display = 'block'; }
-    else preview.style.display = 'none';
-    document.getElementById('fileStatus').textContent = '✅ ' + file.name + ' · ' + (file.size/1024).toFixed(0) + ' KB';
-    document.getElementById('infoBox').style.display = 'block';
-    document.getElementById('aiBtnRow').style.display = 'flex';
-    document.getElementById('aiResult').style.display = 'none';
-  };
-  reader.readAsDataURL(file);
+// ════════════════════════════════════════
+// FORMULA ENGINE — čas operacije
+// ════════════════════════════════════════
+// t = (L / Vf) + entry/exit + rapid
+// Vf = f × n,  n = (Vc × 1000) / (π × D)
+function calcTurningTime(D_mm, L_mm, Vc, f, extraEntry=2){
+  const n=(Vc*1000)/(Math.PI*D_mm);
+  const Vf=f*n; // mm/min
+  const tCut=L_mm/Vf; // min
+  return (tCut+extraEntry/Vf)*60; // sek
 }
 
-// ══ MARK UNRECOGNIZED (red) ══
-function markField(id, unrecognized) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (unrecognized) {
-    el.classList.add('unrecognized');
-    // add label if not exists
-    const lblId = 'ulbl_' + id;
-    if (!document.getElementById(lblId)) {
-      const lbl = document.createElement('div');
-      lbl.className = 'unrecognized-label';
-      lbl.id = lblId;
-      lbl.textContent = '⚠ AI ni prepoznal — preverite ročno';
-      el.parentNode.parentNode.insertBefore(lbl, el.parentNode.nextSibling);
-    }
-  } else {
-    el.classList.remove('unrecognized');
-    const lbl = document.getElementById('ulbl_' + id);
-    if (lbl) lbl.remove();
-  }
+function calcDrillingTime(d_mm, L_mm, Vc, f, nHoles=1, retractSek=3){
+  const n=(Vc*1000)/(Math.PI*d_mm);
+  const Vf=f*n;
+  const tPerHole=(L_mm/Vf)*60+retractSek;
+  return tPerHole*nHoles;
 }
 
-function markOpInput(index, unrecognized) {
-  const inputs = document.querySelectorAll('#opsList .op-row input');
-  if (!inputs[index]) return;
-  if (unrecognized) inputs[index].classList.add('unrecognized');
-  else inputs[index].classList.remove('unrecognized');
+function calcGroovingTime(D_mm, width_mm, Vc, f, nGrooves=1){
+  const n=(Vc*1000)/(Math.PI*D_mm);
+  const Vf=f*n;
+  const depth=3; // tipična globina utora
+  const t=(depth/Vf)*60+5; // +5 sek dwell
+  return t*nGrooves;
 }
 
-// ══ AI ANALIZA ══
-async function analyzeWithAI() {
-  const apiKey = document.getElementById('apiKeyInput').value.trim() || await sbGet('anthropic_key');
-  if (!apiKey) { alert('Najprej vnesite Anthropic API ključ v zavihku NAST.'); showPage('settings'); return; }
-  if (!imageBase64) { alert('Najprej naložite sliko ali PDF načrta.'); return; }
-  const thinking = document.getElementById('thinking');
-  const aiResult = document.getElementById('aiResult');
-  const systemPrompt = document.getElementById('systemPrompt').value || DEFAULT_PROMPT;
-  thinking.style.display = 'flex'; aiResult.style.display = 'none';
-
-  // clear all red markings
-  ['surovecD','surovecL','koncniD','koncniL','material','povrsina','tolerance','stLukenj','luknjaDiam','luknjaGlob'].forEach(id => markField(id, false));
-  [0,1,2,3,4,5,6].forEach(i => markOpInput(i, false));
-
-  try {
-    const isImg = imageType && imageType.startsWith('image/');
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1500,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: [
-          { type: isImg ? 'image' : 'document',
-            source: { type: 'base64', media_type: isImg ? imageType : 'application/pdf', data: imageBase64 }},
-          { type: 'text', text: `Analiziraj ta CNC načrt. Vrni SAMO JSON brez markdown:
-{
-  "opis": "kratki opis kosa",
-  "material": "jeklo/inox/aluminij/medenina/titan/bron/neznano",
-  "surovecD": 0,
-  "surovecL": 0,
-  "koncniD": 0,
-  "koncniL": 0,
-  "kompleksnost": "preprosto/srednje/zahtevno",
-  "tolerance": "splosne/H7/H6/posebne/neznano",
-  "povrsina": "Ra3.2/Ra1.6/Ra0.8/Ra0.4/neznano",
-  "stLukenj": 0,
-  "luknjaDiam": 0,
-  "luknjaGlob": 0,
-  "opozorila": ["opozorilo1"],
-  "posebnosti": "opis ali prazno",
-  "operacije": [
-    {"ime": "Vpenjanje / izpenjanje", "sek": 0},
-    {"ime": "Grobo struženje", "sek": 0},
-    {"ime": "Fino struženje", "sek": 0},
-    {"ime": "Preklop / 2. vpetje", "sek": 0},
-    {"ime": "Navoji / graviranje", "sek": 0},
-    {"ime": "Merjenje / kontrola", "sek": 0},
-    {"ime": "Razgratenje / čiščenje", "sek": 0}
-  ]
-}
-POMEMBNO: Za vse vrednosti ki jih NE MOREŠ zanesljivo prepoznati iz načrta, nastavi vrednost -1. Ne ugibaj.` }
-        ]}]
-      })
-    });
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message);
-    const raw = data.content.map(i => i.text||'').join('').replace(/```json|```/g,'').trim();
-    const p = JSON.parse(raw);
-
-    // Apply values & mark unrecognized
-    function applyNum(id, val) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      if (val === -1 || val === null || val === undefined || val === 0) {
-        markField(id, true);
-      } else {
-        el.value = val;
-        markField(id, false);
-      }
-    }
-
-    applyNum('surovecD', p.surovecD);
-    applyNum('surovecL', p.surovecL);
-    applyNum('koncniD', p.koncniD);
-    applyNum('koncniL', p.koncniL);
-    applyNum('stLukenj', p.stLukenj);
-    if (p.stLukenj > 0) {
-      applyNum('luknjaDiam', p.luknjaDiam);
-      applyNum('luknjaGlob', p.luknjaGlob);
-    }
-
-    // Material
-    const matMap = {'jeklo':'jeklo:7.85:1.0','inox':'inox:7.93:1.35','aluminij':'aluminij:2.70:0.7','medenina':'medenina:8.50:0.9','titan':'titan:4.50:1.6','bron':'bron:8.80:0.85'};
-    const mk = Object.keys(matMap).find(k => (p.material||'').toLowerCase().includes(k));
-    if (mk) { document.getElementById('material').value = matMap[mk]; markField('material', false); }
-    else markField('material', true);
-
-    // Tolerance
-    if (p.tolerance === 'neznano' || !p.tolerance) markField('tolerance', true);
-    else {
-      if (p.tolerance==='H7') document.getElementById('tolerance').value='1.2';
-      else if (p.tolerance==='H6') document.getElementById('tolerance').value='1.4';
-      else if (p.tolerance==='posebne') document.getElementById('tolerance').value='1.65';
-      else document.getElementById('tolerance').value='1.0';
-      markField('tolerance', false);
-    }
-
-    // Površina
-    if (p.povrsina === 'neznano' || !p.povrsina) markField('povrsina', true);
-    else {
-      if (p.povrsina==='Ra3.2') document.getElementById('povrsina').value='1.0';
-      else if (p.povrsina==='Ra0.8') document.getElementById('povrsina').value='1.45';
-      else if (p.povrsina==='Ra0.4') document.getElementById('povrsina').value='1.7';
-      else document.getElementById('povrsina').value='1.2';
-      markField('povrsina', false);
-    }
-
-    // Operacije
-    const inputs = document.querySelectorAll('#opsList .op-row input');
-    if (p.operacije) {
-      p.operacije.forEach((op, i) => {
-        if (!inputs[i]) return;
-        if (op.sek === -1 || op.sek === null) {
-          markOpInput(i, true);
-        } else {
-          inputs[i].value = op.sek || 0;
-          markOpInput(i, false);
-        }
-      });
-    }
-
-    calcMaterial(); calculate();
-
-    // AI result display
-    const komplBadge = p.kompleksnost==='zahtevno'?'warn':(p.kompleksnost==='preprosto'?'ok':'');
-    const matBadge = mk ? 'ok' : 'err';
-    const tolBadge = (p.tolerance==='neznano'||!p.tolerance) ? 'err' : '';
-    const povBadge = (p.povrsina==='neznano'||!p.povrsina) ? 'err' : '';
-
-    let html = `<div class="ai-title">📐 ${p.opis||'CNC kos'}</div><div style="margin-bottom:8px">`;
-    html += `<span class="ai-tag ${matBadge}">${mk||'MATERIAL?'}</span>`;
-    html += `<span class="ai-tag ${komplBadge}">${p.kompleksnost||'—'}</span>`;
-    html += `<span class="ai-tag ${tolBadge}">${p.tolerance||'TOLERANCE?'}</span>`;
-    html += `<span class="ai-tag ${povBadge}">${p.povrsina||'POVRŠINA?'}</span>`;
-    if (p.stLukenj > 0) html += `<span class="ai-tag warn">🔩 ${p.stLukenj}× Ø${p.luknjaDiam}×${p.luknjaGlob}mm</span>`;
-    html += `</div>`;
-    if (p.posebnosti) html += `<div style="color:var(--text2);margin-bottom:6px">📋 ${p.posebnosti}</div>`;
-    if (p.opozorila && p.opozorila.length > 0) {
-      html += `<div style="color:var(--accent2)">`;
-      p.opozorila.forEach(o => html += `⚠️ ${o}<br>`);
-      html += `</div>`;
-    }
-
-    // Count unrecognized
-    const redCount = document.querySelectorAll('.unrecognized').length;
-    if (redCount > 0) {
-      html += `<div style="color:var(--red);margin-top:8px;font-family:var(--font-head);font-size:12px">⚠ ${redCount} POLJ NI PREPOZNANIH — označena rdeče, preverite ročno</div>`;
-    } else {
-      html += `<div style="color:var(--green);margin-top:8px;font-family:var(--font-head);font-size:12px">✅ VSA POLJA USPEŠNO PREPOZNANA</div>`;
-    }
-
-    aiResult.innerHTML = html; aiResult.style.display = 'block';
-  } catch(err) {
-    aiResult.innerHTML = `<div style="color:var(--red)">⚠️ Napaka pri analizi:<br><span style="font-size:12px">${err.message}</span></div>`;
-    aiResult.style.display = 'block';
-  } finally { thinking.style.display = 'none'; }
+function calcThreadingTime(D_mm, L_mm, pitch_mm, Vc, nPasses=3){
+  const n=(Vc*1000)/(Math.PI*D_mm);
+  const Vf=pitch_mm*n;
+  const t=(L_mm/Vf)*60;
+  return t*nPasses+10; // +10 sek retract
 }
 
-// ══ MATERIAL CALC ══
-function calcMaterial() {
-  const d = parseFloat(document.getElementById('surovecD').value)||0;
-  const l = parseFloat(document.getElementById('surovecL').value)||0;
-  const parts = document.getElementById('material').value.split(':');
-  const gostota = parseFloat(parts[1])||7.85;
-  const cenaKg = parseFloat(document.getElementById('cenaMat').value)||0;
-  const vol = Math.PI * Math.pow(d/2/10,2) * (l/10);
-  const masa = vol * gostota / 1000;
-  document.getElementById('matHint').innerHTML =
-    `<strong>Ø${d}×${l}mm</strong> · Vol: ${vol.toFixed(2)} cm³ · Masa: <strong>${(masa*1000).toFixed(1)} g</strong> · Cena: <strong>${(masa*cenaKg).toFixed(3)} €</strong>`;
-  document.getElementById('rezD').value = d;
-  document.getElementById('rezL').value = l;
-  calculate();
-}
+// ════════════════════════════════════════
+// TOLERANCE & SURFACE FACTOR
+// ════════════════════════════════════════
+const TOL_FACTOR={general:1.0,H7:1.2,H6:1.4,special:1.65};
+const RA_FACTOR={'Ra3.2':1.0,'Ra1.6':1.15,'Ra0.8':1.35,'Ra0.4':1.60};
 
-// ══ CUTTING CALC ══
-function calcCutting() {
-  const ap=parseFloat(document.getElementById('ap').value)||2;
-  const S=parseFloat(document.getElementById('spindle').value)||1200;
-  const f=parseFloat(document.getElementById('feed').value)||0.25;
-  const D=parseFloat(document.getElementById('rezD').value)||35;
-  const L=parseFloat(document.getElementById('rezL').value)||40;
-  const N=parseInt(document.getElementById('rezN').value)||1;
-  const Vc=(Math.PI*D*S)/1000;
-  const Vf=f*S;
-  const tMin=(L/Vf)*N;
-  const tSek=Math.round(tMin*60);
-  const MRR=ap*f*Vc;
-  document.getElementById('cutResult').innerHTML =
-    `<strong>Čas: ${tSek} sek (${tMin.toFixed(2)} min)</strong><br>Vc = ${Vc.toFixed(0)} m/min · Vf = ${Vf.toFixed(0)} mm/min · MRR = ${MRR.toFixed(1)} cm³/min${N>1?`<br><span style="color:var(--accent)">${N} prehodi × ${Math.round(tSek/N)} sek</span>`:''}`;
-  window._cutTimeSek = tSek;
-}
+// ════════════════════════════════════════
+// MAIN CALC ENGINE
+// ════════════════════════════════════════
+let _calcResult={};
 
-function calcDrilling() {
-  const S=parseFloat(document.getElementById('drillS').value)||800;
-  const f=parseFloat(document.getElementById('drillF').value)||0.15;
-  const ret=parseFloat(document.getElementById('drillRetract').value)||5;
-  const stL=parseInt(document.getElementById('stLukenj').value)||0;
-  const diam=parseFloat(document.getElementById('luknjaDiam').value)||8;
-  const glob=parseFloat(document.getElementById('luknjaGlob').value)||20;
-  const Vf=f*S;
-  const tHole=(glob/Vf)*60+ret;
-  const tTotal=Math.round(tHole*(stL||1));
-  const Vc=(Math.PI*diam*S)/1000;
-  document.getElementById('drillResult').innerHTML =
-    `<strong>Čas/luknjo: ${Math.round(tHole)} sek · Skupaj: ${tTotal} sek</strong><br>Vc=${Vc.toFixed(0)} m/min · Vf=${Vf.toFixed(0)} mm/min · Ø${diam}×${glob}mm`;
-  window._drillTimeSek = tTotal;
-  if (stL>0) {
-    document.getElementById('drillingWarn').style.display='block';
-    document.getElementById('drillingInfo').textContent=`${stL} luknj Ø${diam}×${glob}mm = ${tTotal} sek`;
-  } else { document.getElementById('drillingWarn').style.display='none'; }
-}
-
-function applyToOps() {
-  const t=window._cutTimeSek||0;
-  const inputs=document.querySelectorAll('#opsList .op-row input');
-  if(inputs[1]) inputs[1].value=t;
-  calculate(); showPage('ops');
-}
-function applyDrilling() {
-  const t=window._drillTimeSek||0;
-  const inputs=document.querySelectorAll('#opsList .op-row input');
-  if(inputs[4]) inputs[4].value=(parseFloat(inputs[4].value)||0)+t;
-  calculate(); showPage('ops');
-}
-
-// ══ HELPERS ══
-function getUrna() {
-  const s=document.getElementById('stroj').value;
-  return s==='0'?(parseFloat(document.getElementById('customUra').value)||90):parseFloat(s);
-}
-function toggleCustom() {
-  document.getElementById('customRow').style.display=document.getElementById('stroj').value==='0'?'flex':'none';
-  calculate();
-}
-function fmtT(sek) {
-  if(sek<60) return sek+' sek';
-  const m=Math.floor(sek/60),s=sek%60;
-  return m+' min'+(s>0?' '+s+' sek':'');
-}
-
-// ══ MAIN CALCULATE ══
-function calculate() {
-  const d=parseFloat(document.getElementById('surovecD').value)||0;
-  const l=parseFloat(document.getElementById('surovecL').value)||0;
-  const parts=document.getElementById('material').value.split(':');
-  const gostota=parseFloat(parts[1])||7.85;
-  const matF=parseFloat(parts[2])||1.0;
-  const cenaKg=parseFloat(document.getElementById('cenaMat').value)||0;
+function calcAll(){
+  const D0=parseFloat(document.getElementById('D0').value)||80;
+  const D1=parseFloat(document.getElementById('D1').value)||42;
+  const L1=parseFloat(document.getElementById('L1').value)||80;
+  const L0=parseFloat(document.getElementById('L0').value)||90;
+  const matKey=document.getElementById('material').value;
+  const mat=MATDB[matKey]||MATDB.C45;
+  const cenaMat=parseFloat(document.getElementById('cenaMat').value)||0;
   const kolicina=parseInt(document.getElementById('kolicina').value)||1;
   const pripravaMin=parseFloat(document.getElementById('priprava').value)||0;
   const koop=parseFloat(document.getElementById('koop').value)||0;
   const marza=parseFloat(document.getElementById('marza').value)||0;
-  const fp=parseFloat(document.getElementById('povrsina').value)||1;
-  const ft=parseFloat(document.getElementById('tolerance').value)||1;
-  const faktor=(1+(fp-1)+(ft-1))*matF;
-  const urna=getUrna();
-  const stL=parseInt(document.getElementById('stLukenj').value)||0;
-  const vol=Math.PI*Math.pow(d/2/10,2)*(l/10);
-  const masa=vol*gostota/1000;
-  const cenaMatKos=masa*cenaKg;
+  const tolKey=document.getElementById('tolerance').value;
+  const raKey=document.getElementById('povrsina').value;
+  const nDrill=parseInt(document.getElementById('nDrill').value)||0;
+  const dDrill=parseFloat(document.getElementById('dDrill').value)||10;
+  const lDrill=parseFloat(document.getElementById('lDrill').value)||25;
+  const nThread=parseInt(document.getElementById('nThread').value)||0;
+  const nGroove=parseInt(document.getElementById('nGroove').value)||0;
+  const hasBoring=parseInt(document.getElementById('hasBoring').value)||0;
+  const hasParting=parseInt(document.getElementById('hasParting').value)||0;
+  const machine=getMachine();
 
-  let opSek=0;
-  document.querySelectorAll('#opsList .op-row input').forEach(i=>opSek+=parseFloat(i.value)||0);
-  const drillSek=stL>0?(window._drillTimeSek||0):0;
-  const totalOpSek=opSek+drillSek;
-  const adjSek=Math.round(totalOpSek*faktor);
-  const adjMin=adjSek/60;
-  const skupajMin=pripravaMin+adjMin*kolicina;
-  const strojni=(skupajMin/60)*urna;
-  const matSkupaj=cenaMatKos*kolicina;
-  const osnova=strojni+matSkupaj+koop;
+  // Clamp spindle speed to machine max
+  function clampN(D,Vc){
+    const n=(Vc*1000)/(Math.PI*D);
+    return Math.min(n,machine.maxS);
+  }
+  function turningTimeClamped(D,L,Vc,f,extra=2){
+    const n=clampN(D,Vc);
+    const Vf=f*n;
+    return ((L/Vf)+extra/Vf)*60;
+  }
+
+  // ── Surovec masa ──
+  const vol=Math.PI*Math.pow(L0/10,1)*Math.pow(D0/2/10,2);
+  const masa=vol*mat.density/1000*Math.PI; // fixed
+  const volCm3=Math.PI*Math.pow(D0/2/10,2)*(L0/10);
+  const masaG=volCm3*mat.density;
+  const cenaMatKos=(masaG/1000)*cenaMat;
+
+  // ── Roughing passes ──
+  const rough=calcRoughingPasses(D0,D1,matKey);
+  const ro=mat.ops.rough_turning;
+  let roughTimeSek=0;
+  if(rough.passes>0){
+    // Avg diameter during roughing
+    rough.apList.forEach((ap,i)=>{
+      const Dcur=D0-2*(i+1)*ap;
+      roughTimeSek+=turningTimeClamped(Math.max(Dcur,D1),L1,ro.Vc,ro.f,3);
+    });
+  }
+
+  // ── Finish turning ──
+  const fo=mat.ops.finish_turning;
+  const finishTimeSek=turningTimeClamped(D1,L1,fo.Vc,fo.f,2);
+
+  // ── Boring ──
+  let boringTimeSek=0;
+  if(hasBoring>0){
+    const bo=mat.ops.boring;
+    const borL=hasBoring===1?L1:L1*0.6;
+    boringTimeSek=turningTimeClamped(D1*0.4,borL,bo.Vc,bo.f,3)+15;
+  }
+
+  // ── Drilling ──
+  let drillTimeSek=0;
+  if(nDrill>0){
+    const dro=mat.ops.drilling;
+    drillTimeSek=calcDrillingTime(dDrill,lDrill,dro.Vc,dro.f,nDrill,4);
+  }
+
+  // ── Threading ──
+  let threadTimeSek=0;
+  if(nThread>0){
+    const tho=mat.ops.threading;
+    const pitch=1.5; // typical M pitch
+    threadTimeSek=calcThreadingTime(D1,20,pitch,tho.Vc,3)*nThread;
+  }
+
+  // ── Grooving ──
+  let grooveTimeSek=0;
+  if(nGroove>0){
+    const gro=mat.ops.grooving;
+    grooveTimeSek=calcGroovingTime(D1,5,gro.Vc,gro.f,nGroove);
+  }
+
+  // ── Parting ──
+  let partingTimeSek=0;
+  if(hasParting){
+    const pro=mat.ops.parting;
+    partingTimeSek=turningTimeClamped(D1,D1/2,pro.Vc,pro.f,1)+5;
+  }
+
+  // ── Vpenjanje + merjenje + razgratenje ──
+  const chuckTimeSek=90+Math.min(D0/5,60); // scales with diameter
+  const measureTimeSek=60+(nDrill>0?30:0)+(nThread>0?20:0);
+  const deburrTimeSek=45+nGroove*15+hasParting*10;
+
+  // ── Tool changes ──
+  const toolChanges=
+    (rough.passes>0?1:0)+
+    1+ // finish
+    (hasBoring>0?1:0)+
+    (nDrill>0?1:0)+
+    (nThread>0?1:0)+
+    (nGroove>0?1:0)+
+    (hasParting>0?1:0);
+  const tcTimeSek=toolChanges*machine.tcTime;
+
+  // ── Tolerance & surface factor ──
+  const tolF=TOL_FACTOR[tolKey]||1.0;
+  const raF=RA_FACTOR[raKey]||1.0;
+  const qualityFactor=1+(tolF-1)+(raF-1);
+
+  // ── Total per piece ──
+  const baseTimeSek=roughTimeSek+finishTimeSek+boringTimeSek+drillTimeSek+
+    threadTimeSek+grooveTimeSek+partingTimeSek+chuckTimeSek+measureTimeSek+deburrTimeSek;
+  const adjTimeSek=Math.round(baseTimeSek*qualityFactor)+tcTimeSek;
+
+  // ── Cost calc ──
+  const adjTimeMin=adjTimeSek/60;
+  const totalMin=pripravaMin+adjTimeMin*kolicina;
+  const strojniCost=(totalMin/60)*machine.rate;
+  const matTotal=cenaMatKos*kolicina;
+  const osnova=strojniCost+matTotal+koop;
   const marzaZn=osnova*marza/100;
   const skupaj=osnova+marzaZn;
   const cenaKos=skupaj/kolicina;
 
-  document.getElementById('opsTotal1').textContent='Operacije: '+fmtT(opSek)+(drillSek>0?' + vrtanje: '+fmtT(drillSek):'');
-  document.getElementById('opsTotal2').textContent='S faktorjem: '+fmtT(adjSek);
-  document.getElementById('rSurovec').textContent='Ø'+d+' × '+l+' mm';
-  document.getElementById('rMasa').textContent=(masa*1000).toFixed(1)+' g · '+vol.toFixed(2)+' cm³';
-  document.getElementById('rMaterial').textContent=cenaMatKos.toFixed(3)+' €/kos × '+kolicina;
-  document.getElementById('rOpTime').textContent=fmtT(opSek)+'/kos';
-  document.getElementById('rDrillTime').textContent=drillSek>0?fmtT(drillSek)+' ('+stL+' luknj)':'—';
-  document.getElementById('rFaktor').textContent='x'+faktor.toFixed(2)+' (mat·površina·tol)';
-  document.getElementById('rAdjTime').textContent=fmtT(adjSek)+'/kos';
-  document.getElementById('rPriprava').textContent=pripravaMin+' min';
-  document.getElementById('rSkupajMin').textContent=skupajMin.toFixed(1)+' min @ '+urna+' €/h';
-  document.getElementById('rStrojni').textContent=strojni.toFixed(2)+' €';
-  document.getElementById('rKoop').textContent=koop.toFixed(2)+' €';
-  document.getElementById('rMarza').textContent=marza+'% → '+marzaZn.toFixed(2)+' €';
-  document.getElementById('rCenaKos').textContent=cenaKos.toFixed(2)+' €';
-  document.getElementById('rSkupajCena').textContent='skupaj '+skupaj.toFixed(2)+' €';
-  document.getElementById('rtSub').textContent='za '+kolicina+' kos · skupaj '+skupaj.toFixed(2)+' €';
+  _calcResult={
+    D0,D1,L0,L1,matKey,mat,kolicina,
+    rough,roughTimeSek,finishTimeSek,boringTimeSek,drillTimeSek,
+    threadTimeSek,grooveTimeSek,partingTimeSek,chuckTimeSek,measureTimeSek,deburrTimeSek,
+    tcTimeSek,toolChanges,baseTimeSek,adjTimeSek,adjTimeMin,
+    totalMin,strojniCost,cenaMatKos,matTotal,koop,marzaZn,skupaj,cenaKos,
+    machine,qualityFactor,tolF,raF,masaG,volCm3,
+    nDrill,dDrill,lDrill,nThread,nGroove,hasBoring,hasParting
+  };
+
+  updateUI();
+  updateEngineTab();
+  updateOpsTab();
 }
 
-// ══ PONUDBA ══
-async function genPonudba() {
+function fT(s){
+  s=Math.round(s);
+  if(s<60)return s+' sek';
+  const m=Math.floor(s/60),r=s%60;
+  return m+' min'+(r>0?' '+r+' sek':'');
+}
+
+function updateUI(){
+  const r=_calcResult;
+  if(!r.machine)return;
+
+  // Mat hint
+  document.getElementById('matHint').innerHTML=
+    `<strong>Ø${r.D0}×${r.L0}mm</strong> · ${r.volCm3.toFixed(1)} cm³ · <strong>${r.masaG.toFixed(0)} g</strong> · Cena: <strong>${r.cenaMatKos.toFixed(3)} €</strong>`;
+
+  // Result tab
+  document.getElementById('rSurovec').textContent=`Ø${r.D0}×${r.L0}mm → Ø${r.D1}×${r.L1}mm`;
+  document.getElementById('rMaterial').textContent=`${r.masaG.toFixed(0)} g · ${r.cenaMatKos.toFixed(3)} €/kos`;
+  document.getElementById('rRough').textContent=`${r.rough.passes} prehodov + 1 finish`;
+  document.getElementById('rOpTime').textContent=fT(r.baseTimeSek)+'/kos';
+  document.getElementById('rTC').textContent=`${r.toolChanges} menjav × ${r.machine.tcTime}s = ${fT(r.tcTimeSek)}`;
+  document.getElementById('rFaktor').textContent=`×${r.qualityFactor.toFixed(2)} (tol+površina)`;
+  document.getElementById('rAdjTime').textContent=fT(r.adjTimeSek)+'/kos';
+  document.getElementById('rPriprava').textContent=_calcResult.totalMin.toFixed(1)-r.adjTimeMin*r.kolicina>0?
+    `${document.getElementById('priprava').value} min`:'—';
+  document.getElementById('rSkupajMin').textContent=`${r.totalMin.toFixed(1)} min @ ${r.machine.rate} €/h`;
+  document.getElementById('rStrojni').textContent=r.strojniCost.toFixed(2)+' €';
+  document.getElementById('rKoop').textContent=r.koop.toFixed(2)+' €';
+  document.getElementById('rMarza').textContent=`${document.getElementById('marza').value}% → ${r.marzaZn.toFixed(2)} €`;
+  document.getElementById('rCenaKos').textContent=r.cenaKos.toFixed(2)+' €';
+  document.getElementById('rSkupajCena').textContent='skupaj '+r.skupaj.toFixed(2)+' €';
+  document.getElementById('rtSub').textContent=`za ${r.kolicina} kos · skupaj ${r.skupaj.toFixed(2)} €`;
+}
+
+function updateEngineTab(){
+  const r=_calcResult;
+  if(!r.mat)return;
+
+  // Roughing breakdown
+  let rb='';
+  if(r.rough.passes>0){
+    rb+=`<strong>Ø${r.D0} → Ø${r.D1} mm · Radijalni odvzem: ${r.rough.radialRemoval.toFixed(2)} mm</strong><br>`;
+    rb+=`Finish allowance: ${FINISH_ALLOWANCE} mm · Rough removal: ${r.rough.roughRemoval?r.rough.roughRemoval.toFixed(2):'0'} mm<br>`;
+    rb+=`ap_max (${r.mat.name}): ${r.mat.ops.rough_turning.ap} mm<br>`;
+    rb+=`<strong style="color:var(--accent)">→ ${r.rough.passes} roughing prehodov + 1 finish prehod</strong><br>`;
+    r.rough.apList.forEach((ap,i)=>{ rb+=`&nbsp;&nbsp;Prehod ${i+1}: ap = ${ap} mm | `; });
+    rb+=`Finish: ap = ${FINISH_ALLOWANCE} mm`;
+  } else {
+    rb=`<strong>Ni roughinga</strong> — odvzem &lt; finish allowance (${FINISH_ALLOWANCE} mm). Samo finish prehod.`;
+  }
+  document.getElementById('roughBreakdown').innerHTML=rb;
+
+  // Feature table
+  const ops=[];
+  if(r.rough.passes>0) ops.push({op:'rough_turning',label:'Grobo struženje (×'+r.rough.passes+')',t:r.roughTimeSek});
+  ops.push({op:'finish_turning',label:'Fino struženje',t:r.finishTimeSek});
+  if(r.hasBoring>0) ops.push({op:'boring',label:'Notranje struženje',t:r.boringTimeSek});
+  if(r.nDrill>0) ops.push({op:'drilling',label:`Vrtanje (${r.nDrill}× Ø${r.dDrill})`,t:r.drillTimeSek});
+  if(r.nThread>0) ops.push({op:'threading',label:`Navoji (${r.nThread}×)`,t:r.threadTimeSek});
+  if(r.nGroove>0) ops.push({op:'grooving',label:`Utori (${r.nGroove}×)`,t:r.grooveTimeSek});
+  if(r.hasParting>0) ops.push({op:'parting',label:'Odrezovanje',t:r.partingTimeSek});
+  ops.push({op:null,label:'Vpenjanje/izpenjanje',t:r.chuckTimeSek});
+  ops.push({op:null,label:'Merjenje/kontrola',t:r.measureTimeSek});
+  ops.push({op:null,label:'Razgratenje/čiščenje',t:r.deburrTimeSek});
+
+  const mat=r.mat;
+  let tb='';
+  ops.forEach(({op,label,t})=>{
+    const p=op?mat.ops[op]:null;
+    tb+=`<tr class="${op?'highlight':''}">
+      <td>${label}</td>
+      <td class="vc">${p?p.Vc:'—'}</td>
+      <td class="vc">${p?p.f:'—'}</td>
+      <td class="vc">${p?p.ap:'—'}</td>
+      <td style="color:var(--green);font-family:var(--fh);font-weight:700">${fT(t)}</td>
+    </tr>`;
+  });
+  document.getElementById('fTableBody').innerHTML=tb;
+
+  // FS table
+  let fs='';
+  Object.entries(MATDB).forEach(([mk,md])=>{
+    Object.entries(md.ops).forEach(([ok,op])=>{
+      fs+=`<tr>
+        <td>${md.name}</td>
+        <td>${ok.replace(/_/g,' ')}</td>
+        <td class="vc">${op.Vc}</td>
+        <td class="vc">${op.f||'—'}</td>
+        <td class="vc">${op.ap}</td>
+      </tr>`;
+    });
+  });
+  document.getElementById('fsTableBody').innerHTML=fs;
+}
+
+function updateOpsTab(){
+  const r=_calcResult;
+  if(!r.machine)return;
+  const ops=[
+    {icon:'🔧',name:'Vpenjanje/izpenjanje',t:r.chuckTimeSek,auto:false},
+    {icon:'⚙️',name:`Grobo struženje (${r.rough.passes} preh.)`,t:r.roughTimeSek,auto:true},
+    {icon:'🎯',name:'Fino struženje',t:r.finishTimeSek,auto:true},
+    {icon:'🕳️',name:'Notranje struženje',t:r.boringTimeSek,auto:true,hide:!r.hasBoring},
+    {icon:'🔩',name:`Vrtanje (${r.nDrill}×)`,t:r.drillTimeSek,auto:true,hide:!r.nDrill},
+    {icon:'〰️',name:`Utori (${r.nGroove}×)`,t:r.grooveTimeSek,auto:true,hide:!r.nGroove},
+    {icon:'🔀',name:`Navoji (${r.nThread}×)`,t:r.threadTimeSek,auto:true,hide:!r.nThread},
+    {icon:'✂️',name:'Odrezovanje',t:r.partingTimeSek,auto:true,hide:!r.hasParting},
+    {icon:'📏',name:'Merjenje/kontrola',t:r.measureTimeSek,auto:false},
+    {icon:'🧹',name:'Razgratenje/čiščenje',t:r.deburrTimeSek,auto:false},
+    {icon:'🔄',name:`Menjave orodij (${r.toolChanges}×)`,t:r.tcTimeSek,auto:true},
+  ].filter(o=>!o.hide);
+
+  let html='';
+  ops.forEach(o=>{
+    html+=`<div class="oprow${o.auto?' auto':''}">
+      <span class="opicon">${o.icon}</span>
+      <span class="opname">${o.name}</span>
+      <span class="optime">${fT(o.t)}</span>
+      ${o.auto?'<span class="opunit">⚡</span>':'<span class="opunit">ročno</span>'}
+    </div>`;
+  });
+  document.getElementById('opsList').innerHTML=html;
+
+  const totalSek=r.adjTimeSek;
+  document.getElementById('opsTotal1').textContent='Skupaj/kos: '+fT(totalSek);
+  document.getElementById('opsTotal2').textContent='S faktorjem ×'+r.qualityFactor.toFixed(2)+': '+fT(Math.round(totalSek*r.qualityFactor));
+
+  if(r.toolChanges>1){
+    document.getElementById('tcBox').style.display='block';
+    document.getElementById('tcInfo').textContent=`${r.toolChanges} menjav × ${r.machine.tcTime} sek = ${fT(r.tcTimeSek)}`;
+  } else {
+    document.getElementById('tcBox').style.display='none';
+  }
+}
+
+// ════════════════════════════════════════
+// FILE HANDLING
+// ════════════════════════════════════════
+let imgB64=null,imgType=null;
+function handleFile(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const data=e.target.result;
+    imgB64=data.split(',')[1];imgType=file.type;
+    const pv=document.getElementById('previewImg');
+    if(file.type.startsWith('image/')){pv.src=data;pv.style.display='block';}
+    else pv.style.display='none';
+    document.getElementById('fileStatus').textContent='✅ '+file.name+' · '+(file.size/1024).toFixed(0)+' KB';
+    document.getElementById('infoBox').style.display='block';
+    document.getElementById('aiBtnRow').style.display='flex';
+    document.getElementById('aiResult').style.display='none';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ════════════════════════════════════════
+// AI CLASSIFIER
+// ════════════════════════════════════════
+const DEFAULT_PROMPT=`Si izkušen CNC strojar in tehnolog s 15+ leti izkušenj.
+
+Tvoja naloga je SAMO klasifikacija geometrije in features iz načrta.
+NE izračunavaš časov — to naredi formula engine.
+NE ugibaj vrednosti — nastavi -1 za vse kar ne vidiš jasno.
+
+KLASIFICIRAJ:
+- Geometrija: cylindrical_reduction, boring, drilling, grooving, threading, parting, facing
+- Material iz oznake ali specifikacije
+- Dimenzije: D0 (surovec), D1 (končni premer), L (dolžina)
+- Tolerance: ISO 2768 / H7 / H6 / posebne
+- Površinska obdelava: Ra vrednost
+- Število lukenj, navojev, utorov
+
+OPOZORI NA:
+- L/D > 4 (vibracije, potrebna konica)
+- Tolerance < 0.02 mm (vmesno merjenje)
+- Inox/titan (posebni parametri)
+- Podrezanja in utori (posebna orodja)`;
+
+function markF(id,bad){
+  const el=document.getElementById(id);if(!el)return;
+  if(bad){
+    el.classList.add('unrecognized');
+    const lid='_ul_'+id;
+    if(!document.getElementById(lid)){
+      const d=document.createElement('div');
+      d.className='ulbl';d.id=lid;d.textContent='⚠ Ni prepoznano — preverite';
+      el.closest('.field').insertAdjacentElement('afterend',d);
+    }
+  }else{
+    el.classList.remove('unrecognized');
+    const l=document.getElementById('_ul_'+id);if(l)l.remove();
+  }
+}
+
+async function analyzeWithAI(){
   const apiKey=document.getElementById('apiKeyInput').value.trim()||await sbGet('anthropic_key');
-  if(!apiKey){alert('Vnesite API ključ v NAST.');showPage('settings');return;}
-  const tp=document.getElementById('thinkingPon');
-  const box=document.getElementById('ponudbaBox');
-  const act=document.getElementById('ponudbaActions');
-  tp.style.display='flex';box.style.display='none';act.style.display='none';
-  const g=id=>document.getElementById(id);
-  const opt=id=>{const e=g(id);return e.options[e.selectedIndex].text;};
-  try {
+  if(!apiKey){alert('Vnesite API ključ v NAST.');P('settings');return;}
+  if(!imgB64){alert('Naložite sliko ali PDF.');return;}
+  const think=document.getElementById('thinking');
+  const res=document.getElementById('aiResult');
+  const sysP=document.getElementById('systemPrompt').value||DEFAULT_PROMPT;
+  think.style.display='flex';res.style.display='none';
+  ['D0','D1','L1','L0','material','povrsina','tolerance','nDrill','dDrill','lDrill','nThread','nGroove'].forEach(id=>markF(id,false));
+  try{
+    const isImg=imgType&&imgType.startsWith('image/');
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,
+        'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',max_tokens:1500,system:sysP,
+        messages:[{role:'user',content:[
+          {type:isImg?'image':'document',source:{type:'base64',media_type:isImg?imgType:'application/pdf',data:imgB64}},
+          {type:'text',text:`Analiziraj načrt. Vrni SAMO JSON (brez markdown):
+{
+  "opis":"1 stavek opis kosa",
+  "material":"C45/S235/42CrMo4/inox304/inox316/Al6082/Al7075/CuZn/titan/cast_iron/neznano",
+  "D0":0,"D1":0,"L1":0,"L0":0,
+  "tolerance":"general/H7/H6/special/neznano",
+  "povrsina":"Ra3.2/Ra1.6/Ra0.8/Ra0.4/neznano",
+  "nDrill":0,"dDrill":0,"lDrill":0,
+  "nThread":0,"nGroove":0,
+  "hasBoring":0,
+  "hasParting":0,
+  "kompleksnost":"preprosto/srednje/zahtevno",
+  "opozorila":["..."],
+  "features":["cylindrical_reduction","drilling","threading","grooving","boring","parting","facing"]
+}
+Za neznane vrednosti nastavi -1. Ne ugibaj.`}
+        ]}]
+      })
+    });
+    const data=await resp.json();
+    if(data.error)throw new Error(data.error.message);
+    const raw=data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const p=JSON.parse(raw);
+
+    function apN(id,val,minVal=0){
+      const el=document.getElementById(id);if(!el)return;
+      if(val===-1||val===null||val===undefined||(val===0&&minVal>0)){markF(id,true);}
+      else{el.value=val;markF(id,false);}
+    }
+    apN('D0',p.D0,1);apN('D1',p.D1,1);apN('L1',p.L1,1);apN('L0',p.L0,1);
+    apN('nDrill',p.nDrill);apN('dDrill',p.dDrill);apN('lDrill',p.lDrill);
+    apN('nThread',p.nThread);apN('nGroove',p.nGroove);
+    if(p.hasBoring>=0)document.getElementById('hasBoring').value=p.hasBoring;
+    if(p.hasParting>=0)document.getElementById('hasParting').value=p.hasParting;
+
+    const matKeys=Object.keys(MATDB);
+    const mk=matKeys.find(k=>p.material&&p.material.toLowerCase()===k.toLowerCase());
+    if(mk){document.getElementById('material').value=mk;markF('material',false);}
+    else markF('material',true);
+
+    if(p.tolerance==='neznano')markF('tolerance',true);
+    else if(p.tolerance){
+      const tm={general:'general',H7:'H7',H6:'H6',special:'special'};
+      if(tm[p.tolerance])document.getElementById('tolerance').value=tm[p.tolerance];
+      markF('tolerance',false);
+    }
+    if(p.povrsina==='neznano')markF('povrsina',true);
+    else if(p.povrsina){
+      const pm={'Ra3.2':'Ra3.2','Ra1.6':'Ra1.6','Ra0.8':'Ra0.8','Ra0.4':'Ra0.4'};
+      if(pm[p.povrsina])document.getElementById('povrsina').value=pm[p.povrsina];
+      markF('povrsina',false);
+    }
+
+    calcAll();
+
+    const redN=document.querySelectorAll('.unrecognized').length;
+    const kB=p.kompleksnost==='zahtevno'?'w':(p.kompleksnost==='preprosto'?'ok':'');
+    const matB=mk?'ok':'err';
+    let html=`<div class="aititle">📐 ${p.opis||'CNC kos'}</div>
+    <div style="margin-bottom:7px">
+      <span class="tag ${matB}">${mk||'MATERIAL?'}</span>
+      <span class="tag ${kB}">${p.kompleksnost||'—'}</span>
+      <span class="tag">${p.tolerance||'—'}</span>
+      <span class="tag">${p.povrsina||'—'}</span>
+    </div>`;
+    if(p.features&&p.features.length){
+      html+=`<div style="margin-bottom:6px">`;
+      p.features.forEach(f=>html+=`<span class="tag blue">${f}</span>`);
+      html+=`</div>`;
+    }
+    if(p.opozorila&&p.opozorila.length){
+      html+=`<div style="color:var(--accent2)">`;
+      p.opozorila.forEach(o=>html+=`⚠️ ${o}<br>`);
+      html+=`</div>`;
+    }
+    html+=redN>0
+      ?`<div style="color:var(--red);margin-top:7px;font-family:var(--fh);font-size:11px">⚠ ${redN} POLJ NI PREPOZNANIH — rdeče, preverite ročno</div>`
+      :`<div style="color:var(--green);margin-top:7px;font-family:var(--fh);font-size:11px">✅ VSA POLJA PREPOZNANA</div>`;
+    res.innerHTML=html;res.style.display='block';
+  }catch(err){
+    res.innerHTML=`<div style="color:var(--red)">⚠️ Napaka: ${err.message}</div>`;
+    res.style.display='block';
+  }finally{think.style.display='none';}
+}
+
+// ════════════════════════════════════════
+// PONUDBA
+// ════════════════════════════════════════
+async function genPonudba(){
+  const apiKey=document.getElementById('apiKeyInput').value.trim()||await sbGet('anthropic_key');
+  if(!apiKey){alert('Vnesite API ključ.');P('settings');return;}
+  const tp=document.getElementById('thinkingPon');
+  const box=document.getElementById('ponBox');
+  const act=document.getElementById('ponAct');
+  tp.style.display='flex';box.style.display='none';act.style.display='none';
+  const r=_calcResult;
+  if(!r.machine){calcAll();}
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,
+        'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({
         model:'claude-sonnet-4-6',max_tokens:1000,
         messages:[{role:'user',content:
           `Napiši profesionalno ponudbo v slovenščini za CNC struženje:\n`+
-          `- Surovec: ${g('rSurovec').textContent}\n- Material: ${opt('material')}\n`+
-          `- Površinska obdelava: ${opt('povrsina')}\n- Tolerance: ${opt('tolerance')}\n`+
-          `- Stroj: ${opt('stroj')}\n- Čas obdelave: ${g('rAdjTime').textContent}\n`+
-          `- Količina: ${g('kolicina').value} kos\n- Cena/kos: ${g('rCenaKos').textContent}\n`+
-          `- Skupaj: ${g('rSkupajCena').textContent}\n\n`+
-          `Ponudba: formalna, max 18 vrstic, samo besedilo. Datum ${new Date().toLocaleDateString('sl-SI')}, veljavnost 30 dni, prostor za podpis.`
+          `- Surovec: Ø${r.D0}×${r.L0}mm → Ø${r.D1}×${r.L1}mm\n`+
+          `- Material: ${r.mat?r.mat.name:'—'}\n`+
+          `- Površinska obdelava: ${document.getElementById('povrsina').value}\n`+
+          `- Tolerance: ${document.getElementById('tolerance').value}\n`+
+          `- Stroj: ${r.machine?r.machine.name:'—'}\n`+
+          `- Roughing prehodov: ${r.rough?r.rough.passes:0} + 1 finish\n`+
+          `- Čas obdelave: ${fT(r.adjTimeSek)}/kos\n`+
+          `- Količina: ${r.kolicina} kos\n`+
+          `- Cena/kos: ${r.cenaKos?r.cenaKos.toFixed(2):'—'} €\n`+
+          `- Skupaj: ${r.skupaj?r.skupaj.toFixed(2):'—'} €\n\n`+
+          `Formalna ponudba, max 18 vrstic, samo besedilo. Datum ${new Date().toLocaleDateString('sl-SI')}, veljavnost 30 dni, podpis.`
         }]
       })
     });
     const data=await resp.json();
-    if(data.error) throw new Error(data.error.message);
+    if(data.error)throw new Error(data.error.message);
     box.textContent=data.content.map(i=>i.text||'').join('');
     box.style.display='block';act.style.display='flex';
-  } catch(err){
+  }catch(err){
     box.textContent='⚠️ Napaka: '+err.message;box.style.display='block';
-  } finally{tp.style.display='none';}
+  }finally{tp.style.display='none';}
+}
+function copyPon(){navigator.clipboard.writeText(document.getElementById('ponBox').textContent).then(()=>alert('✅ Kopirano!'));}
+function sharePon(){const t=document.getElementById('ponBox').textContent;if(navigator.share)navigator.share({title:'Ponudba struženje',text:t});else copyPon();}
+
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+function P(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  ['nacrt','kos','engine','ops','result','settings'].forEach((n,i)=>{
+    if(n===name)document.querySelectorAll('.tab')[i].classList.add('active');
+  });
+  if(name==='result'||name==='engine'||name==='ops')calcAll();
 }
 
-function copyPonudba(){navigator.clipboard.writeText(document.getElementById('ponudbaBox').textContent).then(()=>alert('✅ Kopirano!'));}
-function sharePonudba(){const t=document.getElementById('ponudbaBox').textContent;if(navigator.share)navigator.share({title:'Ponudba struženje',text:t});else copyPonudba();}
-
-// ══ INIT ══
-window.addEventListener('load', async () => {
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+window.addEventListener('load',async()=>{
   await loadSettings();
-  calcMaterial(); calculate(); calcCutting(); calcDrilling();
+  calcAll();
 });
 </script>
 </body>
