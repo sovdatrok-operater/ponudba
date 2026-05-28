@@ -109,6 +109,23 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100
 .oprow input:focus{outline:none;border-color:var(--accent)}
 .oprow input.unrecognized{border-color:var(--red)!important;background:var(--rdim)!important}
 .opfooter{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+/* OPS TOGGLE */
+.oprow{display:flex;align-items:center;gap:5px;background:var(--bg3);border-radius:var(--rs);padding:7px 9px;border:1px solid var(--border);transition:opacity .2s}
+.oprow.disabled{opacity:0.4}
+.oprow.auto{border-color:rgba(249,115,22,0.25)}
+.op-toggle{position:relative;width:36px;height:20px;flex-shrink:0}
+.op-toggle input{opacity:0;width:0;height:0;position:absolute}
+.op-slider{position:absolute;inset:0;background:var(--bg4);border-radius:10px;cursor:pointer;border:1px solid var(--border2);transition:background .2s}
+.op-slider:before{content:"";position:absolute;width:14px;height:14px;left:2px;top:2px;background:var(--text3);border-radius:50%;transition:transform .2s,background .2s}
+.op-toggle input:checked + .op-slider{background:var(--adim);border-color:rgba(249,115,22,0.4)}
+.op-toggle input:checked + .op-slider:before{transform:translateX(16px);background:var(--accent)}
+.opinput{width:62px;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--rs);padding:4px 6px;font-size:13px;text-align:right;color:var(--text);font-family:var(--fh);font-weight:700}
+.opinput:focus{outline:none;border-color:var(--accent)}
+/* FS EDITABLE */
+.fsinput{width:50px;background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:3px 5px;font-size:12px;color:var(--text);font-family:var(--fh);font-weight:700;text-align:right}
+.fsinput:focus{outline:none;border-color:var(--accent)}
+.fsconfirm{background:var(--bg4);border:1px solid rgba(34,197,94,0.4);border-radius:4px;color:var(--green);font-size:13px;font-weight:700;padding:3px 8px;cursor:pointer;font-family:var(--fh);transition:all .15s}
+.fsconfirm:active{transform:scale(0.9)}
 /* ROUGHING BREAKDOWN */
 .rbox{background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--blue);border-radius:var(--rs);padding:10px 12px;font-size:13px;line-height:1.7;margin-top:8px}
 .rbox strong{color:var(--blue);font-family:var(--fh);font-size:14px}
@@ -310,11 +327,14 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100
 <!-- ══ OPS ══ -->
 <div id="page-ops" class="page">
   <div class="card">
-    <div class="chdr"><span>⏱</span> IZRAČUNANE OPERACIJE</div>
+    <div class="chdr"><span>⏱</span> OPERACIJE — vklop/izklop · uredite čas</div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:8px">
+      ⚡ formula engine · Izključite postavko s stikalom · Vpišite 0 za izključitev iz cene.
+    </div>
     <div class="oplist" id="opsList"></div>
     <div class="opfooter">
       <span id="opsTotal1">Skupaj: —</span>
-      <strong id="opsTotal2" style="color:var(--accent)">S pripravami: —</strong>
+      <strong id="opsTotal2" style="color:var(--accent)">—</strong>
     </div>
   </div>
   <div class="wbox" id="tcBox" style="display:none">🔧 <strong>Menjave orodij:</strong> <span id="tcInfo">—</span></div>
@@ -731,9 +751,13 @@ function calcAll(){
   }
 
   // ── Vpenjanje + merjenje + razgratenje ──
-  const chuckTimeSek=90+Math.min(D0/5,60); // scales with diameter
-  const measureTimeSek=60+(nDrill>0?30:0)+(nThread>0?20:0);
-  const deburrTimeSek=45+nGroove*15+hasParting*10;
+  // Use OPS_STATE override if user set it, else formula
+  const _chuckFormula=90+Math.min(D0/5,60);
+  const _measureFormula=60+(nDrill>0?30:0)+(nThread>0?20:0);
+  const _deburrFormula=45+nGroove*15+hasParting*10;
+  const chuckTimeSek=(OPS_STATE.chuck&&OPS_STATE.chuck.customSek!==undefined)?OPS_STATE.chuck.customSek:_chuckFormula;
+  const measureTimeSek=(OPS_STATE.measure&&OPS_STATE.measure.customSek!==undefined)?OPS_STATE.measure.customSek:_measureFormula;
+  const deburrTimeSek=(OPS_STATE.deburr&&OPS_STATE.deburr.customSek!==undefined)?OPS_STATE.deburr.customSek:_deburrFormula;
 
   // ── Tool changes ──
   const toolChanges=
@@ -860,53 +884,135 @@ function updateEngineTab(){
   });
   document.getElementById('fTableBody').innerHTML=tb;
 
-  // FS table
+  // FS table — editable
+  renderFSTable();
+}
+
+function renderFSTable(){
   let fs='';
   Object.entries(MATDB).forEach(([mk,md])=>{
     Object.entries(md.ops).forEach(([ok,op])=>{
-      fs+=`<tr>
-        <td>${md.name}</td>
-        <td>${ok.replace(/_/g,' ')}</td>
-        <td class="vc">${op.Vc}</td>
-        <td class="vc">${op.f||'—'}</td>
-        <td class="vc">${op.ap}</td>
+      const rid=`fs_${mk}_${ok}`;
+      fs+=`<tr id="tr_${rid}">
+        <td style="font-size:11px">${md.name}</td>
+        <td style="font-size:11px;color:var(--text3)">${ok.replace(/_/g,' ')}</td>
+        <td><input class="fsinput" id="${rid}_Vc" value="${op.Vc}" type="number" min="1"></td>
+        <td><input class="fsinput" id="${rid}_f"  value="${op.f||0}" type="number" min="0" step="0.01"></td>
+        <td><input class="fsinput" id="${rid}_ap" value="${op.ap}" type="number" min="0" step="0.1"></td>
+        <td><button class="fsconfirm" onclick="confirmFS('${mk}','${ok}','${rid}')">✓</button></td>
       </tr>`;
     });
   });
   document.getElementById('fsTableBody').innerHTML=fs;
 }
 
+function confirmFS(mk,ok,rid){
+  const Vc=parseFloat(document.getElementById(rid+'_Vc').value)||0;
+  const f =parseFloat(document.getElementById(rid+'_f').value)||0;
+  const ap=parseFloat(document.getElementById(rid+'_ap').value)||0;
+  MATDB[mk].ops[ok].Vc=Vc;
+  MATDB[mk].ops[ok].f=f>0?f:null;
+  MATDB[mk].ops[ok].ap=ap;
+  const btn=document.querySelector(`#tr_${rid} .fsconfirm`);
+  btn.textContent='✅';btn.style.background='var(--green)';btn.style.color='#000';
+  setTimeout(()=>{btn.textContent='✓';btn.style.background='';btn.style.color='';},1500);
+  calcAll();
+}
+
+// Persistent op overrides: {id: {enabled, customSek}}
+const OPS_STATE={};
+
+function getOpsDefinition(r){
+  return [
+    {id:'chuck',  icon:'🔧',name:'Vpenjanje/izpenjanje',           t:r.chuckTimeSek,  auto:false, hide:false},
+    {id:'rough',  icon:'⚙️',name:`Grobo struženje (${r.rough.passes} preh.)`, t:r.roughTimeSek, auto:true,  hide:r.rough.passes===0},
+    {id:'finish', icon:'🎯',name:'Fino struženje',                  t:r.finishTimeSek, auto:true,  hide:false},
+    {id:'boring', icon:'🕳️',name:'Notranje struženje',             t:r.boringTimeSek, auto:true,  hide:!r.hasBoring},
+    {id:'drill',  icon:'🔩',name:`Vrtanje (${r.nDrill}×)`,         t:r.drillTimeSek,  auto:true,  hide:!r.nDrill},
+    {id:'groove', icon:'〰️',name:`Utori (${r.nGroove}×)`,         t:r.grooveTimeSek, auto:true,  hide:!r.nGroove},
+    {id:'thread', icon:'🔀',name:`Navoji (${r.nThread}×)`,         t:r.threadTimeSek, auto:true,  hide:!r.nThread},
+    {id:'part',   icon:'✂️',name:'Odrezovanje',                    t:r.partingTimeSek,auto:true,  hide:!r.hasParting},
+    {id:'measure',icon:'📏',name:'Merjenje/kontrola',              t:r.measureTimeSek,auto:false, hide:false},
+    {id:'deburr', icon:'🧹',name:'Razgratenje/čiščenje',           t:r.deburrTimeSek, auto:false, hide:false},
+    {id:'tc',     icon:'🔄',name:`Menjave orodij (${r.toolChanges}×)`, t:r.tcTimeSek,auto:true,  hide:false},
+  ].filter(o=>!o.hide);
+}
+
+function toggleOp(id,checked){
+  if(!OPS_STATE[id])OPS_STATE[id]={};
+  OPS_STATE[id].enabled=checked;
+  const row=document.getElementById('oprow_'+id);
+  if(row)row.classList.toggle('disabled',!checked);
+  recalcFromOps();
+}
+
+function overrideOpTime(id,val){
+  if(!OPS_STATE[id])OPS_STATE[id]={};
+  OPS_STATE[id].customSek=parseFloat(val)||0;
+  recalcFromOps();
+}
+
+function recalcFromOps(){
+  // Sum all enabled ops from OPS_STATE
+  const r=_calcResult;if(!r.machine)return;
+  const ops=getOpsDefinition(r);
+  let totalSek=0;
+  ops.forEach(o=>{
+    const st=OPS_STATE[o.id];
+    const enabled=st?(st.enabled!==false):true;
+    if(!enabled)return;
+    const t=st&&st.customSek!==undefined?st.customSek:o.t;
+    totalSek+=t;
+  });
+  const adjSek=Math.round(totalSek*r.qualityFactor);
+  const adjMin=adjSek/60;
+  const pripravaMin=parseFloat(document.getElementById('priprava').value)||0;
+  const kolicina=parseInt(document.getElementById('kolicina').value)||1;
+  const totalMin=pripravaMin+adjMin*kolicina;
+  const strojniCost=(totalMin/60)*r.machine.rate;
+  const osnova=strojniCost+r.matTotal+r.koop;
+  const marzaZn=osnova*(parseFloat(document.getElementById('marza').value)||0)/100;
+  const skupaj=osnova+marzaZn;
+  const cenaKos=skupaj/kolicina;
+  // Update result tab
+  document.getElementById('rAdjTime').textContent=fT(adjSek)+'/kos';
+  document.getElementById('rSkupajMin').textContent=totalMin.toFixed(1)+' min @ '+r.machine.rate+' €/h';
+  document.getElementById('rStrojni').textContent=strojniCost.toFixed(2)+' €';
+  document.getElementById('rMarza').textContent=document.getElementById('marza').value+'% → '+marzaZn.toFixed(2)+' €';
+  document.getElementById('rCenaKos').textContent=cenaKos.toFixed(2)+' €';
+  document.getElementById('rSkupajCena').textContent='skupaj '+skupaj.toFixed(2)+' €';
+  document.getElementById('rtSub').textContent='za '+kolicina+' kos · skupaj '+skupaj.toFixed(2)+' €';
+  document.getElementById('opsTotal1').textContent='Skupaj aktivnih: '+fT(totalSek);
+  document.getElementById('opsTotal2').textContent='S faktorjem ×'+r.qualityFactor.toFixed(2)+': '+fT(adjSek);
+}
+
 function updateOpsTab(){
   const r=_calcResult;
   if(!r.machine)return;
-  const ops=[
-    {icon:'🔧',name:'Vpenjanje/izpenjanje',t:r.chuckTimeSek,auto:false},
-    {icon:'⚙️',name:`Grobo struženje (${r.rough.passes} preh.)`,t:r.roughTimeSek,auto:true},
-    {icon:'🎯',name:'Fino struženje',t:r.finishTimeSek,auto:true},
-    {icon:'🕳️',name:'Notranje struženje',t:r.boringTimeSek,auto:true,hide:!r.hasBoring},
-    {icon:'🔩',name:`Vrtanje (${r.nDrill}×)`,t:r.drillTimeSek,auto:true,hide:!r.nDrill},
-    {icon:'〰️',name:`Utori (${r.nGroove}×)`,t:r.grooveTimeSek,auto:true,hide:!r.nGroove},
-    {icon:'🔀',name:`Navoji (${r.nThread}×)`,t:r.threadTimeSek,auto:true,hide:!r.nThread},
-    {icon:'✂️',name:'Odrezovanje',t:r.partingTimeSek,auto:true,hide:!r.hasParting},
-    {icon:'📏',name:'Merjenje/kontrola',t:r.measureTimeSek,auto:false},
-    {icon:'🧹',name:'Razgratenje/čiščenje',t:r.deburrTimeSek,auto:false},
-    {icon:'🔄',name:`Menjave orodij (${r.toolChanges}×)`,t:r.tcTimeSek,auto:true},
-  ].filter(o=>!o.hide);
+  const ops=getOpsDefinition(r);
 
   let html='';
   ops.forEach(o=>{
-    html+=`<div class="oprow${o.auto?' auto':''}">
+    const st=OPS_STATE[o.id]||{};
+    const enabled=st.enabled!==false;
+    const tVal=st.customSek!==undefined?st.customSek:o.t;
+    html+=`<div class="oprow${o.auto?' auto':''} ${enabled?'':'disabled'}" id="oprow_${o.id}">
+      <label class="op-toggle" title="${enabled?'Vklopljeno':'Izklopljeno'}">
+        <input type="checkbox" ${enabled?'checked':''} onchange="toggleOp('${o.id}',this.checked)">
+        <span class="op-slider"></span>
+      </label>
       <span class="opicon">${o.icon}</span>
       <span class="opname">${o.name}</span>
-      <span class="optime">${fT(o.t)}</span>
-      ${o.auto?'<span class="opunit">⚡</span>':'<span class="opunit">ročno</span>'}
+      <input class="opinput" type="number" value="${Math.round(tVal)}" min="0" step="5"
+        onchange="overrideOpTime('${o.id}',this.value)"
+        title="Vpišite 0 ali izklopite za izključitev">
+      <span class="opunit" style="font-size:10px;color:${o.auto?'var(--accent)':'var(--text3)'}">
+        ${o.auto?'⚡':'✏️'}
+      </span>
     </div>`;
   });
   document.getElementById('opsList').innerHTML=html;
-
-  const totalSek=r.adjTimeSek;
-  document.getElementById('opsTotal1').textContent='Skupaj/kos: '+fT(totalSek);
-  document.getElementById('opsTotal2').textContent='S faktorjem ×'+r.qualityFactor.toFixed(2)+': '+fT(Math.round(totalSek*r.qualityFactor));
+  recalcFromOps();
 
   if(r.toolChanges>1){
     document.getElementById('tcBox').style.display='block';
